@@ -36,7 +36,9 @@ beforeAll(async function () {
 })
 
 it('renders without crashing', () => {
-  const app = renderer.create(<App contract={contract} wallet={walletConnection}/>)
+  const app = renderer.create(
+    <App contract={contract} wallet={walletConnection} nearConfig={nearConfig} />
+  )
   const tree = app.toJSON()
   expect(tree).toMatchSnapshot()
 })

@@ -43,7 +43,7 @@ class App extends Component {
   async requestSignIn () {
     const appTitle = 'NEAR React template'
     await this.props.wallet.requestSignIn(
-      window.nearConfig.contractName,
+      this.props.nearConfig.contractName,
       appTitle
     )
   }
@@ -108,14 +108,17 @@ class App extends Component {
 }
 
 App.propTypes = {
+  contract: PropTypes.shape({
+    welcome: PropTypes.func.isRequired
+  }).isRequired,
+  nearConfig: PropTypes.shape({
+    contractName: PropTypes.string.isRequired
+  }).isRequired,
   wallet: PropTypes.shape({
     getAccountId: PropTypes.func.isRequired,
     isSignedIn: PropTypes.func.isRequired,
     requestSignIn: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired
-  }).isRequired,
-  contract: PropTypes.shape({
-    welcome: PropTypes.func.isRequired
   }).isRequired
 }
 
