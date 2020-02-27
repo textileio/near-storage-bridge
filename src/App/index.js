@@ -30,7 +30,6 @@ class App extends Component {
   }
 
   async signedInFlow () {
-    console.log('come in sign in flow')
     this.setState({
       login: true
     })
@@ -52,7 +51,6 @@ class App extends Component {
   requestSignOut () {
     this.props.wallet.signOut()
     setTimeout(this.signedOutFlow, 500)
-    console.log('after sign out', this.props.wallet.isSignedIn())
   }
 
   signedOutFlow () {
