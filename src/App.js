@@ -1,60 +1,60 @@
-import 'regenerator-runtime/runtime';
-import React, { Component } from 'react';
-import logo from './assets/logo.svg';
-import nearlogo from './assets/gray_near_logo.svg';
-import near from './assets/near.svg';
-import './App.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import logo from './assets/logo.svg'
+import nearlogo from './assets/gray_near_logo.svg'
+import near from './assets/near.svg'
+import './App.css'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       login: false,
       speech: null
     }
-    this.signedInFlow = this.signedInFlow.bind(this);
-    this.requestSignIn = this.requestSignIn.bind(this);
-    this.requestSignOut = this.requestSignOut.bind(this);
-    this.signedOutFlow = this.signedOutFlow.bind(this);
+    this.signedInFlow = this.signedInFlow.bind(this)
+    this.requestSignIn = this.requestSignIn.bind(this)
+    this.requestSignOut = this.requestSignOut.bind(this)
+    this.signedOutFlow = this.signedOutFlow.bind(this)
   }
 
-  componentDidMount() {
-    let loggedIn = this.props.wallet.isSignedIn();
+  componentDidMount () {
+    const loggedIn = this.props.wallet.isSignedIn()
     if (loggedIn) {
-      this.signedInFlow();
+      this.signedInFlow()
     } else {
-      this.signedOutFlow();
+      this.signedOutFlow()
     }
   }
 
-  async signedInFlow() {
-    console.log("come in sign in flow")
+  async signedInFlow () {
+    console.log('come in sign in flow')
     this.setState({
-      login: true,
+      login: true
     })
     const accountId = await this.props.wallet.getAccountId()
-    if (window.location.search.includes("account_id")) {
+    if (window.location.search.includes('account_id')) {
       window.location.replace(window.location.origin + window.location.pathname)
     }
-    this.props.contract.welcome({ account_id: accountId }).then(response => this.setState({speech: response.text}))
+    this.props.contract.welcome({ account_id: accountId }).then(response => this.setState({ speech: response.text }))
   }
 
-  async requestSignIn() {
-    const appTitle = 'NEAR React template';
+  async requestSignIn () {
+    const appTitle = 'NEAR React template'
     await this.props.wallet.requestSignIn(
       window.nearConfig.contractName,
       appTitle
     )
   }
 
-  requestSignOut() {
-    this.props.wallet.signOut();
-    setTimeout(this.signedOutFlow, 500);
-    console.log("after sign out", this.props.wallet.isSignedIn())
+  requestSignOut () {
+    this.props.wallet.signOut()
+    setTimeout(this.signedOutFlow, 500)
+    console.log('after sign out', this.props.wallet.isSignedIn())
   }
 
-  signedOutFlow() {
-    if (window.location.search.includes("account_id")) {
+  signedOutFlow () {
+    if (window.location.search.includes('account_id')) {
       window.location.replace(window.location.origin + window.location.pathname)
     }
     this.setState({
@@ -63,11 +63,11 @@ class App extends Component {
     })
   }
 
-  render() {
-    let style = {
-      fontSize: "1.5rem",
-      color: "#0072CE",
-      textShadow: "1px 1px #D1CCBD"
+  render () {
+    const style = {
+      fontSize: '1.5rem',
+      color: '#0072CE',
+      textShadow: '1px 1px #D1CCBD'
     }
     return (
       <div className="App-header">
@@ -105,7 +105,18 @@ class App extends Component {
       </div>
     )
   }
-
 }
 
-export default App;
+App.propTypes = {
+  wallet: PropTypes.shape({
+    getAccountId: PropTypes.func.isRequired,
+    isSignedIn: PropTypes.func.isRequired,
+    requestSignIn: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
+  }).isRequired,
+  contract: PropTypes.shape({
+    welcome: PropTypes.func.isRequired
+  }).isRequired
+}
+
+export default App

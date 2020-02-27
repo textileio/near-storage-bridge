@@ -1,12 +1,10 @@
-const gulp = require("gulp");
-const nearUtils = require("near-bindgen-as/compiler");
+const gulp = require('gulp')
+const nearUtils = require('near-bindgen-as/compiler')
 
-function build_wasm(done){
-  nearUtils.compile("./assembly/main.ts", "./out/main.wasm", done);
+function buildWasm (done) {
+  nearUtils.compile('./assembly/main.ts', './out/main.wasm', done)
 };
 
-const build = gulp.series(build_wasm);
+const build = gulp.series(buildWasm)
 
-
-exports.default = build;
-
+exports.default = build
