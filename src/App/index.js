@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import logo from './assets/logo.svg'
-import nearlogo from './assets/gray_near_logo.svg'
-import near from './assets/near.svg'
+
+import nearLogo from './near-logo.svg'
+import nearLogoType from './near-logotype.svg'
+import reactLogo from './react-logo.svg'
+
 import './App.css'
 
 class App extends Component {
@@ -72,7 +74,7 @@ class App extends Component {
     return (
       <div className="App-header">
         <div className="image-wrapper">
-          <img className="logo" src={nearlogo} alt="NEAR logo" />
+          <img className="logo" src={nearLogoType} alt="NEAR logo" />
           <p><span role="img" aria-label="fish">🐟</span> NEAR protocol is a new blockchain focused on developer productivity and useability!<span role="img" aria-label="fish">🐟</span></p>
           <p><span role="img" aria-label="chain">⛓</span> This little react app is connected to blockchain right now. <span role="img" aria-label="chain">⛓</span></p>
           <p style={style}>{this.state.speech}</p>
@@ -83,8 +85,8 @@ class App extends Component {
         </div>
         <div>
           <div className="logo-wrapper">
-            <img src={near} className="App-logo margin-logo" alt="logo" />
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={nearLogo} className="App-logo margin-logo" alt="" />
+            <img src={reactLogo} className="App-logo" alt="" />
           </div>
           <p>
             Edit <code>src/App.js</code> and save to reload.

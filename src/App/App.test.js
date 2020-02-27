@@ -4,7 +4,7 @@
 import 'regenerator-runtime/runtime'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import App from './App'
+import App from '.'
 
 let near
 let contract

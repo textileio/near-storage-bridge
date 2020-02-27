@@ -64,12 +64,12 @@ exports[`renders without crashing 1`] = `
       className="logo-wrapper"
     >
       <img
-        alt="logo"
+        alt=""
         className="App-logo margin-logo"
         src=""
       />
       <img
-        alt="logo"
+        alt=""
         className="App-logo"
         src=""
       />
