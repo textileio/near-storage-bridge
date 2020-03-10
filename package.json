@@ -14,13 +14,15 @@
     "prestart": "yarn build:contract && yarn dev:deploy:contract",
     "start": "CONTRACT_NAME=$(cat neardev/dev-account) parcel src/index.html",
     "dev": "nodemon --watch assembly -e ts --exec 'yarn start'",
-    "test": "yarn build:contract && jest test --env=near-shell/test_environment --runInBand"
+    "test": "yarn build:contract && asp && jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
+    "assemblyscript": "^0.9.2",
     "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -34,8 +36,7 @@
     "gulp": "^4.0.2",
     "jest": "^25.1.0",
     "jest-environment-node": "^25.1.0",
-    "near-bindgen-as": "^1.2.0",
-    "near-runtime-ts": "^0.6.0",
+    "near-sdk-as": "^0.0.2",
     "near-shell": "^0.20.1",
     "nodemon": "^2.0.2",
     "parcel-bundler": "^1.12.4",
@@ -55,6 +56,10 @@
     },
     "setupFiles": [
       "<rootDir>/src/jest.init.js"
+    ],
+    "testEnvironment": "near-shell/test_environment",
+    "testPathIgnorePatterns": [
+      "assembly/*"
     ]
   },
   "browserslist": {
