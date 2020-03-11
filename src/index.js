@@ -8,22 +8,27 @@ import * as nearlib from 'nearlib'
 async function initContract () {
   const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 
-  // Initializing connection to the NEAR DevNet.
-  const near = await nearlib.connect(Object.assign({ deps: { keyStore: new nearlib.keyStores.BrowserLocalStorageKeyStore() } }, nearConfig))
+  // Initializing connection to the NEAR DevNet
+  const near = await nearlib.connect({
+    deps: {
+      keyStore: new nearlib.keyStores.BrowserLocalStorageKeyStore()
+    },
+    ...nearConfig
+  })
 
-  // Needed to access wallet login
+  // Needed to access wallet
   const wallet = new nearlib.WalletAccount(near)
 
-  // Getting the Account ID. If unauthorized yet, it's just empty string.
+  // Get Account ID – if still unauthorized, it's an empty string
   const accountId = wallet.getAccountId()
 
-  // Initializing our contract APIs by contract name and configuration.
+  // Initializing our contract APIs by contract name and configuration
   const acct = await new nearlib.Account(near.connection, accountId)
   const contract = await new nearlib.Contract(acct, nearConfig.contractName, {
-    // View methods are read only. They don't modify the state, but usually return some value.
-    viewMethods: ['welcome'],
-    // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: [],
+    // View methods are read-only – they don't modify the state, but usually return some value
+    viewMethods: ['getMessages'],
+    // Change methods can modify the state, but you don't receive the returned value when called
+    changeMethods: ['addMessage'],
     // Sender is the account ID to initialize transactions.
     sender: accountId
   })
@@ -31,15 +36,10 @@ async function initContract () {
   return { contract, nearConfig, wallet }
 }
 
-window.nearInitPromise = (async function () {
-  try {
-    const { contract, nearConfig, wallet } = await initContract()
-
+window.nearInitPromise = initContract()
+  .then(({ contract, nearConfig, wallet }) => {
     ReactDOM.render(
       <App contract={contract} nearConfig={nearConfig} wallet={wallet} />,
       document.getElementById('root')
     )
-  } catch (e) {
-    console.error(e)
-  }
-})()
+  })
