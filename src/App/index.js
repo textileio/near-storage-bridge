@@ -1,26 +1,23 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const App = ({ contract, nearConfig, wallet }) => {
-  const [messages, setMessages] = React.useState([])
-  const [accountId, setAccountId] = React.useState(wallet.getAccountId())
+  const [messages, setMessages] = useState([])
+  const [accountId, setAccountId] = useState(wallet.getAccountId())
 
-  React.useEffect(() => {
-    // if (window.location.search.includes('account_id')) {
-    //   window.location.replace(window.location.origin + window.location.pathname)
-    // }
-
+  useEffect(() => {
+    // TODO: don't just fetch once; subscribe!
     contract.getMessages().then(setMessages)
   }, [])
 
-  const signIn = React.useCallback(() => {
+  const signIn = useCallback(() => {
     wallet.requestSignIn(
       nearConfig.contractName,
       'NEAR Guest Book'
     )
   }, [])
 
-  const signOut = React.useCallback(() => {
+  const signOut = useCallback(() => {
     wallet.signOut()
     setAccountId(null)
   }, [])
@@ -41,10 +38,17 @@ const App = ({ contract, nearConfig, wallet }) => {
       {accountId && (
         <form onSubmit={async e => {
           e.preventDefault()
+
+          // TODO: optimistically update page with new message,
+          // update blockchain data in background
+          // add uuid to each message, so we know which one is already known
+
           const input = e.target.elements.message
           input.disabled = true
+
           await contract.addMessage({ text: input.value })
           const messages = await contract.getMessages()
+
           setMessages(messages)
           input.value = ''
           input.disabled = false
@@ -64,6 +68,7 @@ const App = ({ contract, nearConfig, wallet }) => {
         <>
           <h2>Messages</h2>
           {messages.map((message, i) =>
+            // TODO: format as cards, add timestamp
             <p key={i}>
               <strong>{message.sender}</strong>:<br/>
               {message.text}
