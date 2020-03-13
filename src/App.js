@@ -54,14 +54,24 @@ const App = ({ contract, nearConfig, wallet }) => {
           input.disabled = false
           input.focus()
         }}>
-          <label>
+          <label htmlFor="message">
             Sign the guest book, {accountId}!
+          </label>
+          <div style={{ display: 'flex' }}>
             <input
               autoComplete="off"
               autoFocus
               id="message"
+              required
+              style={{ flex: 1 }}
             />
-          </label>
+            <button type="submit" style={{ marginLeft: '0.5em' }}>
+              Save
+            </button>
+            <button className="primary" type="submit" style={{ marginLeft: '0.5em' }}>
+              Save & Donate
+            </button>
+          </div>
         </form>
       )}
       {!!messages.length && (
