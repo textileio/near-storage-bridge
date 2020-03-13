@@ -11,7 +11,7 @@ import App from '../../App'
 const contract = {
     account: {
         connection: {},
-        accountId: 'test1584136436056'
+        accountId: 'test.near'
     },
     contractId: 'test.near',
     getMessages: () => new Promise(() => {}),
