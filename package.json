@@ -47,14 +47,18 @@
     "regenerator-runtime": "^0.13.3"
   },
   "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/src/__mocks__/fileMock.js"
-    },
-    "setupFiles": [
-      "<rootDir>/src/jest.init.js"
+    "projects": [
+      {
+        "displayName": "User interface tests",
+        "testEnvironment": "jsdom",
+        "testMatch": ["<rootDir>/src/tests/ui/*.js"]
+      },
+      {
+        "displayName": "Integration tests",
+        "testEnvironment": "near-shell/test_environment",
+        "testMatch": ["<rootDir>/src/tests/integration/*.js"]
+      }
     ],
-    "testEnvironment": "near-shell/test_environment",
     "testPathIgnorePatterns": [
       "assembly/*"
     ]
