@@ -4,7 +4,7 @@
 import 'regenerator-runtime/runtime'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import App from '.'
+import App from './App'
 
 let near
 let contract
@@ -14,8 +14,8 @@ beforeAll(async function () {
   near = await nearlib.connect(nearConfig)
   accountId = nearConfig.contractName
   contract = await near.loadContract(nearConfig.contractName, {
-    viewMethods: ['welcome'],
-    changeMethods: [],
+    viewMethods: ['getMessages'],
+    changeMethods: ['addMessage'],
     sender: accountId
   })
 
