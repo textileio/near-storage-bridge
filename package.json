@@ -6,14 +6,10 @@
     "build": "yarn build:contract && yarn build:web",
     "build:contract": "mkdir -p out/ && gulp",
     "build:web": "parcel build src/index.html --public-url ./",
-    "dev:deploy:contract": "near dev-deploy",
-    "deploy:contract": "near deploy",
-    "deploy:pages": "gh-pages -d dist/",
-    "deploy": "yarn build && yarn deploy:contract && yarn deploy:pages",
+    "deploy": "yarn build && near deploy && gh-pages -d dist/",
+    "dev": "yarn build:contract && near dev-deploy && CONTRACT_NAME=$(cat neardev/dev-account) nodemon --watch assembly -e ts --exec 'yarn start'",
     "lint": "eslint .",
-    "prestart": "yarn build:contract && yarn dev:deploy:contract",
-    "start": "CONTRACT_NAME=$(cat neardev/dev-account) parcel src/index.html",
-    "dev": "nodemon --watch assembly -e ts --exec 'yarn start'",
+    "start": "parcel src/index.html",
     "test": "yarn build:contract && asp && jest"
   },
   "devDependencies": {

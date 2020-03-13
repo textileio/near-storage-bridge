@@ -1,112 +1,108 @@
-<br />
-<br />
+![NEAR](https://nearprotocol.com/wp-content/themes/near-19/assets/img/logo.svg)
 
-<p>
-<img src="https://nearprotocol.com/wp-content/themes/near-19/assets/img/logo.svg?t=1553011311" width="240">
-</p>
+Guest Book
+==========
 
-<br />
-<br />
+Sign in with [NEAR] and add a message to the guest book! A starter app built with an [AssemblyScript] backend and a [React] frontend.
 
-## Template for NEAR dapps
-### Requirements
-##### IMPORTANT: Make sure you have the latest version of NEAR Shell and Node Version > 10.x 
+![Build Status]()
+![Open in Gitpod]()
 
-1. [Node.js](https://nodejs.org/en/download/package-manager/)
-2. (optional) near-shell
 
-```
-npm i -g near-shell
-```
-3. (optional) yarn
-```
-npm i -g yarn
-```
-### To run on NEAR testnet
+Quick Start
+===========
 
-```bash
-npm install && npm dev
-```
+To run this project locally:
 
-with yarn:
+1. Prerequisites: Make sure you have node.js installed (we like [asdf] for
+   this), then use it to install [yarn]: `npm install --global yarn` (or just
+   `npm i -g yarn`)
+2. Install dependencies: `yarn install` (or just `yarn`)
+3. Run the local development server: `yarn dev` (see `package.json` for a
+   full list of `scripts` you can run with `yarn`)
 
-```bash
-yarn && yarn dev
-```
+Now you'll have a local development environment backed by the NEAR TestNet! Running `yarn dev` will tell you the URL you can visit in your browser to see the app.
 
-The server that starts is for static assets and by default serves them to http://localhost:1234. Navigate there in your browser to see the app running!
 
-NOTE: Both contract and client-side code will auto-reload once you change source files.
+Exploring The Code
+==================
 
-### To run tests
+1. The backend code lives in the `/assembly` folder. This code gets deployed to
+   the NEAR blockchain when you run `yarn deploy:contract`. This sort of
+   code-that-runs-on-a-blockchain is called a "smart contract" – [learn more
+   about NEAR smart contracts][smart contract docs].
+2. The frontend code lives in the `/src` folder. [/src/index.html] is a great
+   place to start exploring. Note that it loads in `/src/index.js`, where you
+   can learn how the frontend connects to the NEAR blockchain.
+3. Tests: there are different kinds of tests for the frontend and backend. The
+   backend code gets tested with the [asp] command for running the backend
+   AssemblyScript tests, and [jest] for running frontend tests. You can run
+   both of these at once with `yarn test`.
 
-```bash
-npm test
-```
+Both contract and client-side code will auto-reload as you change source files.
 
-with yarn:
 
-```bash
-yarn test
-```
+Deploy
+======
 
-### Deploy
+Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contracts get deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
 
-#### Step 1: Create account for the contract
 
-You'll now want to authorize NEAR shell on your NEAR account, which will allow NEAR Shell to deploy contracts on your NEAR account's behalf \(and spend your NEAR account balance to do so\).
+Step 0: Install near-shell
+--------------------------
 
-Type the command `near login` which should return a url:
+You need near-shell installed globally. Here's how:
 
-```
-Please navigate to this url and follow the instructions to log in:
-https://wallet.nearprotocol.com/login/?title=NEAR+Shell&public_key={publicKey}
-```
+    npm install --global near-shell
 
-From there enter in your terminal the same account ID that you authorized:
+This will give you the `near` [CLI] tool. Ensure that it's installed with:
 
-`Please enter the accountId that you logged in with: <asdfasdf>`
+    near --version
 
-Once you have entered your account ID, it will display the following message:
 
-`Missing public key for <asdfasdf> in default`
-`Logged in with masternode24`
+Step 1: Create an account for the contract
+------------------------------------------
 
-This message is not an error, it just means that it will create a public key for you.
+Visit [NEAR Wallet] and make a new account. You'll be deploying these smart contracts to this new account.
 
-#### Step 2:
+Now authorize NEAR shell for this new account, and follow the instructions it gives you:
 
-Modify `src/config.js` line that sets the account name of the contract. Set it to the account id from step 1.
+    near login
 
-NOTE: When you use [create-near-app](https://github.com/nearprotocol/create-near-app) to create the project it'll infer and pre-populate name of contract based on project folder name.
 
-```javascript
-const CONTRACT_NAME = 'react-template'; /* TODO: Change this to your contract's name! */
-const DEFAULT_ENV = 'development';
-...
-```
+Step 2: set contract name in code
+---------------------------------
 
-#### Step 3:
+Modify the line in `src/config.js` that sets the account name of the contract. Set it to the account id you used above.
 
-Check the scripts in the package.json, for frontend and backend both, run the command:
+    const CONTRACT_NAME = process.env.CONTRACT_NAME || 'your-account-here!'
 
-```bash
-npm run deploy
-```
 
-with yarn:
+Step 3: deploy!
+---------------
 
-```bash
-yarn deploy
-```
+One command:
 
-NOTE: This uses [gh-pages](https://github.com/tschaub/gh-pages) to publish resulting website on GitHub pages. It'll only work if project already has repository set up on GitHub. Feel free to modify `deploy:pages` script in `package.json` to deploy elsewhere.
+    yarn deploy
 
-### To Explore
+As you can see in `package.json`, this does two things:
 
-- `assembly/main.ts` for the contract code
-- `src/index.html` for the front-end HTML
-- `src/index.js` for the JavaScript front-end code and how to integrate contracts
-- `src/App.js` for the main React component
-- `src/main.test.js` for the JavaScript integration tests of smart contract
-- `src/App.test.js` for the main React component tests
+1. builds & deploys smart contracts to NEAR TestNet
+2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
+
+
+
+  [NEAR]: https://nearprotocol.com/
+  [asdf]: https://github.com/asdf-vm/asdf
+  [yarn]: https://yarnpkg.com/
+  [AssemblyScript]: https://docs.assemblyscript.org/
+  [React]: https://reactjs.org
+  [smart contract docs]: https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript
+  [asp]: https://www.npmjs.com/package/@as-pect/cli
+  [jest]: https://jestjs.io/
+  [NEAR accounts]: https://docs.nearprotocol.com/docs/concepts/account
+  [NEAR Wallet]: https://wallet.nearprotocol.com
+  [near-shell]: https://github.com/nearprotocol/near-shell
+  [CLI]: https://www.w3schools.com/whatis/whatis_cli.asp
+  [create-near-app]: https://github.com/nearprotocol/create-near-app
+  [gh-pages]: https://github.com/tschaub/gh-pages
