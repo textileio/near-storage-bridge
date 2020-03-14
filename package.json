@@ -9,7 +9,7 @@
     "deploy": "yarn build && near deploy && gh-pages -d dist/",
     "dev": "yarn build:contract && near dev-deploy && nodemon --watch assembly -e ts --exec 'yarn dev:start'",
     "lint": "eslint .",
-    "start": "parcel src/index.html",
+    "start": "yarn deploy && parcel src/index.html",
     "dev:start": "env CONTRACT_NAME=$(cat neardev/dev-account) parcel src/index.html",
     "test": "yarn build:contract && asp && jest"
   },
