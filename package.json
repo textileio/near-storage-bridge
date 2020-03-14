@@ -7,9 +7,10 @@
     "build:contract": "mkdir -p out/ && gulp",
     "build:web": "parcel build src/index.html --public-url ./",
     "deploy": "yarn build && near deploy && gh-pages -d dist/",
-    "dev": "yarn build:contract && near dev-deploy && CONTRACT_NAME=$(cat neardev/dev-account) nodemon --watch assembly -e ts --exec 'yarn start'",
+    "dev": "yarn build:contract && near dev-deploy && nodemon --watch assembly -e ts --exec 'yarn dev:start'",
     "lint": "eslint .",
-    "start": "parcel src/index.html",
+    "start": "yarn deploy && parcel src/index.html",
+    "dev:start": "env CONTRACT_NAME=$(cat neardev/dev-account) parcel src/index.html",
     "test": "yarn build:contract && asp && jest"
   },
   "devDependencies": {
@@ -47,14 +48,18 @@
     "regenerator-runtime": "^0.13.3"
   },
   "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/src/__mocks__/fileMock.js"
-    },
-    "setupFiles": [
-      "<rootDir>/src/jest.init.js"
+    "projects": [
+      {
+        "displayName": "User interface tests",
+        "testEnvironment": "jsdom",
+        "testMatch": ["<rootDir>/src/tests/ui/*.js"]
+      },
+      {
+        "displayName": "Integration tests",
+        "testEnvironment": "near-shell/test_environment",
+        "testMatch": ["<rootDir>/src/tests/integration/*.js"]
+      }
     ],
-    "testEnvironment": "near-shell/test_environment",
     "testPathIgnorePatterns": [
       "assembly/*"
     ]
