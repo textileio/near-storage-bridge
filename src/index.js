@@ -17,10 +17,9 @@ async function initContract () {
   })
 
   // Needed to access wallet
-  const walletConnection = new nearlib.WalletConnection(near);
+  const walletConnection = new nearlib.WalletConnection(near)
 
-
-    // Get Account ID – if still unauthorized, it's an empty string
+  // Get Account ID – if still unauthorized, it's an empty string
   const accountId = walletConnection.getAccountId()
 
   // Initializing our contract APIs by contract name and configuration
