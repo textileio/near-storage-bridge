@@ -34,6 +34,7 @@ it('send one message and retrieve it', async () => {
     await contract.addMessage({text: 'aloha'});
     const msgs = await contract.getMessages();
     const expectedMessagesResult = [{
+        "premium": false,
         "sender": accountId,
         "text": "aloha",
     }];
