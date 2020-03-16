@@ -1,6 +1,6 @@
 // @nearfile
 
-import { context, PersistentVector } from "near-runtime-ts";
+import { context, PersistentVector } from "near-sdk-as";
 import { PostedMessage } from "./model";
 import { u128 } from 'as-bignum';
 
