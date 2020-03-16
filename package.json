@@ -33,16 +33,17 @@
     "gulp": "^4.0.2",
     "jest": "^25.1.0",
     "jest-environment-node": "^25.1.0",
-    "near-sdk-as": "^0.0.2",
+    "near-sdk-as": "^0.1.2",
     "near-shell": "^0.20.1",
     "nodemon": "^2.0.2",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.12.0",
     "sass": "^1.26.2",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "as-bignum": "^0.1.5"
   },
   "dependencies": {
-    "nearlib": "^0.21.0",
+    "nearlib": "^0.22.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "regenerator-runtime": "^0.13.3"
