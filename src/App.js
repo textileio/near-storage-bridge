@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 const App = ({ contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
   const [accountId, setAccountId] = useState(wallet.getAccountId())
+  const [inputText, setInputText] = useState('')
+  const [inputReadOnly, setinputReadOnly] = useState(false)
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
@@ -22,6 +24,17 @@ const App = ({ contract, nearConfig, wallet }) => {
     setAccountId(null)
   }, [])
 
+  const addMessage = useCallback(async (text, isPremium) => {
+    setinputReadOnly(true)
+    const BOATLOAD_OF_GAS = '10000000000000000'
+    const PREMIUM_COST = '10000000000000000000000'
+    await contract.addMessage({ text }, BOATLOAD_OF_GAS, isPremium ? PREMIUM_COST.toString() : '0')
+    setInputText('')
+    const messages = await contract.getMessages()
+    setMessages(messages)
+    setinputReadOnly(false)
+  })
+
   return (
     <main>
       <header style={{
@@ -36,39 +49,30 @@ const App = ({ contract, nearConfig, wallet }) => {
         }
       </header>
       {accountId && (
-        <form onSubmit={async e => {
-          e.preventDefault()
-
-          // TODO: optimistically update page with new message,
-          // update blockchain data in background
-          // add uuid to each message, so we know which one is already known
-
-          const input = e.target.elements.message
-          input.disabled = true
-
-          await contract.addMessage({ text: input.value })
-          const messages = await contract.getMessages()
-
-          setMessages(messages)
-          input.value = ''
-          input.disabled = false
-          input.focus()
-        }}>
+        <form onSubmit={e => { e.preventDefault() }}>
           <label htmlFor="message">
-            Sign the guest book, {accountId}!
+            Sign the guest book, { accountId }!
           </label>
           <div style={{ display: 'flex' }}>
             <input
               autoComplete="off"
               autoFocus
+              value={ inputText }
+              onChange={(e) => { setInputText(e.target.value) }}
               id="message"
               required
               style={{ flex: 1 }}
+              readOnly={ inputReadOnly }
+              className={ 'message-input' }
             />
-            <button type="submit" style={{ marginLeft: '0.5em' }}>
+            <button type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
+              addMessage(inputText, false)
+            }}>
               Save
             </button>
-            <button className="primary" type="submit" style={{ marginLeft: '0.5em' }}>
+            <button className="primary" type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
+              addMessage(inputText, true)
+            }}>
               Save & Donate
             </button>
           </div>
@@ -79,7 +83,7 @@ const App = ({ contract, nearConfig, wallet }) => {
           <h2>Messages</h2>
           {messages.map((message, i) =>
             // TODO: format as cards, add timestamp
-            <p key={i}>
+            <p key={i} className={message.premium ? 'is-premium' : ''}>
               <strong>{message.sender}</strong>:<br/>
               {message.text}
             </p>

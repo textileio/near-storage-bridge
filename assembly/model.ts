@@ -4,4 +4,5 @@
 export class PostedMessage {
   sender: string;
   text: string;
+  premium: boolean;
 }

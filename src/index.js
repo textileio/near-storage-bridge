@@ -17,14 +17,13 @@ async function initContract () {
   })
 
   // Needed to access wallet
-  const wallet = new nearlib.WalletAccount(near)
+  const walletConnection = new nearlib.WalletConnection(near)
 
   // Get Account ID – if still unauthorized, it's an empty string
-  const accountId = wallet.getAccountId()
+  const accountId = walletConnection.getAccountId()
 
   // Initializing our contract APIs by contract name and configuration
-  const acct = await new nearlib.Account(near.connection, accountId)
-  const contract = await new nearlib.Contract(acct, nearConfig.contractName, {
+  const contract = await new nearlib.Contract(walletConnection.account(), nearConfig.contractName, {
     // View methods are read-only – they don't modify the state, but usually return some value
     viewMethods: ['getMessages'],
     // Change methods can modify the state, but you don't receive the returned value when called
@@ -33,13 +32,13 @@ async function initContract () {
     sender: accountId
   })
 
-  return { contract, nearConfig, wallet }
+  return { contract, nearConfig, walletConnection }
 }
 
 window.nearInitPromise = initContract()
-  .then(({ contract, nearConfig, wallet }) => {
+  .then(({ contract, nearConfig, walletConnection }) => {
     ReactDOM.render(
-      <App contract={contract} nearConfig={nearConfig} wallet={wallet} />,
+      <App contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
       document.getElementById('root')
     )
   })

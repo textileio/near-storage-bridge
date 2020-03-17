@@ -1,7 +1,8 @@
 // @nearfile
 
-import { context, PersistentVector } from "near-runtime-ts";
+import { context, PersistentVector } from "near-sdk-as";
 import { PostedMessage } from "./model";
+import { u128 } from 'as-bignum';
 
 // --- contract code goes below
 
@@ -25,7 +26,8 @@ export function addMessage(text: string): void {
   // Creating a new message and populating fields with our data
   const message: PostedMessage = {
     sender: context.sender,
-    text: text
+    text: text,
+    premium: context.attachedDeposit >= u128.from('10000000000000000000000')
   };
   // Adding the message to end of the the persistent collection
   messages.push(message);
