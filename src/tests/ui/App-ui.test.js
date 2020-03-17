@@ -50,9 +50,7 @@ it('renders with proper title', () => {
     )
   })
 
-  const pageJson = testRenderer.toJSON()
-  // When the DOM is rendered, the h1 tag exists at a particular location
-  // Confirm the h1 tag (title) has loaded and is what we expect
-  const titleTag = pageJson.children[0].children[0].children[0]
-  expect(titleTag).toBe('NEAR Guest Book')
+  const testInstance = testRenderer.root
+
+  expect(testInstance.findByType('h1').children).toEqual(['NEAR Guest Book'])
 })
