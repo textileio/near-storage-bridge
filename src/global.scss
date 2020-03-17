@@ -53,6 +53,10 @@ button, input {
 
 input {
   width: 100%;
+
+  &:read-only {
+    color: var(--primary)
+  }
 }
 
 button {

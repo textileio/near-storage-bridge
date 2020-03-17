@@ -5,6 +5,7 @@ const App = ({ contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
   const [accountId, setAccountId] = useState(wallet.getAccountId())
   const [inputText, setInputText] = useState('')
+  const [inputReadOnly, setinputReadOnly] = useState(false)
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
@@ -24,12 +25,14 @@ const App = ({ contract, nearConfig, wallet }) => {
   }, [])
 
   const addMessage = useCallback(async (text, isPremium) => {
+    setinputReadOnly(true)
     const BOATLOAD_OF_GAS = '10000000000000000'
     const PREMIUM_COST = '10000000000000000000000'
     await contract.addMessage({ text }, BOATLOAD_OF_GAS, isPremium ? PREMIUM_COST.toString() : '0')
     setInputText('')
     const messages = await contract.getMessages()
     setMessages(messages)
+    setinputReadOnly(false)
   })
 
   return (
@@ -52,17 +55,19 @@ const App = ({ contract, nearConfig, wallet }) => {
           input.focus()
         }}>
           <label htmlFor="message">
-            Sign the guest book, {accountId}!
+            Sign the guest book, { accountId }!
           </label>
           <div style={{ display: 'flex' }}>
             <input
               autoComplete="off"
               autoFocus
-              value={inputText}
+              value={ inputText }
               onChange={(e) => { setInputText(e.target.value) }}
               id="message"
               required
               style={{ flex: 1 }}
+              readOnly={ inputReadOnly }
+              className={ 'message-input' }
             />
             <button type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
               addMessage(inputText, false)
