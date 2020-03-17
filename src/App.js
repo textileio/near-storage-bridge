@@ -49,11 +49,7 @@ const App = ({ contract, nearConfig, wallet }) => {
         }
       </header>
       {accountId && (
-        <form onSubmit={async e => {
-          e.preventDefault()
-          const input = e.target.elements.message
-          input.focus()
-        }}>
+        <form onSubmit={e => { e.preventDefault() }}>
           <label htmlFor="message">
             Sign the guest book, { accountId }!
           </label>
