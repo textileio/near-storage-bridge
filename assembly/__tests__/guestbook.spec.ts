@@ -1,13 +1,12 @@
 import { addMessage, getMessages } from '../main'
 import { PostedMessage } from '../model'
-import { PersistentVector, context } from 'near-runtime-ts'
+import { PersistentVector, context } from 'near-sdk-as'
 
 const messages = new PersistentVector<PostedMessage>('m')
 const hello: string = 'hello world'
-const sender = context.sender
 
 function createMessage (text: string): PostedMessage {
-  return { sender, text }
+  return new PostedMessage(text);
 }
 
 const message = createMessage(hello)
