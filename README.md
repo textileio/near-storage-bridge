@@ -1,13 +1,14 @@
-![NEAR](https://nearprotocol.com/wp-content/themes/near-19/assets/img/logo.svg)
-
 Guest Book
 ==========
-
-Sign in with [NEAR] and add a message to the guest book! A starter app built with an [AssemblyScript] backend and a [React] frontend.
 
 [![Build Status](https://travis-ci.com/near-examples/guest-book.svg?branch=master)](https://travis-ci.com/near-examples/guest-book)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/near-examples/guest-book)
+
+<!-- MAGIC COMMENT: DO NOT DELETE -->
+
+Sign in with [NEAR] and add a message to the guest book! A starter app built with an [AssemblyScript] backend and a [React] frontend.
+
 
 Quick Start
 ===========
