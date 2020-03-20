@@ -5,7 +5,7 @@ Guest Book
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/near-examples/guest-book)
 
-<!-- MAGIC COMMENT: DO NOT DELETE -->
+<!-- MAGIC COMMENT: DO NOT DELETE! >verything above this line is hidden on NEAR Examples page -->
 
 Sign in with [NEAR] and add a message to the guest book! A starter app built with an [AssemblyScript] backend and a [React] frontend.
 
