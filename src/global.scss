@@ -35,6 +35,11 @@ a {
   &:active { color: var(--tertiary) }
 }
 
+label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
 button, input {
   background: transparent;
   border-radius: 5px;
