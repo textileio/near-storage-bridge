@@ -1,9 +1,13 @@
 language: node_js
 node_js:
   - 12
+os:
+  - linux
+  - osx
+  - windows
 env:
-  - NODE_ENV=ci
-  - NODE_ENV=ci-staging
+  - NODE_ENV=ci YARN_GPG=no
+  - NODE_ENV=ci-staging YARN_GPG=no
 cache: yarn
 script:
   - yarn test
