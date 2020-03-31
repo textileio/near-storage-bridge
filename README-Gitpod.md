@@ -5,9 +5,6 @@ Sign in with [NEAR] and add a message to the guest book! A starter app built wit
 
 This README is specific to Gitpod and this example. For local development, please see [README.md](README.md).
 
-Quick Start
-===========
-
 Exploring The Code
 ==================
 
@@ -30,21 +27,24 @@ Using
 ======
 
 Gitpod has taken care of installing all the necessary tools and dependencies. At the bottom of Gitpod is a terminal which will display a link to follow:
-```bash
-Server running at http://localhost:1234
-```
 
-A small dialog may appear showing options similar to this:
+
+    Server running at http://localhost:1234
+
+
+A small dialog appears showing options similar to this:
 
 ![Gitpod dialog that appears when website is served](assets/gitpod-port-1234.jpg)
 
-The "Preview" option will open the site in a tab within the IDE. Note that Gitpod may need a little time to spin up the website. It's possible this step might require reloading after a brief pause.
+The "Open Preview" option will open the site in a tab within the IDE. Note that Gitpod may need a little time to spin up the website. It's possible this step might require reloading after a brief pause.
 
-Once you've opened the tab in your browser, follow the directions displayed on the web page by copy and pasting the commands into the browser console.
+The "Open Browser" option will open a new tab in your browser. Either option will work and is up to your preference.
 
-In many modern browsers you may find this by right clicking anywhere on the page, right-click, **Inspect**, and then navigate to the **Console** tab.
+Once you've opened the tab in your browser, log in and experiment with the simple "guest book" smart contract. Note that there are two buttons, "Save" and "Save & Donate" here. 
 
+The "Save" button sends the text input to the blockchain, storing it as a string. The web app will reload with the new guest book messages automatically.
 
+The "Save & Donate" button demonstrates attaching NEAR and a gas price when calling the smart contract's method `addMessage`. When the web app refreshes with "paid" messages, the user interface highlights them.
 
   [smart contract docs]: https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript
   [asp]: https://www.npmjs.com/package/@as-pect/cli
