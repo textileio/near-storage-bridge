@@ -34,7 +34,7 @@ Gitpod has taken care of installing all the necessary tools and dependencies. At
 
 A small dialog appears showing options similar to this:
 
-![Gitpod dialog that appears when website is served](assets/gitpod-port-1234.jpg)
+![A Gitpod dialog box saying 'A service is available on port 1234' and giving options to 'Open Preview' or 'Open Browser'](assets/gitpod-port-1234.jpg)
 
 The "Open Preview" option will open the site in a tab within the IDE. Note that Gitpod may need a little time to spin up the website. It's possible this step might require reloading after a brief pause.
 
