@@ -22,7 +22,7 @@ github:
 tasks:
   - before: nvm use default
     init: yarn
-    command: yarn asp && yarn dev
+    command: gp open README-Gitpod.md && yarn dev
 
 ports:
   - port: 1234
