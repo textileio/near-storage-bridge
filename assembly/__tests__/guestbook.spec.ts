@@ -1,28 +1,35 @@
 import { addMessage, getMessages } from '../main'
-import { PostedMessage } from '../model'
-import { PersistentVector, context } from 'near-sdk-as'
+import { PostedMessage, messages } from '../model'
 
-const messages = new PersistentVector<PostedMessage>('m')
-const hello: string = 'hello world'
 
 function createMessage (text: string): PostedMessage {
   return new PostedMessage(text);
 }
 
+const hello: string = 'hello world'
 const message = createMessage(hello)
 
 describe('messages should be able to', () => {
-  it('add a message', () => {
+  beforeEach(()  => {
     addMessage(hello)
+  });
+
+  afterEach( () => {
+    while (messages.length > 0) {
+      messages.pop()
+    }
+  })
+
+  it('add a message', () => {
     expect(messages.length).toBe(1, 'should only contain one message')
     expect(messages[0]).toStrictEqual(message, 'message should be "hello world"')
   })
 
   it('retrive messages', () => {
-    const messages = getMessages()
-    expect(messages.length).toBe(1, 'should be one message')
-    expect(messages).toIncludeEqual(message, 'messages should include:\n' + message.toJSON())
-    log(messages[0])
+    const messagesArr = getMessages()
+    expect(messagesArr.length).toBe(1, 'should be one message')
+    expect(messagesArr).toIncludeEqual(message, 'messages should include:\n' + message.toJSON())
+    log(messagesArr[0])
   })
 
   it('only show the last ten messages', () => {
@@ -33,7 +40,7 @@ describe('messages should be able to', () => {
       addMessage(text)
     }
     const messages = getMessages()
-    log(messages)
+    log(messages.slice(7, 10))
     expect(messages).toStrictEqual(newMessages, 'should be the last ten mesages')
     expect(messages).not.toIncludeEqual(message, "shouldn't contain the first element")
   })
