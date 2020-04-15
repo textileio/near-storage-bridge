@@ -1,20 +1,9 @@
-// @nearfile
-
-import { PersistentVector } from "near-sdk-as";
-import { PostedMessage } from "./model";
+import { PostedMessage, messages } from "./model";
 
 // --- contract code goes below
 
 // The maximum number of latest messages the contract returns.
 const MESSAGE_LIMIT = 10;
-
-/** 
- * collections.vector is a persistent collection. Any changes to it will
- * be automatically saved in the storage.
- * The parameter to the constructor needs to be unique across a single contract.
- * It will be used as a prefix to all keys required to store data in the storage.
- */
-const messages = new PersistentVector<PostedMessage>("m");
 
 /**
  * Adds a new message under the name of the sender's account id.\
@@ -23,7 +12,7 @@ const messages = new PersistentVector<PostedMessage>("m");
  */
 export function addMessage(text: string): void {
   // Creating a new message and populating fields with our data
-  const message: PostedMessage = new PostedMessage(text);
+  const message = new PostedMessage(text);
   // Adding the message to end of the the persistent collection
   messages.push(message);
 }
