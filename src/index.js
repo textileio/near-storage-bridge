@@ -22,6 +22,8 @@ async function initContract () {
   // Get Account ID – if still unauthorized, it's an empty string
   const accountId = walletConnection.getAccountId()
 
+  const account = accountId && await walletConnection.account().state()
+
   // Initializing our contract APIs by contract name and configuration
   const contract = await new nearAPI.Contract(walletConnection.account(), nearConfig.contractName, {
     // View methods are read-only – they don't modify the state, but usually return some value
@@ -32,13 +34,13 @@ async function initContract () {
     sender: accountId
   })
 
-  return { contract, nearConfig, walletConnection }
+  return { account, contract, nearConfig, walletConnection }
 }
 
 window.nearInitPromise = initContract()
-  .then(({ contract, nearConfig, walletConnection }) => {
+  .then(({ account, contract, nearConfig, walletConnection }) => {
     ReactDOM.render(
-      <App contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
+      <App account={account} contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
       document.getElementById('root')
     )
   })

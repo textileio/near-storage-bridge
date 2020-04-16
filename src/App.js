@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 const SUGGESTED_DONATION = '1'
 const BOATLOAD_OF_GAS = BigNumber(1).times(10 ** 16).toFixed()
 
-const App = ({ contract, nearConfig, wallet }) => {
+const App = ({ account, contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
   const [accountId, setAccountId] = useState(wallet.getAccountId())
 
@@ -82,14 +82,14 @@ const App = ({ contract, nearConfig, wallet }) => {
             </p>
             <p>
               <label htmlFor="donation">Donation (optional):</label>
-              {/* TODO: set max to account balance */}
               <input
                 autoComplete="off"
-                id="donation"
-                type="number"
                 defaultValue={SUGGESTED_DONATION}
+                id="donation"
+                max={BigNumber(account.amount).div(10 ** 24)}
                 min="0"
                 step="0.01"
+                type="number"
               />
               <span title="NEAR Tokens">Ⓝ</span>
             </p>
@@ -116,6 +116,9 @@ const App = ({ contract, nearConfig, wallet }) => {
 }
 
 App.propTypes = {
+  account: PropTypes.shape({
+    amount: PropTypes.string.isRequired
+  }).isRequired,
   contract: PropTypes.shape({
     addMessage: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired
