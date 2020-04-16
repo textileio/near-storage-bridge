@@ -1,16 +1,46 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import BigNumber from 'bignumber.js'
+
+const SUGGESTED_DONATION = '1'
+const BOATLOAD_OF_GAS = BigNumber(1).times(10 ** 16).toFixed()
 
 const App = ({ contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
   const [accountId, setAccountId] = useState(wallet.getAccountId())
-  const [inputText, setInputText] = useState('')
-  const [inputReadOnly, setinputReadOnly] = useState(false)
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
     contract.getMessages().then(setMessages)
   }, [])
+
+  const onSubmit = useCallback(e => {
+    e.preventDefault()
+
+    const fieldset = e.target.children[0]
+    fieldset.disabled = true
+
+    const messageInput = e.target.elements.message
+    const donationInput = e.target.elements.donation
+
+    // TODO: optimistically update page with new message,
+    // update blockchain data in background
+    // add uuid to each message, so we know which one is already known
+    contract.addMessage(
+      { text: messageInput.value },
+      BOATLOAD_OF_GAS,
+      BigNumber(donationInput.value || '0').times(10 ** 24).toFixed()
+    ).then(() => {
+      contract.getMessages().then(messages => {
+        setMessages(messages)
+
+        messageInput.value = ''
+        donationInput.value = SUGGESTED_DONATION
+        fieldset.disabled = false
+        messageInput.focus()
+      })
+    })
+  }, [contract])
 
   const signIn = useCallback(() => {
     wallet.requestSignIn(
@@ -23,17 +53,6 @@ const App = ({ contract, nearConfig, wallet }) => {
     wallet.signOut()
     setAccountId(null)
   }, [])
-
-  const addMessage = useCallback(async (text, isPremium) => {
-    setinputReadOnly(true)
-    const BOATLOAD_OF_GAS = '10000000000000000'
-    const PREMIUM_COST = '10000000000000000000000'
-    await contract.addMessage({ text }, BOATLOAD_OF_GAS, isPremium ? PREMIUM_COST.toString() : '0')
-    setInputText('')
-    const messages = await contract.getMessages()
-    setMessages(messages)
-    setinputReadOnly(false)
-  })
 
   return (
     <main>
@@ -49,33 +68,35 @@ const App = ({ contract, nearConfig, wallet }) => {
         }
       </header>
       {accountId && (
-        <form onSubmit={e => { e.preventDefault() }}>
-          <label htmlFor="message">
-            Sign the guest book, { accountId }!
-          </label>
-          <div style={{ display: 'flex' }}>
-            <input
-              autoComplete="off"
-              autoFocus
-              value={ inputText }
-              onChange={(e) => { setInputText(e.target.value) }}
-              id="message"
-              required
-              style={{ flex: 1 }}
-              readOnly={ inputReadOnly }
-              className={ 'message-input' }
-            />
-            <button type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
-              addMessage(inputText, false)
-            }}>
-              Save
+        <form onSubmit={onSubmit}>
+          <fieldset>
+            <p>Sign the guest book, { accountId }!</p>
+            <p className="highlight">
+              <label htmlFor="message">Message:</label>
+              <input
+                autoComplete="off"
+                autoFocus
+                id="message"
+                required
+              />
+            </p>
+            <p>
+              <label htmlFor="donation">Donation (optional):</label>
+              {/* TODO: set max to account balance */}
+              <input
+                autoComplete="off"
+                id="donation"
+                type="number"
+                defaultValue={SUGGESTED_DONATION}
+                min="0"
+                step="0.01"
+              />
+              <span title="NEAR Tokens">Ⓝ</span>
+            </p>
+            <button type="submit">
+              Sign
             </button>
-            <button className="primary" type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
-              addMessage(inputText, true)
-            }}>
-              Save & Donate
-            </button>
-          </div>
+          </fieldset>
         </form>
       )}
       {!!messages.length && (
