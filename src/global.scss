@@ -41,14 +41,6 @@ body {
   max-width: 40em;
 }
 
-a {
-  color: var(--primary);
-
-  &:hover, &:focus { color: var(--secondary) }
-
-  &:active { color: var(--tertiary) }
-}
-
 fieldset {
   border: none;
   margin: 0;
@@ -61,7 +53,7 @@ fieldset {
   margin-bottom: 0.5em;
   width: 100%;
   label {
-    margin-right: 1em;
+    margin-right: 0.5em;
   }
   input {
     caret-color: var(--secondary);
