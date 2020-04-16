@@ -41,7 +41,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "bignumber.js": "^9.0.0",
+    "big.js": "^5.2.2",
     "near-api-js": "^0.23.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import BigNumber from 'bignumber.js'
+import Big from 'big.js'
 
 const SUGGESTED_DONATION = '1'
-const BOATLOAD_OF_GAS = BigNumber(1).times(10 ** 16).toFixed()
+const BOATLOAD_OF_GAS = Big(1).times(10 ** 16).toFixed()
 
 const App = ({ account, contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
@@ -29,7 +29,7 @@ const App = ({ account, contract, nearConfig, wallet }) => {
     contract.addMessage(
       { text: messageInput.value },
       BOATLOAD_OF_GAS,
-      BigNumber(donationInput.value || '0').times(10 ** 24).toFixed()
+      Big(donationInput.value || '0').times(10 ** 24).toFixed()
     ).then(() => {
       contract.getMessages().then(messages => {
         setMessages(messages)
@@ -86,7 +86,7 @@ const App = ({ account, contract, nearConfig, wallet }) => {
                 autoComplete="off"
                 defaultValue={SUGGESTED_DONATION}
                 id="donation"
-                max={BigNumber(account.amount).div(10 ** 24)}
+                max={Big(account.amount).div(10 ** 24)}
                 min="0"
                 step="0.01"
                 type="number"
