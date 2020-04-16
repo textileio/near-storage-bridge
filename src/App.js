@@ -17,27 +17,25 @@ const App = ({ account, contract, nearConfig, wallet }) => {
   const onSubmit = useCallback(e => {
     e.preventDefault()
 
-    const fieldset = e.target.children[0]
-    fieldset.disabled = true
+    const { fieldset, message, donation } = e.target.elements
 
-    const messageInput = e.target.elements.message
-    const donationInput = e.target.elements.donation
+    fieldset.disabled = true
 
     // TODO: optimistically update page with new message,
     // update blockchain data in background
     // add uuid to each message, so we know which one is already known
     contract.addMessage(
-      { text: messageInput.value },
+      { text: message.value },
       BOATLOAD_OF_GAS,
-      Big(donationInput.value || '0').times(10 ** 24).toFixed()
+      Big(donation.value || '0').times(10 ** 24).toFixed()
     ).then(() => {
       contract.getMessages().then(messages => {
         setMessages(messages)
 
-        messageInput.value = ''
-        donationInput.value = SUGGESTED_DONATION
+        message.value = ''
+        donation.value = SUGGESTED_DONATION
         fieldset.disabled = false
-        messageInput.focus()
+        message.focus()
       })
     })
   }, [contract])
@@ -69,7 +67,7 @@ const App = ({ account, contract, nearConfig, wallet }) => {
       </header>
       {accountId && (
         <form onSubmit={onSubmit}>
-          <fieldset>
+          <fieldset id="fieldset">
             <p>Sign the guest book, { accountId }!</p>
             <p className="highlight">
               <label htmlFor="message">Message:</label>
