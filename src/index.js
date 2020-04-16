@@ -19,10 +19,8 @@ async function initContract () {
   // Needed to access wallet
   const walletConnection = new nearAPI.WalletConnection(near)
 
-  // Get Account ID – if still unauthorized, it's an empty string
-  const accountId = walletConnection.getAccountId()
-
-  const account = accountId && await walletConnection.account().state()
+  // Load in account data so it's accessible within the component using `account()._state`
+  await walletConnection.account().state()
 
   // Initializing our contract APIs by contract name and configuration
   const contract = await new nearAPI.Contract(walletConnection.account(), nearConfig.contractName, {
@@ -31,16 +29,17 @@ async function initContract () {
     // Change methods can modify the state, but you don't receive the returned value when called
     changeMethods: ['addMessage'],
     // Sender is the account ID to initialize transactions.
-    sender: accountId
+    // getAccountId() will return empty string if user is still unauthorized
+    sender: walletConnection.getAccountId()
   })
 
-  return { account, contract, nearConfig, walletConnection }
+  return { contract, nearConfig, walletConnection }
 }
 
 window.nearInitPromise = initContract()
-  .then(({ account, contract, nearConfig, walletConnection }) => {
+  .then(({ contract, nearConfig, walletConnection }) => {
     ReactDOM.render(
-      <App account={account} contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
+      <App contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
       document.getElementById('root')
     )
   })

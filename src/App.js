@@ -5,9 +5,9 @@ import Big from 'big.js'
 const SUGGESTED_DONATION = '1'
 const BOATLOAD_OF_GAS = Big(1).times(10 ** 16).toFixed()
 
-const App = ({ account, contract, nearConfig, wallet }) => {
+const App = ({ contract, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
-  const [accountId, setAccountId] = useState(wallet.getAccountId())
+  const accountId = wallet.getAccountId()
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
@@ -49,7 +49,7 @@ const App = ({ account, contract, nearConfig, wallet }) => {
 
   const signOut = useCallback(() => {
     wallet.signOut()
-    setAccountId(null)
+    window.location = '/'
   }, [])
 
   return (
@@ -84,7 +84,7 @@ const App = ({ account, contract, nearConfig, wallet }) => {
                 autoComplete="off"
                 defaultValue={SUGGESTED_DONATION}
                 id="donation"
-                max={Big(account.amount).div(10 ** 24)}
+                max={Big(wallet.account()._state.amount).div(10 ** 24)}
                 min="0"
                 step="0.01"
                 type="number"
@@ -114,9 +114,6 @@ const App = ({ account, contract, nearConfig, wallet }) => {
 }
 
 App.propTypes = {
-  account: PropTypes.shape({
-    amount: PropTypes.string.isRequired
-  }).isRequired,
   contract: PropTypes.shape({
     addMessage: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired
@@ -125,6 +122,7 @@ App.propTypes = {
     contractName: PropTypes.string.isRequired
   }).isRequired,
   wallet: PropTypes.shape({
+    account: PropTypes.func.isRequired,
     getAccountId: PropTypes.func.isRequired,
     isSignedIn: PropTypes.func.isRequired,
     requestSignIn: PropTypes.func.isRequired,
