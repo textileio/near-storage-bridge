@@ -15,6 +15,7 @@ const contract = {
   addMessage: () => ''
 }
 const walletConnection = {
+  account: () => ({ _state: { amount: '1' + '0'.repeat(25) } }),
   requestSignIn: () => null,
   signOut: () => null,
   isSignedIn: () => false,
