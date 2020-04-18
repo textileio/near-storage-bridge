@@ -5,9 +5,8 @@ import Big from 'big.js'
 const SUGGESTED_DONATION = '1'
 const BOATLOAD_OF_GAS = Big(1).times(10 ** 16).toFixed()
 
-const App = ({ contract, nearConfig, wallet }) => {
+const App = ({ contract, currentUser, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
-  const accountId = wallet.getAccountId()
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
@@ -60,15 +59,15 @@ const App = ({ contract, nearConfig, wallet }) => {
         justifyContent: 'space-between'
       }}>
         <h1>NEAR Guest Book</h1>
-        {accountId
+        {currentUser
           ? <button onClick={signOut}>Log out</button>
           : <button onClick={signIn}>Log in</button>
         }
       </header>
-      {accountId && (
+      {currentUser && (
         <form onSubmit={onSubmit}>
           <fieldset id="fieldset">
-            <p>Sign the guest book, { accountId }!</p>
+            <p>Sign the guest book, { currentUser.accountId }!</p>
             <p className="highlight">
               <label htmlFor="message">Message:</label>
               <input
@@ -84,7 +83,7 @@ const App = ({ contract, nearConfig, wallet }) => {
                 autoComplete="off"
                 defaultValue={SUGGESTED_DONATION}
                 id="donation"
-                max={Big(wallet.account()._state.amount).div(10 ** 24)}
+                max={Big(currentUser.balance).div(10 ** 24)}
                 min="0"
                 step="0.01"
                 type="number"
@@ -118,13 +117,14 @@ App.propTypes = {
     addMessage: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired
   }).isRequired,
+  currentUser: PropTypes.shape({
+    accountId: PropTypes.string.isRequired,
+    balance: PropTypes.string.isRequired
+  }),
   nearConfig: PropTypes.shape({
     contractName: PropTypes.string.isRequired
   }).isRequired,
   wallet: PropTypes.shape({
-    account: PropTypes.func.isRequired,
-    getAccountId: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.func.isRequired,
     requestSignIn: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired
   }).isRequired

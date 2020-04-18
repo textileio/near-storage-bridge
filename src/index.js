@@ -19,8 +19,14 @@ async function initContract () {
   // Needed to access wallet
   const walletConnection = new nearAPI.WalletConnection(near)
 
-  // Load in account data so it's accessible within the component using `account()._state`
-  await walletConnection.account().state()
+  // Load in account data
+  let currentUser
+  if (walletConnection.getAccountId()) {
+    currentUser = {
+      accountId: walletConnection.getAccountId(),
+      balance: (await walletConnection.account().state()).amount
+    }
+  }
 
   // Initializing our contract APIs by contract name and configuration
   const contract = await new nearAPI.Contract(walletConnection.account(), nearConfig.contractName, {
@@ -33,13 +39,18 @@ async function initContract () {
     sender: walletConnection.getAccountId()
   })
 
-  return { contract, nearConfig, walletConnection }
+  return { contract, currentUser, nearConfig, walletConnection }
 }
 
 window.nearInitPromise = initContract()
-  .then(({ contract, nearConfig, walletConnection }) => {
+  .then(({ contract, currentUser, nearConfig, walletConnection }) => {
     ReactDOM.render(
-      <App contract={contract} nearConfig={nearConfig} wallet={walletConnection} />,
+      <App
+        contract={contract}
+        currentUser={currentUser}
+        nearConfig={nearConfig}
+        wallet={walletConnection}
+      />,
       document.getElementById('root')
     )
   })
