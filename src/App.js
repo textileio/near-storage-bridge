@@ -1,16 +1,43 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import Big from 'big.js'
 
-const App = ({ contract, nearConfig, wallet }) => {
+const SUGGESTED_DONATION = '1'
+const BOATLOAD_OF_GAS = Big(1).times(10 ** 16).toFixed()
+
+const App = ({ contract, currentUser, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
-  const [accountId, setAccountId] = useState(wallet.getAccountId())
-  const [inputText, setInputText] = useState('')
-  const [inputReadOnly, setinputReadOnly] = useState(false)
 
   useEffect(() => {
     // TODO: don't just fetch once; subscribe!
     contract.getMessages().then(setMessages)
   }, [])
+
+  const onSubmit = useCallback(e => {
+    e.preventDefault()
+
+    const { fieldset, message, donation } = e.target.elements
+
+    fieldset.disabled = true
+
+    // TODO: optimistically update page with new message,
+    // update blockchain data in background
+    // add uuid to each message, so we know which one is already known
+    contract.addMessage(
+      { text: message.value },
+      BOATLOAD_OF_GAS,
+      Big(donation.value || '0').times(10 ** 24).toFixed()
+    ).then(() => {
+      contract.getMessages().then(messages => {
+        setMessages(messages)
+
+        message.value = ''
+        donation.value = SUGGESTED_DONATION
+        fieldset.disabled = false
+        message.focus()
+      })
+    })
+  }, [contract])
 
   const signIn = useCallback(() => {
     wallet.requestSignIn(
@@ -21,19 +48,8 @@ const App = ({ contract, nearConfig, wallet }) => {
 
   const signOut = useCallback(() => {
     wallet.signOut()
-    setAccountId(null)
+    window.location = '/'
   }, [])
-
-  const addMessage = useCallback(async (text, isPremium) => {
-    setinputReadOnly(true)
-    const BOATLOAD_OF_GAS = '10000000000000000'
-    const PREMIUM_COST = '10000000000000000000000'
-    await contract.addMessage({ text }, BOATLOAD_OF_GAS, isPremium ? PREMIUM_COST.toString() : '0')
-    setInputText('')
-    const messages = await contract.getMessages()
-    setMessages(messages)
-    setinputReadOnly(false)
-  })
 
   return (
     <main>
@@ -43,39 +59,41 @@ const App = ({ contract, nearConfig, wallet }) => {
         justifyContent: 'space-between'
       }}>
         <h1>NEAR Guest Book</h1>
-        {accountId
+        {currentUser
           ? <button onClick={signOut}>Log out</button>
           : <button onClick={signIn}>Log in</button>
         }
       </header>
-      {accountId && (
-        <form onSubmit={e => { e.preventDefault() }}>
-          <label htmlFor="message">
-            Sign the guest book, { accountId }!
-          </label>
-          <div style={{ display: 'flex' }}>
-            <input
-              autoComplete="off"
-              autoFocus
-              value={ inputText }
-              onChange={(e) => { setInputText(e.target.value) }}
-              id="message"
-              required
-              style={{ flex: 1 }}
-              readOnly={ inputReadOnly }
-              className={ 'message-input' }
-            />
-            <button type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
-              addMessage(inputText, false)
-            }}>
-              Save
+      {currentUser && (
+        <form onSubmit={onSubmit}>
+          <fieldset id="fieldset">
+            <p>Sign the guest book, { currentUser.accountId }!</p>
+            <p className="highlight">
+              <label htmlFor="message">Message:</label>
+              <input
+                autoComplete="off"
+                autoFocus
+                id="message"
+                required
+              />
+            </p>
+            <p>
+              <label htmlFor="donation">Donation (optional):</label>
+              <input
+                autoComplete="off"
+                defaultValue={SUGGESTED_DONATION}
+                id="donation"
+                max={Big(currentUser.balance).div(10 ** 24)}
+                min="0"
+                step="0.01"
+                type="number"
+              />
+              <span title="NEAR Tokens">Ⓝ</span>
+            </p>
+            <button type="submit">
+              Sign
             </button>
-            <button className="primary" type="submit" style={{ marginLeft: '0.5em' }} onClick={(e) => {
-              addMessage(inputText, true)
-            }}>
-              Save & Donate
-            </button>
-          </div>
+          </fieldset>
         </form>
       )}
       {!!messages.length && (
@@ -99,12 +117,14 @@ App.propTypes = {
     addMessage: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired
   }).isRequired,
+  currentUser: PropTypes.shape({
+    accountId: PropTypes.string.isRequired,
+    balance: PropTypes.string.isRequired
+  }),
   nearConfig: PropTypes.shape({
     contractName: PropTypes.string.isRequired
   }).isRequired,
   wallet: PropTypes.shape({
-    getAccountId: PropTypes.func.isRequired,
-    isSignedIn: PropTypes.func.isRequired,
     requestSignIn: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired
   }).isRequired
