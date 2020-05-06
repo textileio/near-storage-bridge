@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Big from 'big.js'
