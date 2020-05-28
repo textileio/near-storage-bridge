@@ -15,9 +15,7 @@ Quick Start
 
 To run this project locally:
 
-1. Prerequisites: Make sure you have node.js installed (we like [asdf] for
-   this), then use it to install [yarn]: `npm install --global yarn` (or just
-   `npm i -g yarn`)
+1. Prerequisites: Make sure you have Node.js ≥ 12 installed (https://nodejs.org), then use it to install [yarn]: `npm install --global yarn` (or just `npm i -g yarn`)
 2. Install dependencies: `yarn install` (or just `yarn`)
 3. Run the local development server: `yarn dev` (see `package.json` for a
    full list of `scripts` you can run with `yarn`)
@@ -95,7 +93,6 @@ As you can see in `package.json`, this does two things:
 
 
   [NEAR]: https://nearprotocol.com/
-  [asdf]: https://github.com/asdf-vm/asdf
   [yarn]: https://yarnpkg.com/
   [AssemblyScript]: https://docs.assemblyscript.org/
   [React]: https://reactjs.org
