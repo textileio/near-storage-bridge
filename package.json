@@ -1,7 +1,7 @@
 {
   "name": "guest-book",
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "(MIT AND Apache-2.0)",
   "scripts": {
     "build": "yarn build:contract && yarn build:web",
     "build:contract": "node asconfig.js",
