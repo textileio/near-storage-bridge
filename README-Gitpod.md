@@ -41,7 +41,7 @@ The "Open Preview" option will open the site in a tab within the IDE. Note that 
 
 The "Open Browser" option will open a new tab in your browser. Either option will work and is up to your preference.
 
-Once you've opened the web app in your browser, log in and experiment with the simple "guest book" smart contract. Note that there are two buttons, "Save" and "Save & Donate" here.
+Once you've opened the web app in your browser, log in and experiment with the simple "guest book" smart contract.
 
 The "Save" button sends the text input to the blockchain, storing it as a string. The web app will reload with the new guest book messages automatically.
 
