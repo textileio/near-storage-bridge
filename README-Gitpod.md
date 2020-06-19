@@ -41,11 +41,15 @@ The "Open Preview" option will open the site in a tab within the IDE. Note that 
 
 The "Open Browser" option will open a new tab in your browser. Either option will work and is up to your preference.
 
-Once you've opened the web app in your browser, log in and experiment with the simple "guest book" smart contract. Note that there are two buttons, "Save" and "Save & Donate" here. 
+Once you've opened the web app in your browser, log in and experiment with the simple "guest book" smart contract. Note that there are two buttons, "Save" and "Save & Donate" here.
 
 The "Save" button sends the text input to the blockchain, storing it as a string. The web app will reload with the new guest book messages automatically.
 
 The "Save & Donate" button demonstrates attaching NEAR and a gas price when calling the smart contract's method `addMessage`. When the web app refreshes with "paid" messages, the user interface highlights them.
+
+Data collection
+===============
+By using Gitpod in this project, you agree to opt-in to basic, anonymous analytics. No personal information is transmitted. Instead, these usage statistics aid in discovering potential bugs and user flow information.
 
   [smart contract docs]: https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript
   [asp]: https://www.npmjs.com/package/@as-pect/cli
