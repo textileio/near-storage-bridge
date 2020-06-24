@@ -37,7 +37,7 @@
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
     "sass": "^1.26.9",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "big.js": "^5.2.2",
