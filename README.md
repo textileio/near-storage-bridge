@@ -85,6 +85,7 @@ Unless you forked this repository you will need to change the remote URL to a re
 
 1) go to GitHub and create a new repository for this project
 2) open your terminal and in the root of this project enter the following:
+
     $ `git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git`
 
 
