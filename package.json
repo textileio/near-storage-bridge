@@ -32,7 +32,7 @@
     "jest": "^26.1.0",
     "jest-environment-node": "^26.1.0",
     "near-sdk-as": "^0.4.2",
-    "near-shell": "^0.24.6",
+    "near-shell": "^0.24.8",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
