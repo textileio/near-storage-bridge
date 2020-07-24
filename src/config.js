@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME || 'guest-book'
+const CONTRACT_NAME = process.env.CONTRACT_NAME || 'guest-book.testnet'
 
 function getConfig (env) {
   switch (env) {
@@ -17,7 +17,7 @@ function getConfig (env) {
         networkId: 'default',
         nodeUrl: 'https://rpc.testnet.near.org',
         contractName: CONTRACT_NAME,
-        walletUrl: 'https://wallet.testnet.near.org',
+        walletUrl: 'https://wallet.testnet.nearprotocol.org',
         helperUrl: 'https://helper.testnet.near.org'
       }
     case 'betanet':
