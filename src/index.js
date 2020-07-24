@@ -6,7 +6,7 @@ import * as nearAPI from 'near-api-js'
 
 // Initializing contract
 async function initContract () {
-  const nearConfig = getConfig(process.env.NODE_ENV || 'development')
+  const nearConfig = getConfig(process.env.NODE_ENV || 'testnet')
 
   // Initializing connection to the NEAR TestNet
   const near = await nearAPI.connect({
