@@ -32,7 +32,7 @@
     "jest": "^26.2.2",
     "jest-environment-node": "^26.1.0",
     "near-sdk-as": "^0.4.2",
-    "near-shell": "^0.24.9",
+    "near-cli": "^1.0.1",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
@@ -58,7 +58,7 @@
       },
       {
         "displayName": "Integration tests",
-        "testEnvironment": "near-shell/test_environment",
+        "testEnvironment": "near-cli/test_environment",
         "testMatch": [
           "<rootDir>/src/tests/integration/*.js"
         ]
