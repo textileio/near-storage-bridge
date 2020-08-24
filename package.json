@@ -4,14 +4,15 @@
   "license": "(MIT AND Apache-2.0)",
   "scripts": {
     "build": "yarn build:contract && yarn build:web",
-    "build:contract": "node asconfig.js",
+    "build:contract": "asb",
+    "build:contract:debug": "asb --target debug",
     "build:web": "parcel build src/index.html --public-url ./",
     "deploy": "yarn build && near deploy && gh-pages -d dist/",
-    "dev": "yarn build:contract && near dev-deploy && nodemon --watch assembly -e ts --exec yarn dev:start",
+    "dev": "yarn build:contract:debug && near dev-deploy && nodemon --watch assembly -e ts --exec yarn dev:start",
     "lint": "eslint .",
     "start": "yarn deploy && parcel src/index.html",
     "dev:start": "env-cmd -f ./neardev/dev-account.env parcel src/index.html",
-    "test": "yarn build:contract && asp && jest"
+    "test": "yarn build:contract:debug && asp && jest"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -31,7 +32,7 @@
     "gh-pages": "^3.1.0",
     "jest": "^26.4.2",
     "jest-environment-node": "^26.3.0",
-    "near-sdk-as": "^0.4.2",
+    "near-sdk-as": "^1.2.0",
     "near-cli": "^1.0.3",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.4",
