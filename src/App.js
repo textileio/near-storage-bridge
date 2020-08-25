@@ -49,7 +49,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
   const signOut = useCallback(() => {
     wallet.signOut()
-    window.location = '/'
+    window.location.replace(window.location.origin + window.location.pathname)
   }, [])
 
   return (
