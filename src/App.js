@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Big from 'big.js'
 
 const SUGGESTED_DONATION = '0'
-const BOATLOAD_OF_GAS = Big(3).times(10 ** 14).toFixed()
+const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed()
 
 const App = ({ contract, currentUser, nearConfig, wallet }) => {
   const [messages, setMessages] = useState([])
