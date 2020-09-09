@@ -48,12 +48,12 @@ Deploy
 Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contracts get deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
 
 
-Step 0: Install near-shell
+Step 0: Install near-cli
 --------------------------
 
-You need near-shell installed globally. Here's how:
+You need near-cli installed globally. Here's how:
 
-    npm install --global near-shell
+    npm install --global near-cli
 
 This will give you the `near` [CLI] tool. Ensure that it's installed with:
 
@@ -112,7 +112,7 @@ As you can see in `package.json`, this does two things:
   [jest]: https://jestjs.io/
   [NEAR accounts]: https://docs.nearprotocol.com/docs/concepts/account
   [NEAR Wallet]: https://wallet.nearprotocol.com
-  [near-shell]: https://github.com/nearprotocol/near-shell
+  [near-cli]: https://github.com/nearprotocol/near-cli
   [CLI]: https://www.w3schools.com/whatis/whatis_cli.asp
   [create-near-app]: https://github.com/nearprotocol/create-near-app
   [gh-pages]: https://github.com/tschaub/gh-pages
