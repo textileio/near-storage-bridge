@@ -1914,10 +1914,10 @@ as-bignum@^0.2.4:
   resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.4.tgz#f030554c4cb0b8c7dd1323659ea24401724c4625"
   integrity sha512-hwrhAw0Yv/yWusSMLnS6rYrRBgVpGahcJnJhEwuKPRUeQU1c/hfl7Zpo01aLQEQtF79YByCPxQ+bo6t+c/X/8g==
 
-asbuild@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/asbuild/-/asbuild-0.0.6.tgz#886f959816262156197d793ab7814327e67a71dc"
-  integrity sha512-g5R/oJy2IXLvfa1cMIH9y8M2T4hSHOusjk31Jczyc+U6eD9knI6qrZlAIkkPO8f2k931YxmkNTBjtkAfGhS8bg==
+asbuild@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/asbuild/-/asbuild-0.0.8.tgz#9f2b30297fdb0f03679903e1996f46a39e4308a4"
+  integrity sha512-JlxO/cdotqCLCJrRlzPYsgzdy5qa0NPAXxH6IZNgLLJwLerIOtCx10tFUBGaO7VS7YwuLony83hH60J2iskxHA==
   dependencies:
     yargs "^15.4.1"
 
@@ -5593,11 +5593,6 @@ jest@^26.4.2:
     import-local "^3.0.2"
     jest-cli "^26.4.2"
 
-js-base64@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.2.tgz#313b6274dda718f714d00b3330bbae6e38e90209"
-  integrity sha512-Vg8czh0Q7sFBSUMWWArX/miJeBWYBPpdU/3M/DKSaekLMqrqVPaedp+5mZhie/r0lgrcaYBfwXatEew6gwgiQQ==
-
 js-base64@^3.4.3:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.4.5.tgz#6d1921e65a172cfd924604e1416dfaff45752c3e"
@@ -6287,32 +6282,49 @@ near-ledger-js@^0.1.1:
   dependencies:
     bs58 "^4.0.1"
 
-near-mock-vm@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-0.1.1.tgz#be08d75bf19842cb5b63dc61d6cb201afc6d2876"
-  integrity sha512-tI2Bg35PKA0RBh64XBkqld7ktE+0WE0Ykb4RoKRgkHNPMRDeQhlBPn5CDveBRHchD68VbEkKftJ6/OpYEjXXNg==
+near-mock-vm@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.0.0.tgz#0587a3276163da937931e4f3c5e43961b392efcf"
+  integrity sha512-2wVhXYL18qjkibuhuL8vb0RQoe3eFHkGouT6axv5d6HK/R40iy6Q4J1usnZ8j//N3TDcJFN1/wjUKi2OuaPAGQ==
   dependencies:
     "@assemblyscript/loader" "^0.9.4"
-    bn.js "^5.1.1"
-    js-base64 "^2.5.2"
     yargs "^15.3.1"
 
-near-sdk-as@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-1.2.1.tgz#2f97cca69ca989b57b0ddcb9bbe7064400828cba"
-  integrity sha512-RkOI9Is4avlJnn/Zsqe81mI7W7neqydPz2uVNs8p/HUcyFEKTqRyJS/kZuuxw3e8uMKiBeEdcy62j20kPdp7vw==
+near-sdk-as@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.0.0.tgz#9f25c2022cda51b6aea6a927bd436499d8892682"
+  integrity sha512-WtbDgJul6teMxqYAsXqIAiM1+Y4hvk47t5ajOEajrVkwYR+cB64YsUkPKe8NIdyGQNPzxMx7rxNoddnwSSXHqw==
+  dependencies:
+    near-mock-vm "^2.0.0"
+    near-sdk-bindgen "^2.0.0"
+    near-sdk-core "^2.0.0"
+    near-sdk-simulator "^2.0.0"
+
+near-sdk-bindgen@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.0.0.tgz#5f96b66db5dd36f06a18f58f8f03d8c096848fc2"
+  integrity sha512-GaJjTWQF76cwaTVGuS3dXl4960dU6gCT9Ym1ec4kfFsMkvchaAzyNSjm9xhj8DrUPN+njkFw3iVzdjBAKXzU8g==
+
+near-sdk-core@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.0.0.tgz#bb393c755440e953599d8ed2ab101d81e18ffc23"
+  integrity sha512-KWGVprvyRIKbygoSWUO/fn3rWnZI+3ao4Q2JdICXoTTzAAtluYoveHBk62LQJbr+T/05cQdgAAwIB3wBLvqT2Q==
   dependencies:
     "@as-pect/cli" "^4.0.0"
     as-bignum "^0.2.4"
-    asbuild "^0.0.6"
+    asbuild "^0.0.8"
     assemblyscript "^0.14.9"
     assemblyscript-json "^0.3.3"
     bn.js "^5.1.1"
     bs58 "^4.0.1"
     js-base64 "^3.4.3"
-    near-mock-vm "^0.1.1"
     near-vm "^1.1.0"
     visitor-as "^0.3.1"
+
+near-sdk-simulator@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.0.0.tgz#b768adfc9e4fad242b6fd61168929b9c816e9c82"
+  integrity sha512-1lG8Xq+ZMOPvviJIqZLvfZ4xJ4tOb8EEOEDkuyEnHp1PQytqPrP3s+scPx1ZZyMLLtoUN/9y80Crii2qtKZ/Gw==
 
 near-seed-phrase@^0.1.0:
   version "0.1.0"
