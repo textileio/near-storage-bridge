@@ -34,7 +34,7 @@
     "jest-environment-node": "^26.5.2",
     "near-sdk-as": "^2.0.0",
     "near-cli": "^1.2.0",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.5",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
     "sass": "^1.27.0",
