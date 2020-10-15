@@ -44,7 +44,7 @@
     "big.js": "^6.0.1",
     "env-cmd": "^10.1.0",
     "near-api-js": "^0.31.0",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "regenerator-runtime": "^0.13.7"
   },
