@@ -6357,33 +6357,33 @@ near-ledger-js@^0.1.1:
   dependencies:
     bs58 "^4.0.1"
 
-near-mock-vm@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.0.0.tgz#0587a3276163da937931e4f3c5e43961b392efcf"
-  integrity sha512-2wVhXYL18qjkibuhuL8vb0RQoe3eFHkGouT6axv5d6HK/R40iy6Q4J1usnZ8j//N3TDcJFN1/wjUKi2OuaPAGQ==
+near-mock-vm@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.1.0.tgz#4d8a75e4b6f8e676531b227b0df62becb4f8332c"
+  integrity sha512-5u2YzyD59Sih8WGcER0BdBc3+hATPocHyXr3sKolaPU6AMbkgwbS6eeMncpUQaBuGQ8XWP4zuq474WFEGVFeEA==
   dependencies:
     "@assemblyscript/loader" "^0.9.4"
     yargs "^15.3.1"
 
-near-sdk-as@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.0.0.tgz#9f25c2022cda51b6aea6a927bd436499d8892682"
-  integrity sha512-WtbDgJul6teMxqYAsXqIAiM1+Y4hvk47t5ajOEajrVkwYR+cB64YsUkPKe8NIdyGQNPzxMx7rxNoddnwSSXHqw==
+near-sdk-as@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.1.0.tgz#f7b60766f36704a75f3dad78db72fdc9e1223b03"
+  integrity sha512-VBlMQCfisdQtu5VFstzv9lCnHBBnwc//ragovAx//UuHgxxHTlqpMHtwZA2pnavivN88YTVDfn4VfjvzijqleQ==
   dependencies:
-    near-mock-vm "^2.0.0"
-    near-sdk-bindgen "^2.0.0"
-    near-sdk-core "^2.0.0"
-    near-sdk-simulator "^2.0.0"
+    near-mock-vm "^2.1.0"
+    near-sdk-bindgen "^2.1.0"
+    near-sdk-core "^2.1.0"
+    near-sdk-simulator "^2.1.0"
 
-near-sdk-bindgen@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.0.0.tgz#5f96b66db5dd36f06a18f58f8f03d8c096848fc2"
-  integrity sha512-GaJjTWQF76cwaTVGuS3dXl4960dU6gCT9Ym1ec4kfFsMkvchaAzyNSjm9xhj8DrUPN+njkFw3iVzdjBAKXzU8g==
+near-sdk-bindgen@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.1.0.tgz#1815c88ff5094f1e23e3bc721ec3b95d45815cf2"
+  integrity sha512-vJ84mCnIBStYAqvl78+lDzHmGbnG3E7shgf+mOm6B2FmgTA3igwk86KqPMK2zWPtGF7kbXSnrfnr7vIY730jXw==
 
-near-sdk-core@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.0.0.tgz#bb393c755440e953599d8ed2ab101d81e18ffc23"
-  integrity sha512-KWGVprvyRIKbygoSWUO/fn3rWnZI+3ao4Q2JdICXoTTzAAtluYoveHBk62LQJbr+T/05cQdgAAwIB3wBLvqT2Q==
+near-sdk-core@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.1.0.tgz#674532d548cb244459de45b49470bc331cdec173"
+  integrity sha512-gRMyzqK4Ph/UzuxM8/wpuIVqvgkU0BT5+HQT0sQtr0eifWyJA4N8JZ7lOURXnXrfH3lHspb867IeC59qJ4Tj1w==
   dependencies:
     "@as-pect/cli" "^4.0.0"
     as-bignum "^0.2.4"
@@ -6394,12 +6394,12 @@ near-sdk-core@^2.0.0:
     bs58 "^4.0.1"
     js-base64 "^3.4.3"
     near-vm "^1.1.0"
-    visitor-as "^0.3.1"
+    visitor-as "^0.3.2"
 
-near-sdk-simulator@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.0.0.tgz#b768adfc9e4fad242b6fd61168929b9c816e9c82"
-  integrity sha512-1lG8Xq+ZMOPvviJIqZLvfZ4xJ4tOb8EEOEDkuyEnHp1PQytqPrP3s+scPx1ZZyMLLtoUN/9y80Crii2qtKZ/Gw==
+near-sdk-simulator@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.1.0.tgz#0477857106aab60f40dfea163620738e8c6881db"
+  integrity sha512-iEIBC0dc2jc5mm5iHhx13em5WJpIjnpeZAHrN1CY7K9wNEE3gaS+ljTu3wf9LlXNsUHsZsvRkDD/rPJ9RFb/DA==
 
 near-seed-phrase@^0.1.0:
   version "0.1.0"
@@ -9510,10 +9510,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-visitor-as@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.3.1.tgz#8d97a07ca7c68a1c9979d34f774f298348140591"
-  integrity sha512-YM9floX5sHksmvYSjMsnL3Bxdb1Kc86VR7FJr1DQLS035icXygWGI2x1tzEKP7sMI+2pNkUj/8KWglCJCONxYw==
+visitor-as@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/visitor-as/-/visitor-as-0.3.2.tgz#1ab82742da0cd29c97b84d192ea229319265d26b"
+  integrity sha512-UrqNE0BatyC2PH4e2m2UECJEkr3dR9LtX/Q+2bnydQGi3q/z+rt3mEehM6G8gEDY3KzFIvyXilnepOYgsq7DgQ==
   dependencies:
     lodash.clonedeep "^4.5.0"
     ts-mixer "^5.1.0"
