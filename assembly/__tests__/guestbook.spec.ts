@@ -1,31 +1,30 @@
 import { addMessage, getMessages } from '../main'
 import { PostedMessage, messages } from '../model'
 
-
 function createMessage (text: string): PostedMessage {
-  return new PostedMessage(text);
+  return new PostedMessage(text)
 }
 
 const hello: string = 'hello world'
 const message = createMessage(hello)
 
-describe('messages should be able to', () => {
-  beforeEach(()  => {
+describe('message tests', () => {
+  beforeEach(() => {
     addMessage(hello)
-  });
+  })
 
-  afterEach( () => {
+  afterEach(() => {
     while (messages.length > 0) {
       messages.pop()
     }
   })
 
-  it('add a message', () => {
+  it('adds a message', () => {
     expect(messages.length).toBe(1, 'should only contain one message')
     expect(messages[0]).toStrictEqual(message, 'message should be "hello world"')
   })
 
-  it('retrive messages', () => {
+  it('retrieves messages', () => {
     const messagesArr = getMessages()
     expect(messagesArr.length).toBe(1, 'should be one message')
     expect(messagesArr).toIncludeEqual(message, 'messages should include:\n' + message.toJSON())
@@ -41,7 +40,7 @@ describe('messages should be able to', () => {
     }
     const messages = getMessages()
     log(messages.slice(7, 10))
-    expect(messages).toStrictEqual(newMessages, 'should be the last ten mesages')
+    expect(messages).toStrictEqual(newMessages, 'should be the last ten messages')
     expect(messages).not.toIncludeEqual(message, "shouldn't contain the first element")
   })
 })
