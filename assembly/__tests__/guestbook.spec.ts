@@ -1,5 +1,6 @@
 import { addMessage, getMessages } from '../main'
 import { PostedMessage, messages } from '../model'
+import { VMContext, Context, u128 } from 'near-sdk-as'
 
 function createMessage (text: string): PostedMessage {
   return new PostedMessage(text)
@@ -9,22 +10,31 @@ const hello: string = 'hello world'
 const message = createMessage(hello)
 
 describe('message tests', () => {
-  beforeEach(() => {
-    addMessage(hello)
-  })
-
   afterEach(() => {
     while (messages.length > 0) {
       messages.pop()
     }
   })
 
+  it('attaches a deposit', () => {
+    log('Initial account balance:')
+    log(Context.accountBalance)
+    VMContext.setAttached_deposit(u128.from(1))
+    addMessage(hello)
+    log('Account balance after deposit:')
+    log(Context.accountBalance)
+    log(messages[0])
+    expect(Context.accountBalance).toStrictEqual(u128.from(3), 'balance should be 3')
+  })
+
   it('adds a message', () => {
+    addMessage(hello)
     expect(messages.length).toBe(1, 'should only contain one message')
     expect(messages[0]).toStrictEqual(message, 'message should be "hello world"')
   })
 
   it('retrieves messages', () => {
+    addMessage(hello)
     const messagesArr = getMessages()
     expect(messagesArr.length).toBe(1, 'should be one message')
     expect(messagesArr).toIncludeEqual(message, 'messages should include:\n' + message.toJSON())
@@ -32,6 +42,7 @@ describe('message tests', () => {
   })
 
   it('only show the last ten messages', () => {
+    addMessage(hello)
     const newMessages: PostedMessage[] = []
     for (let i: i32 = 0; i < 10; i++) {
       const text = 'message #' + i.toString()
