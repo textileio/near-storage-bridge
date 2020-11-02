@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Big from 'big.js'
 
@@ -14,7 +14,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
     contract.getMessages().then(setMessages)
   }, [])
 
-  const onSubmit = useCallback(e => {
+  const onSubmit = (e) => {
     e.preventDefault()
 
     const { fieldset, message, donation } = e.target.elements
@@ -38,19 +38,19 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
         message.focus()
       })
     })
-  }, [contract])
+  }
 
-  const signIn = useCallback(() => {
+  const signIn = () => {
     wallet.requestSignIn(
       nearConfig.contractName,
       'NEAR Guest Book'
     )
-  }, [])
+  }
 
-  const signOut = useCallback(() => {
+  const signOut = () => {
     wallet.signOut()
     window.location.replace(window.location.origin + window.location.pathname)
-  }, [])
+  }
 
   return (
     <main>
