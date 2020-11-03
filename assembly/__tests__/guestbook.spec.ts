@@ -15,12 +15,6 @@ beforeEach(() => {
 })
 
 describe('message tests', () => {
-  afterEach(() => {
-    while (messages.length > 0) {
-      messages.pop()
-    }
-  })
-
   it('adds a message', () => {
     addMessage(hello)
     expect(messages.length).toBe(1, 'should only contain one message')
