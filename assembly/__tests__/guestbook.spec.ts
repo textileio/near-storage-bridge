@@ -9,22 +9,16 @@ function createMessage (text: string): PostedMessage {
 const hello: string = 'hello world'
 const message = createMessage(hello)
 
+beforeEach(() => {
+  VMContext.setAttached_deposit(u128.fromString('0'))
+  VMContext.setAccount_balance(u128.fromString('0'))
+})
+
 describe('message tests', () => {
   afterEach(() => {
     while (messages.length > 0) {
       messages.pop()
     }
-  })
-
-  it('attaches a deposit', () => {
-    log('Initial account balance:')
-    log(Context.accountBalance)
-    VMContext.setAttached_deposit(u128.from(1))
-    addMessage(hello)
-    log('Account balance after deposit:')
-    log(Context.accountBalance)
-    log(messages[0])
-    expect(Context.accountBalance).toStrictEqual(u128.from(3), 'balance should be 3')
   })
 
   it('adds a message', () => {
@@ -53,5 +47,18 @@ describe('message tests', () => {
     log(messages.slice(7, 10))
     expect(messages).toStrictEqual(newMessages, 'should be the last ten messages')
     expect(messages).not.toIncludeEqual(message, "shouldn't contain the first element")
+  })
+})
+
+describe('attached deposit tests', () => {
+  it('attaches a deposit', () => {
+    log('Initial account balance:')
+    log(Context.accountBalance.toString())
+    VMContext.setAttached_deposit(u128.from('10000000000000000000000'))
+    addMessage(hello)
+    log('Account balance after deposit:')
+    log(Context.accountBalance.toString())
+    log(messages[0])
+    expect(Context.accountBalance.toString()).toStrictEqual('10000000000000000000000', 'balance should be 10000000000000000000000')
   })
 })
