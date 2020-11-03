@@ -6,8 +6,7 @@ function createMessage (text: string): PostedMessage {
   return new PostedMessage(text)
 }
 
-const hello: string = 'hello world'
-const message = createMessage(hello)
+const message = createMessage('hello world')
 
 beforeEach(() => {
   VMContext.setAttached_deposit(u128.fromString('0'))
