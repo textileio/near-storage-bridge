@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Big from 'big.js'
 import Form from './components/Form'
+import SignIn from './components/SignIn'
+import Messages from './components/Messages'
 
 const SUGGESTED_DONATION = '0'
 const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed()
@@ -67,35 +69,9 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
       </header>
       {currentUser
         ? <Form onSubmit={onSubmit} currentUser={currentUser} />
-        : <>
-            <p>
-              This app demonstrates a key element of NEAR’s UX: once an app has
-              permission to make calls on behalf of a user (that is, once a user
-              signs in), the app can make calls to the blockhain for them without
-              prompting extra confirmation. So you’ll see that if you don’t
-              include a donation, your message gets posted right to the guest book.
-            </p>
-            <p>
-              But if you do add a donation, then NEAR will double-check that
-              you’re ok with sending money to this app.
-            </p>
-            <p>
-              Go ahead and sign in to try it out!
-            </p>
-          </>
+        : <SignIn/>
       }
-      {!!currentUser && !!messages.length && (
-        <>
-          <h2>Messages</h2>
-          {messages.map((message, i) =>
-            // TODO: format as cards, add timestamp
-            <p key={i} className={message.premium ? 'is-premium' : ''}>
-              <strong>{message.sender}</strong>:<br/>
-              {message.text}
-            </p>
-          )}
-        </>
-      )}
+      {!!currentUser && !!messages.length && <Messages messages={messages}/>}
     </main>
   )
 }
