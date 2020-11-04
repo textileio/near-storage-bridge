@@ -8,7 +8,6 @@ export default function Messages ({ messages }) {
       {messages.map((message, i) =>
         // TODO: format as cards, add timestamp
         <p key={i} className={message.premium ? 'is-premium' : ''}>
-          { console.log(message)}
           <strong>{message.sender}</strong>:<br/>
           {message.text}
         </p>
