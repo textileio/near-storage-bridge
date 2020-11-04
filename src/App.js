@@ -56,11 +56,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
   return (
     <main>
-      <header style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
+      <header>
         <h1>NEAR Guest Book</h1>
         {currentUser
           ? <button onClick={signOut}>Log out</button>
