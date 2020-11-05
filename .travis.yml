@@ -10,4 +10,4 @@ env:
   - NODE_ENV=ci-betanet YARN_GPG=no
 cache: yarn
 script:
-  - yarn test
+  - yarn lint && yarn test
