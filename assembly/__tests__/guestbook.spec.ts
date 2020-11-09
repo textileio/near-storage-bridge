@@ -9,10 +9,6 @@ function createMessage (text: string): PostedMessage {
 const message = createMessage('hello world')
 
 describe('message tests', () => {
-  beforeEach(() => {
-    addMessage('hello world')
-  })
-
   afterEach(() => {
     while (messages.length > 0) {
       messages.pop()
@@ -20,6 +16,7 @@ describe('message tests', () => {
   })
 
   it('adds a message', () => {
+    addMessage('hello world')
     expect(messages.length).toBe(
       1,
       'should only contain one message'
@@ -30,7 +27,17 @@ describe('message tests', () => {
     )
   })
 
+  it('adds a premium message', () => {
+    VMContext.setAttached_deposit(u128.from('10000000000000000000000'))
+    addMessage('hello world')
+    const messageAR = getMessages()
+    expect(messageAR[0].premium).toStrictEqual(true,
+      'should be premium'
+    )
+  })
+
   it('retrieves messages', () => {
+    addMessage('hello world')
     const messagesArr = getMessages()
     expect(messagesArr.length).toBe(
       1,
@@ -40,11 +47,10 @@ describe('message tests', () => {
       message,
       'messages should include:\n' + message.toJSON()
     )
-    log('GETS MESSAGES TEST:')
-    log(messagesArr[0])
   })
 
   it('only show the last 10 messages', () => {
+    addMessage('hello world')
     const newMessages: PostedMessage[] = []
     for (let i: i32 = 0; i < 10; i++) {
       const text = 'message #' + i.toString()
@@ -52,7 +58,6 @@ describe('message tests', () => {
       addMessage(text)
     }
     const messages = getMessages()
-    log('SHOWS LAST 10 MESSAGES TEST:')
     log(messages.slice(7, 10))
     expect(messages).toStrictEqual(
       newMessages,
@@ -65,22 +70,23 @@ describe('message tests', () => {
   })
 })
 
-describe('attached deposit test', () => {
+describe('attached deposit tests', () => {
   beforeEach(() => {
     VMContext.setAttached_deposit(u128.fromString('0'))
     VMContext.setAccount_balance(u128.fromString('0'))
-    addMessage('hello world')
   })
 
   it('attaches a deposit to a contract call', () => {
-    log('ATTACHED DEPOSIT TEST:')
     log('Initial account balance: ' + Context.accountBalance.toString())
 
+    addMessage('hello world')
     VMContext.setAttached_deposit(u128.from('10'))
+
     log('Attached deposit: 10')
     log('Account balance after deposit: ' + Context.accountBalance.toString())
 
-    expect(Context.accountBalance.toString()).toStrictEqual('10',
+    expect(Context.accountBalance.toString()).toStrictEqual(
+      '10',
       'balance should be 10'
     )
   })

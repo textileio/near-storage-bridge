@@ -12,7 +12,7 @@ export class PostedMessage {
     this.sender = context.sender;
   }
 }
-/** 
+/**
  * collections.vector is a persistent collection. Any changes to it will
  * be automatically saved in the storage.
  * The parameter to the constructor needs to be unique across a single contract.
