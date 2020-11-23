@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function Messages ({ messages }) {
+export default function Messages({ messages }) {
   return (
     <>
       <h2>Messages</h2>
@@ -13,9 +13,9 @@ export default function Messages ({ messages }) {
         </p>
       )}
     </>
-  )
+  );
 }
 
 Messages.propTypes = {
   messages: PropTypes.array
-}
+};
