@@ -34,7 +34,7 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "big.js": "^6.0.2",
+    "big.js": "^6.0.3",
     "env-cmd": "^10.1.0",
     "near-api-js": "^0.34.0",
     "prop-types": "^15.7.2",
