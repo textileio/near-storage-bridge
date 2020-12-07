@@ -6361,29 +6361,29 @@ near-ledger-js@^0.1.1:
   dependencies:
     bs58 "^4.0.1"
 
-near-mock-vm@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.1.0.tgz"
+near-mock-vm@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.1.1.tgz#6d518d5589987be3fa86c6bbe6f1400e36197b00"
   dependencies:
     "@assemblyscript/loader" "^0.9.4"
     yargs "^15.3.1"
 
-near-sdk-as@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.1.0.tgz"
+near-sdk-as@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.1.1.tgz#7ea9ac9bf13d85ada2ce7992507b4b003d2acac0"
   dependencies:
-    near-mock-vm "^2.1.0"
-    near-sdk-bindgen "^2.1.0"
-    near-sdk-core "^2.1.0"
-    near-sdk-simulator "^2.1.0"
+    near-mock-vm "^2.1.1"
+    near-sdk-bindgen "^2.1.1"
+    near-sdk-core "^2.1.1"
+    near-sdk-simulator "^2.1.1"
 
-near-sdk-bindgen@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.1.0.tgz"
+near-sdk-bindgen@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.1.1.tgz#aef0d4b16f540d111e2b952038ab5127493b925d"
 
-near-sdk-core@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.1.0.tgz"
+near-sdk-core@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.1.1.tgz#069d5ebe7681ef61a026613256a8d56e782f25d0"
   dependencies:
     "@as-pect/cli" "^4.0.0"
     as-bignum "^0.2.4"
@@ -6396,9 +6396,9 @@ near-sdk-core@^2.1.0:
     near-vm "^1.1.0"
     visitor-as "^0.3.2"
 
-near-sdk-simulator@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.1.0.tgz"
+near-sdk-simulator@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.1.1.tgz#bc469da57cfd6f38a5a6fa4df894ff52fee73b51"
 
 near-seed-phrase@^0.1.0:
   version "0.1.0"
