@@ -6334,9 +6334,9 @@ near-api-js@^0.35.0:
     text-encoding-utf-8 "^1.0.2"
     tweetnacl "^1.0.1"
 
-near-cli@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/near-cli/-/near-cli-1.4.0.tgz"
+near-cli@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/near-cli/-/near-cli-1.5.0.tgz#05ca18178d59608c9c6382616e8ba8bd741caa89"
   dependencies:
     ascii-table "0.0.9"
     bn.js "^5.1.1"
