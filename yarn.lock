@@ -2,49 +2,49 @@
 # yarn lockfile v1
 
 
-"@as-pect/assembly@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-4.0.0.tgz"
+"@as-pect/assembly@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-5.0.1.tgz#052bb0082db81ec11c4756312ab182ec6eda3025"
 
-"@as-pect/cli@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-4.0.0.tgz"
+"@as-pect/cli@^5.0.0":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-5.0.1.tgz#2f66026aac759c837048dfd43cdf94c332a64aef"
   dependencies:
-    "@as-pect/assembly" "^4.0.0"
-    "@as-pect/core" "^4.0.0"
+    "@as-pect/assembly" "^5.0.1"
+    "@as-pect/core" "^5.0.1"
     chalk "^4.1.0"
     glob "^7.1.6"
   optionalDependencies:
-    "@as-pect/csv-reporter" "^4.0.0"
-    "@as-pect/json-reporter" "^4.0.0"
+    "@as-pect/csv-reporter" "^5.0.1"
+    "@as-pect/json-reporter" "^5.0.1"
 
-"@as-pect/core@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-4.0.0.tgz"
+"@as-pect/core@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-5.0.1.tgz#eab6d5a578c963d163ec43626e926d96a8ec294e"
   dependencies:
-    "@as-pect/assembly" "^4.0.0"
-    "@as-pect/snapshots" "^4.0.0"
+    "@as-pect/assembly" "^5.0.1"
+    "@as-pect/snapshots" "^5.0.1"
     chalk "^4.1.0"
     long "^4.0.0"
 
-"@as-pect/csv-reporter@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/csv-reporter/-/csv-reporter-4.0.0.tgz"
+"@as-pect/csv-reporter@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/csv-reporter/-/csv-reporter-5.0.1.tgz#9eb2b3fbdd659306762cfdfbd0177127dd5d835f"
   dependencies:
-    "@as-pect/core" "^4.0.0"
+    "@as-pect/core" "^5.0.1"
 
-"@as-pect/json-reporter@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/json-reporter/-/json-reporter-4.0.0.tgz"
+"@as-pect/json-reporter@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/json-reporter/-/json-reporter-5.0.1.tgz#c594773e867ad50f7958e6259a3d35855bcb1476"
   dependencies:
-    "@as-pect/core" "^4.0.0"
+    "@as-pect/core" "^5.0.1"
 
-"@as-pect/snapshots@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/snapshots/-/snapshots-4.0.0.tgz"
+"@as-pect/snapshots@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@as-pect/snapshots/-/snapshots-5.0.1.tgz#7945db8ce5a771699658febe0cf20454afda6c35"
   dependencies:
-    diff "^4.0.2"
-    nearley "^2.19.3"
+    diff "^5.0.0"
+    nearley "^2.20.1"
 
 "@assemblyscript/loader@^0.9.4":
   version "0.9.4"
@@ -1816,11 +1816,11 @@ assemblyscript-json@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/assemblyscript-json/-/assemblyscript-json-0.3.3.tgz"
 
-assemblyscript@^0.14.9:
-  version "0.14.10"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.14.10.tgz"
+assemblyscript@^0.17.3:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.17.11.tgz#dfc7559c26e05d6302dafc88cf2f2071f9538fe7"
   dependencies:
-    binaryen "95.0.0-nightly.20200813"
+    binaryen "98.0.0-nightly.20201109"
     long "^4.0.0"
 
 assert-plus@1.0.0, assert-plus@^1.0.0:
@@ -2047,9 +2047,9 @@ binary-install@^0.0.1:
     tar "^5.0.5"
     universal-url "^2.0.0"
 
-binaryen@95.0.0-nightly.20200813:
-  version "95.0.0-nightly.20200813"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-95.0.0-nightly.20200813.tgz"
+binaryen@98.0.0-nightly.20201109:
+  version "98.0.0-nightly.20201109"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-98.0.0-nightly.20201109.tgz#512bf6ca15c67bf7402144734a4836e63993aa05"
 
 bindings@^1.4.0, bindings@^1.5.0:
   version "1.5.0"
@@ -3199,9 +3199,9 @@ diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz"
 
-diff@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz"
+diff@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
 
 diffie-hellman@^5.0.0:
   version "5.0.3"
@@ -6381,34 +6381,34 @@ near-ledger-js@^0.1.1:
   dependencies:
     bs58 "^4.0.1"
 
-near-mock-vm@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.1.3.tgz#ffa218d1f959918673697073c1c1d36663c0f5aa"
+near-mock-vm@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.2.0.tgz#0a173a3e85a9e3bc70729ecbf1651d482feb8e69"
   dependencies:
     "@assemblyscript/loader" "^0.9.4"
     yargs "^15.3.1"
 
-near-sdk-as@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.1.3.tgz#20c3ec6b2f4a2d3a52a4912e16d199bde445fad4"
+near-sdk-as@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.2.0.tgz#d91dfb9924b48f3dd76fc7f8d9e50eceaad326ae"
   dependencies:
-    near-mock-vm "^2.1.3"
-    near-sdk-bindgen "^2.1.3"
-    near-sdk-core "^2.1.3"
-    near-sdk-simulator "^2.1.3"
+    near-mock-vm "^2.2.0"
+    near-sdk-bindgen "^2.2.0"
+    near-sdk-core "^2.2.0"
+    near-sdk-simulator "^2.2.0"
 
-near-sdk-bindgen@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.1.3.tgz#20defeb97e0c0da05a9759ee109ddd651d6787a7"
+near-sdk-bindgen@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.2.0.tgz#0ba68e6da3958ca90aa6fe6c8f450f04ac8c2a1e"
 
-near-sdk-core@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.1.3.tgz#49e9d002757ba08236a74aebe209cf8357d2d822"
+near-sdk-core@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.2.0.tgz#82dd4f44bbc4dad636f3c58ef03a87f83b15a29f"
   dependencies:
-    "@as-pect/cli" "^4.0.0"
+    "@as-pect/cli" "^5.0.0"
     as-bignum "^0.2.4"
     asbuild "^0.0.10"
-    assemblyscript "^0.14.9"
+    assemblyscript "^0.17.3"
     assemblyscript-json "^0.3.3"
     bn.js "^5.1.1"
     bs58 "^4.0.1"
@@ -6416,9 +6416,9 @@ near-sdk-core@^2.1.3:
     near-vm "^1.1.0"
     visitor-as "^0.3.2"
 
-near-sdk-simulator@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.1.3.tgz#f80f1a45fe339bfea4e815af933aee5942270dda"
+near-sdk-simulator@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.2.0.tgz#02b13fa86de0c1b27fed242de1b2df7cedbc11d9"
 
 near-seed-phrase@^0.1.0:
   version "0.1.0"
@@ -6448,15 +6448,14 @@ near-web3-provider@^1.0.6:
     web3-provider-engine "^15.0.7"
     web3-utils "^1.2.8"
 
-nearley@^2.19.3:
-  version "2.19.3"
-  resolved "https://registry.yarnpkg.com/nearley/-/nearley-2.19.3.tgz"
+nearley@^2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/nearley/-/nearley-2.20.1.tgz#246cd33eff0d012faf197ff6774d7ac78acdd474"
   dependencies:
     commander "^2.19.0"
     moo "^0.5.0"
     railroad-diagrams "^1.0.0"
     randexp "0.4.6"
-    semver "^5.4.1"
 
 negotiator@0.6.2:
   version "0.6.2"
