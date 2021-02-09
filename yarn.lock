@@ -1734,9 +1734,9 @@ array-unique@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz"
 
-as-bignum@^0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.10.tgz#cba10a318d2eb731709220db47455fb430c4621d"
+as-bignum@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.2.11.tgz#f650afdad2bbb796388ae5063c89b29d96ff14b5"
 
 asbuild@^0.0.10:
   version "0.0.10"
@@ -6343,32 +6343,32 @@ near-ledger-js@^0.1.1:
   dependencies:
     bs58 "^4.0.1"
 
-near-mock-vm@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.2.3.tgz#16a212b77d1bac78357711019ea28f5600d6281e"
+near-mock-vm@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/near-mock-vm/-/near-mock-vm-2.2.4.tgz#ee319f1b20d1da3b4d9075fa983f0f19839b1702"
   dependencies:
     "@assemblyscript/loader" "^0.9.4"
     yargs "^15.3.1"
 
-near-sdk-as@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.2.3.tgz#6191be45a36e7aff56e1c8ef67459eac09e3f5b0"
+near-sdk-as@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-2.2.4.tgz#61f6d561184f852c3cc6047b28b578b80c5fc22c"
   dependencies:
-    near-mock-vm "^2.2.3"
-    near-sdk-bindgen "^2.2.3"
-    near-sdk-core "^2.2.3"
-    near-sdk-simulator "^2.2.3"
+    near-mock-vm "^2.2.4"
+    near-sdk-bindgen "^2.2.4"
+    near-sdk-core "^2.2.4"
+    near-sdk-simulator "^2.2.4"
 
-near-sdk-bindgen@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.2.3.tgz#57a0b54e081f939fa656cf47b05e6a9e3dbf0765"
+near-sdk-bindgen@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/near-sdk-bindgen/-/near-sdk-bindgen-2.2.4.tgz#688ae4ae15d14e8c899f3903f22f6852f4b86ddb"
 
-near-sdk-core@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.2.3.tgz#f4e4f3e6071f77cf3863127a2a8f2a0cc0154b05"
+near-sdk-core@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/near-sdk-core/-/near-sdk-core-2.2.4.tgz#4a6390b2a29ae233aee970bd359b3d3f456a26a4"
   dependencies:
     "@as-pect/cli" "^5.0.0"
-    as-bignum "^0.2.10"
+    as-bignum "^0.2.11"
     asbuild "^0.0.10"
     assemblyscript "^0.17.3"
     assemblyscript-json "^0.3.3"
@@ -6378,9 +6378,9 @@ near-sdk-core@^2.2.3:
     near-vm "^1.1.0"
     visitor-as "^0.3.2"
 
-near-sdk-simulator@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.2.3.tgz#800752d47bd20e449ff58749a03174bc943cd1b6"
+near-sdk-simulator@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/near-sdk-simulator/-/near-sdk-simulator-2.2.4.tgz#95acd60eb0d422d85aa247e672f166bbad254e6f"
 
 near-seed-phrase@^0.1.0:
   version "0.1.0"
