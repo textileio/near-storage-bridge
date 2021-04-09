@@ -1,32 +1,40 @@
-import { PostedMessage, messages } from './model';
-
-// --- contract code goes below
-
-// The maximum number of latest messages the contract returns.
-const MESSAGE_LIMIT = 10;
+import { Context, ContractPromiseBatch, u128 } from 'near-sdk-core';
+import { LockInfo, box, LOCK_AMOUNT } from './model';
 
 /**
- * Adds a new message under the name of the sender's account id.\
- * NOTE: This is a change method. Which means it will modify the state.\
- * But right now we don't distinguish them with annotations yet.
+ * Lock the funds attached with this call for `accountId`.
+ * The funds will be immediately deposited before the contract execution starts.
+ * @param accountId The account id to use for locking funds. Defaults to sender.
+ * @returns The current block index
  */
-export function addMessage(text: string): void {
-  // Creating a new message and populating fields with our data
-  const message = new PostedMessage(text);
-  // Adding the message to end of the the persistent collection
-  messages.push(message);
+export function lockFunds(accountId: string = Context.sender): u128 {
+  if (Context.attachedDeposit != LOCK_AMOUNT) {
+    throw new Error(`funds not locked for "${accountId}": require ${LOCK_AMOUNT} attached deposit`);
+  }
+  if (!accountId) {
+    accountId = Context.sender
+  }
+  if (box.contains(accountId)) {
+    throw new Error(`funds not locked for "${accountId}": already has locked funds`)
+  }
+  // The context (sender, attachedDeposit) is pulled in automatically
+  const info = new LockInfo(accountId);
+  box.set(accountId, info);
+  return u128.from(Context.blockIndex)
 }
 
 /**
- * Returns an array of last N messages.\
- * NOTE: This is a view method. Which means it should NOT modify the state.
+ * Release the locked funds, if any, for the specified `accountId`.
+ * @param accountId The account id to use for locking funds. Defaults to sender.
+ * @returns The current block index.
  */
-export function getMessages(): PostedMessage[] {
-  const numMessages = min(MESSAGE_LIMIT, messages.length);
-  const startIndex = messages.length - numMessages;
-  const result = new Array<PostedMessage>(numMessages);
-  for(let i = 0; i < numMessages; i++) {
-    result[i] = messages[i + startIndex];
+export function unlockFunds(accountId: string = Context.sender): u128 {
+  notPayable()
+  const info = box.getSome(accountId)
+  if (info.sender != Context.sender) {
+    throw new Error(`funds not released to "${Context.sender}": permission denied`)
   }
-  return result;
+  ContractPromiseBatch.create(info.sender).transfer(info.deposit)
+  box.delete(accountId)
+  return u128.from(Context.blockIndex)
 }

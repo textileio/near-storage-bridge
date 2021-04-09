@@ -1,21 +1,34 @@
-import { context, u128, PersistentVector } from "near-sdk-as";
+import { context, u128, PersistentMap } from "near-sdk-as";
+
+/**
+ * Minimum funds (in Near) required to lock.
+ */
+export const LOCK_AMOUNT = u128.from('1000000000000000000000000')
 
 /** 
- * Exporting a new class PostedMessage so it can be used outside of this file.
+ * The `LockInfo` class represents info about locked funds.
  */
 @nearBindgen
-export class PostedMessage {
-  premium: boolean;
-  sender: string;
-  constructor(public text: string) {
-    this.premium = context.attachedDeposit >= u128.from('10000000000000000000000');
-    this.sender = context.sender;
+export class LockInfo {
+  /**
+   * The amount of locked funds (in Near).
+   */
+  deposit: u128;
+  /**
+   * The provider account.
+   */
+  sender: string
+  /**
+   * Create a new `LockInfo` object.
+   * @param accountId The target account id.
+   */
+  constructor(public accountId: string) {
+    this.deposit = context.attachedDeposit
+    this.sender = context.sender
   }
 }
+
 /**
- * collections.vector is a persistent collection. Any changes to it will
- * be automatically saved in the storage.
- * The parameter to the constructor needs to be unique across a single contract.
- * It will be used as a prefix to all keys required to store data in the storage.
+ * The lock `box` is the persistent map of accountId => locked fund info.
  */
-export const messages = new PersistentVector<PostedMessage>("m");
+export const box = new PersistentMap<string, LockInfo>("m");
