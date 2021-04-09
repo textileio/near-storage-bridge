@@ -1,6 +1,11 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME || 'lock-box.testnet';
+// Seems like a strange hack
+const ENV = process.env as unknown as Record<string, string>
 
-function getConfig(env) {
+const CONTRACT_NAME = ENV.CONTRACT_NAME || 'lock-box.testnet';
+
+export type Envs = "mainnet" | "production" | "development" | "testnet" | "betanet" | "local" | "test" | "ci" | "ci-betanet"
+
+export default function getConfig(env: Envs) {
   switch(env) {
     case 'mainnet':
       return {
@@ -34,7 +39,7 @@ function getConfig(env) {
       return {
         networkId: 'local',
         nodeUrl: 'http://localhost:3030',
-        keyPath: `${process.env.HOME}/.near/validator_key.json`,
+        keyPath: `${ENV.HOME}/.near/validator_key.json`,
         walletUrl: 'http://localhost:4000/wallet',
         contractName: CONTRACT_NAME
       };
@@ -54,8 +59,6 @@ function getConfig(env) {
         masterAccount: 'test.near'
       };
     default:
-      throw Error(`Unconfigured environment '${env}'. Can be configured in src/config.js.`);
+      throw Error(`Misconfigured environment '${env}'. Can be configured in src/config.js.`);
   }
 }
-
-module.exports = getConfig;

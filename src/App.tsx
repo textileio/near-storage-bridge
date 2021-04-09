@@ -1,6 +1,5 @@
 import 'regenerator-runtime/runtime';
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, FormEventHandler } from 'react';
 import Big from 'big.js';
 import Form from './components/Form';
 import SignIn from './components/SignIn';
@@ -9,7 +8,28 @@ import Messages from './components/Messages';
 const SUGGESTED_DONATION = '0';
 const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
 
-const App = ({ contract, currentUser, nearConfig, wallet }) => {
+interface Props {
+  contract: {
+    addMessage: Function
+    getMessages: Function
+  }
+
+  currentUser?: {
+    accountId: string
+    balance: string
+  }
+
+  nearConfig: {
+    contractName: string
+  }
+
+  wallet: {
+    requestSignIn: Function,
+    signOut: Function
+  }
+};
+
+const App = ({ contract, currentUser, nearConfig, wallet }: Props) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -17,10 +37,10 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
     contract.getMessages().then(setMessages);
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    const { fieldset, message, donation } = e.target.elements;
+    const { fieldset, message, donation } = (e.target as any).elements;
 
     fieldset.disabled = true;
 
@@ -32,7 +52,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
       BOATLOAD_OF_GAS,
       Big(donation.value || '0').times(10 ** 24).toFixed()
     ).then(() => {
-      contract.getMessages().then(messages => {
+      contract.getMessages().then((messages: any) => {
         setMessages(messages);
         message.value = '';
         donation.value = SUGGESTED_DONATION;
@@ -70,24 +90,6 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
       { !!currentUser && !!messages.length && <Messages messages={messages}/> }
     </main>
   );
-};
-
-App.propTypes = {
-  contract: PropTypes.shape({
-    addMessage: PropTypes.func.isRequired,
-    getMessages: PropTypes.func.isRequired
-  }).isRequired,
-  currentUser: PropTypes.shape({
-    accountId: PropTypes.string.isRequired,
-    balance: PropTypes.string.isRequired
-  }),
-  nearConfig: PropTypes.shape({
-    contractName: PropTypes.string.isRequired
-  }).isRequired,
-  wallet: PropTypes.shape({
-    requestSignIn: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired
-  }).isRequired
 };
 
 export default App;

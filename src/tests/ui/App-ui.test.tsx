@@ -30,7 +30,7 @@ const nearConfig = {
 };
 
 // For UI tests, use pattern from: https://reactjs.org/docs/test-renderer.html
-let container;
+let container: HTMLDivElement | null;
 
 beforeEach(() => {
   container = document.createElement('div');
@@ -38,12 +38,12 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  document.body.removeChild(container);
+  if (container) document.body.removeChild(container);
   container = null;
 });
 
 it('renders with proper title', () => {
-  let testRenderer;
+  let testRenderer: TestRenderer.ReactTestRenderer | undefined;
 
   act(() => {
     testRenderer = TestRenderer.create(
@@ -51,7 +51,7 @@ it('renders with proper title', () => {
     );
   });
 
-  const testInstance = testRenderer.root;
+  const testInstance = testRenderer?.root;
 
-  expect(testInstance.findByType('h1').children).toEqual(['NEAR Guest Book']);
+  expect(testInstance?.findByType('h1').children).toStrictEqual(['NEAR Guest Book']);
 });

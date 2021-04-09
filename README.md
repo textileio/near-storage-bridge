@@ -45,6 +45,8 @@ As you can see in `package.json`, this does two things:
 1. builds & deploys smart contracts to NEAR TestNet
 2. builds & deploys frontend code to GitHub using [gh-pages].
 
+For now, you can view the "app" at: https://textileio.github.io/lock-box/
+
 [near]: https://nearprotocol.com/
 [assemblyscript]: https://docs.assemblyscript.org/
 [react]: https://reactjs.org
