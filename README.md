@@ -46,7 +46,6 @@ As you can see in `package.json`, this does two things:
 2. builds & deploys frontend code to GitHub using [gh-pages].
 
 [near]: https://nearprotocol.com/
-[yarn]: https://yarnpkg.com/
 [assemblyscript]: https://docs.assemblyscript.org/
 [react]: https://reactjs.org
 [smart contract docs]: https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript
