@@ -1,28 +1,29 @@
 /// <reference lib="dom" />
 
 import React from 'react';
-import App from "./App"
+import App, { CustomContract } from "./App"
 import ReactDOM from 'react-dom';
-import getConfig, { Envs } from './config';
-import * as nearAPI from 'near-api-js';
+// @ts-expect-error missing types
+import getConfig from './config.js';
+import { Contract, keyStores, connect, WalletConnection } from 'near-api-js';
 
 // Seems like a strange hack
 const ENV = process.env as unknown as Record<string, string>
 
 // Initializing contract
 async function initContract() {
-  const nearConfig = getConfig(ENV.NODE_ENV as Envs || 'testnet');
+  const nearConfig = getConfig(ENV.NODE_ENV as any || 'testnet');
 
   // Initializing connection to the NEAR TestNet
-  const near = await nearAPI.connect({
+  const near = await connect({
     deps: {
-      keyStore: new nearAPI.keyStores.BrowserLocalStorageKeyStore()
+      keyStore: new keyStores.BrowserLocalStorageKeyStore()
     },
     ...nearConfig
   });
 
   // Needed to access wallet
-  const walletConnection = new nearAPI.WalletConnection(near, null);
+  const walletConnection = new WalletConnection(near, null);
 
   // Load in account data
   let currentUser: { accountId: string, balance: string } | undefined;
@@ -34,15 +35,15 @@ async function initContract() {
   }
 
   // Initializing our contract APIs by contract name and configuration
-  const contract = new nearAPI.Contract(walletConnection.account(), nearConfig.contractName, {
+  const contract = new Contract(walletConnection.account(), nearConfig.contractName, {
     // View methods are read-only – they don't modify the state, but usually return some value
-    viewMethods: ['getMessages'],
+    viewMethods: ['hasLocked'],
     // Change methods can modify the state, but you don't receive the returned value when called
-    changeMethods: ['addMessage'],
+    changeMethods: ['lockFunds', 'unlockFunds'],
     // Sender is the account ID to initialize transactions.
     // getAccountId() will return empty string if user is still unauthorized
     // sender: walletConnection.getAccountId()
-  }) as nearAPI.Contract & any;
+  }) as CustomContract;
 
   return { contract, currentUser, nearConfig, walletConnection };
 }

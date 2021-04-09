@@ -1,6 +1,7 @@
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
+import { u128 } from "near-sdk-as";
 import App from '../../App';
 const { act } = TestRenderer;
 
@@ -9,10 +10,11 @@ const contract = {
   account: {
     connection: {},
     accountId: 'test.near'
-  },
+  } as any, // This is the minimal set of keys we need for the test
   contractId: 'test.near',
-  getMessages: () => new Promise(() => {}),
-  addMessage: () => ''
+  lockFunds: () => Promise.resolve({ blockIndex: u128.Zero }),
+  unlockFunds: () => Promise.resolve({ blockIndex: u128.Zero }),
+  hasLocked: () => Promise.resolve(true)
 };
 const walletConnection = {
   account: () => ({ _state: { amount: '1' + '0'.repeat(25) } }),

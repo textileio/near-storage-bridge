@@ -1,11 +1,13 @@
 // Seems like a strange hack
-const ENV = process.env as unknown as Record<string, string>
-
+const ENV = process.env
 const CONTRACT_NAME = ENV.CONTRACT_NAME || 'lock-box.testnet';
 
-export type Envs = "mainnet" | "production" | "development" | "testnet" | "betanet" | "local" | "test" | "ci" | "ci-betanet"
-
-export default function getConfig(env: Envs) {
+/**
+ * 
+ * @param {"mainnet" | "production" | "development" | "testnet" | "betanet" | "local" | "test" | "ci" | "ci-betanet"} env 
+ * @returns 
+ */
+function getConfig(env) {
   switch(env) {
     case 'mainnet':
       return {
@@ -62,3 +64,5 @@ export default function getConfig(env: Envs) {
       throw Error(`Misconfigured environment '${env}'. Can be configured in src/config.js.`);
   }
 }
+
+module.exports = getConfig
