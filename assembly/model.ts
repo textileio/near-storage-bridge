@@ -5,6 +5,11 @@ import { context, u128, PersistentMap } from "near-sdk-as";
  */
 export const LOCK_AMOUNT = u128.from('1000000000000000000000000')
 
+@nearBindgen
+export class LockResponse {
+  constructor(public blockIndex: u128) {}
+}
+
 /** 
  * The `LockInfo` class represents info about locked funds.
  */

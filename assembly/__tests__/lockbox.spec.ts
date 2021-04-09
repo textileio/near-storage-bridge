@@ -33,8 +33,8 @@ describe('lock box tests', () => {
     }).toThrow("should have throw expectation error")
 
     expect(Context.accountBalance.toString()).toStrictEqual(
-      '0',
-      'balance should be 0'
+      ZERO.toString(),
+      'balance should be 0 Near'
     );
   })
 
@@ -43,15 +43,15 @@ describe('lock box tests', () => {
     lockFunds("user.test");
 
     expect(Context.accountBalance.toString()).toStrictEqual(
-      '1',
-      'balance should be 1'
+      LOCK_AMOUNT.toString(),
+      'balance should be 1 Near'
     );
   });
 
   it('returns the current block index', () => {
     VMContext.setAttached_deposit(LOCK_AMOUNT);
     VMContext.setBlock_index(1234)
-    const blockIndex = lockFunds(); // Use default
+    const blockIndex = lockFunds().blockIndex; // Use default
     expect(blockIndex).toStrictEqual(u128.from(1234))
   })
 
@@ -102,7 +102,7 @@ describe('lock box tests', () => {
     box.set("user.test", createInfo("user.test"))
     VMContext.setAttached_deposit(ZERO);
     VMContext.setBlock_index(1234)
-    const blockIndex = unlockFunds("user.test")
+    const blockIndex = unlockFunds("user.test").blockIndex
     expect(blockIndex).toStrictEqual(u128.from(1234))
   });
 

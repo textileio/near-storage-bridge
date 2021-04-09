@@ -1,5 +1,5 @@
 import { Context, ContractPromiseBatch, u128 } from 'near-sdk-core';
-import { LockInfo, box, LOCK_AMOUNT } from './model';
+import { LockInfo, LockResponse, box, LOCK_AMOUNT } from './model';
 
 /**
  * Lock the funds attached with this call for `accountId`.
@@ -7,7 +7,7 @@ import { LockInfo, box, LOCK_AMOUNT } from './model';
  * @param accountId The account id to use for locking funds. Defaults to sender.
  * @returns The current block index
  */
-export function lockFunds(accountId: string = Context.sender): u128 {
+export function lockFunds(accountId: string = Context.sender): LockResponse {
   if (Context.attachedDeposit != LOCK_AMOUNT) {
     throw new Error(`funds not locked for "${accountId}": require ${LOCK_AMOUNT} attached deposit`);
   }
@@ -20,7 +20,7 @@ export function lockFunds(accountId: string = Context.sender): u128 {
   // The context (sender, attachedDeposit) is pulled in automatically
   const info = new LockInfo(accountId);
   box.set(accountId, info);
-  return u128.from(Context.blockIndex)
+  return new LockResponse(u128.from(Context.blockIndex))
 }
 
 /**
@@ -28,7 +28,7 @@ export function lockFunds(accountId: string = Context.sender): u128 {
  * @param accountId The account id to use for locking funds. Defaults to sender.
  * @returns The current block index.
  */
-export function unlockFunds(accountId: string = Context.sender): u128 {
+export function unlockFunds(accountId: string = Context.sender): LockResponse {
   notPayable()
   const info = box.getSome(accountId)
   if (info.sender != Context.sender) {
@@ -36,5 +36,5 @@ export function unlockFunds(accountId: string = Context.sender): u128 {
   }
   ContractPromiseBatch.create(info.sender).transfer(info.deposit)
   box.delete(accountId)
-  return u128.from(Context.blockIndex)
+  return new LockResponse(u128.from(Context.blockIndex))
 }
