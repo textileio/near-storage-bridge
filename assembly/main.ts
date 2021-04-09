@@ -2,6 +2,17 @@ import { Context, ContractPromiseBatch, u128 } from 'near-sdk-core';
 import { LockInfo, LockResponse, box, LOCK_AMOUNT } from './model';
 
 /**
+ * Return whether the given `accountId` has locked funds.
+ * This is a view method.
+ * @param accountId The account id to use for locking funds. Defaults to sender.
+ * @returns Whether the accountId has locked funds.
+ */
+export function hasLocked(accountId: string): bool {
+  const info = box.get(accountId, null)
+  return info != null
+}
+
+/**
  * Lock the funds attached with this call for `accountId`.
  * The funds will be immediately deposited before the contract execution starts.
  * @param accountId The account id to use for locking funds. Defaults to sender.
@@ -34,7 +45,8 @@ export function unlockFunds(accountId: string = Context.sender): LockResponse {
   if (info.sender != Context.sender) {
     throw new Error(`funds not released to "${Context.sender}": permission denied`)
   }
-  ContractPromiseBatch.create(info.sender).transfer(info.deposit)
+  // Return LOCK_AMOUNT here, rather than stored deposit value for safety.
+  ContractPromiseBatch.create(info.sender).transfer(LOCK_AMOUNT)
   box.delete(accountId)
   return new LockResponse(u128.from(Context.blockIndex))
 }
