@@ -8,8 +8,7 @@ import { LockInfo, LockResponse, box, LOCK_AMOUNT } from './model';
  * @returns Whether the accountId has locked funds.
  */
 export function hasLocked(accountId: string): bool {
-  const info = box.get(accountId, null)
-  return info != null
+  return box.contains(accountId)
 }
 
 /**
@@ -45,8 +44,12 @@ export function unlockFunds(accountId: string = Context.sender): LockResponse {
   if (info.sender != Context.sender) {
     throw new Error(`funds not released to "${Context.sender}": permission denied`)
   }
-  // Return LOCK_AMOUNT here, rather than stored deposit value for safety.
-  ContractPromiseBatch.create(info.sender).transfer(LOCK_AMOUNT)
+  // Return the min of LOCK_AMOUNT and deposit for safety
+  let amount = LOCK_AMOUNT
+  if (info.deposit < amount) {
+    amount = info.deposit
+  }
+  ContractPromiseBatch.create(info.sender).transfer(amount)
   box.delete(accountId)
   return new LockResponse(u128.from(Context.blockIndex))
 }
