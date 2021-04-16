@@ -1,25 +1,19 @@
 import React from 'react';
 
 interface Props {
-  onSubmit: (actionType: 'lock' | 'unlock') => void
-  currentUser: any
+  onSubmit: (actionType: 'lock' | 'unlock') => void,
+  hasLocked: boolean
 }
 
-export default function Form({ onSubmit, currentUser }: Props) {
+export default function Form({ onSubmit, hasLocked }: Props) {
   return (
     <form>
       <fieldset id="fieldset">
         <button type="button" name="lock" onClick={(e) => {
           e.preventDefault();
-          onSubmit("lock")
+          onSubmit(hasLocked ? "unlock" : "lock");
         }}>
-          Lock
-        </button>
-        <button type="button" name="unlock" onClick={(e) => {
-          e.preventDefault();
-          onSubmit("unlock");
-        }}>
-          Unlock
+          {hasLocked ? "Unlock" : "Lock"}
         </button>
       </fieldset>
     </form>
