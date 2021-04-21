@@ -25,6 +25,7 @@ const App = ({ store, lockBox, currentUser }: Props) => {
 
   const onUpload = (file: File) => {
     if (locked) {
+      // TODO: We might want to add blockIndex here!
       store(file).then((res: any) => {
         alert(`Your file is already on IPFS:\n${res.cid["/"]}`)
       })
