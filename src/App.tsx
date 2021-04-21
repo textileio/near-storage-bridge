@@ -3,16 +3,18 @@ import React, { useState, useEffect } from 'react';
 import Form from './components/Form';
 import SignIn from './components/SignIn';
 import Upload from "./components/Upload";
-import type { StoreFunction, LockBox } from "@textile/near-storage"
+import type { Storage, LockBox } from "@textile/near-storage"
+import { RequestStatus } from "@textile/near-storage"
 
 interface Props {
-  store: StoreFunction
+  store: Storage
   lockBox: LockBox
   currentUser?: any
 };
 
 const App = ({ store, lockBox, currentUser }: Props) => {
   const [locked, setLocked] = useState<boolean>(false);
+  const [lastId, setLastId] = useState<string>();
 
   const accountId = currentUser && currentUser.accountId
 
@@ -25,11 +27,23 @@ const App = ({ store, lockBox, currentUser }: Props) => {
 
   const onUpload = (file: File) => {
     if (locked) {
-      // TODO: We might want to add blockIndex here!
-      store(file).then((res: any) => {
-        alert(`Your file is already on IPFS:\n${res.cid["/"]}`)
+      store.store(file)
+      .then(({ id, cid }) => {
+        setLastId(id)
+        alert(`Your file is already on IPFS:\n${cid["/"]}`)
       })
       .catch((err: Error) => alert(err.message));
+    }
+  }
+
+  const onStatus = () => {
+    if (lastId) {
+      store.status(lastId)
+      .then((res) => {
+        alert(`Your file status is currently: "${RequestStatus[res.status_code]}"!`)
+      })
+    } else {
+      console.log("no 'active' file, upload a file first")
     }
   }
 
@@ -75,6 +89,12 @@ const App = ({ store, lockBox, currentUser }: Props) => {
         ? (<div>
           <Form onSubmit={onSubmit} hasLocked={locked} />
           {locked ? <Upload onSubmit={onUpload} /> : null}
+          <button type="button" name="status" onClick={(e) => {
+            e.preventDefault();
+            if (lastId) onStatus();
+          }}>
+            Status
+          </button>
         </div>
         ) : <SignIn/>
       }
