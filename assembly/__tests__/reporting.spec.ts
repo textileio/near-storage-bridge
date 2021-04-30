@@ -1,5 +1,5 @@
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { listPayloads, getByPayload, getByCid } from '../main';
+import { pushPayload, listPayloads, getByPayload, getByCid } from '../main';
 import { payloadMap, dataMap, BrokerInfo, brokerMap, PayloadInfo, DealInfo } from "../model"
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
@@ -29,23 +29,23 @@ describe('reporting tests', () => {
     );
   })
 
-  // it('should allow pushing records from known brokers', () => {
-  //   brokerMap.set("user.test", new BrokerInfo("user.test", []))
+  it('should allow pushing records from known brokers', () => {
+    brokerMap.set("user.test", new BrokerInfo("user.test", []))
     
-  //   expect(payloadMap).toHaveLength(0)
-  //   const deal = new DealInfo("deal", "miner", u128.One)
-  //   const payload = new PayloadInfo("payload", "piece", [deal])
-  //   pushPayload(payload, [])
+    expect(payloadMap).toHaveLength(0)
+    const deal = new DealInfo("deal", "miner", u128.One)
+    const payload = new PayloadInfo("payload", "piece", [deal])
+    pushPayload(payload, [])
 
-  //   expect(payloadMap).toHaveLength(1)
-  // })
+    expect(payloadMap).toHaveLength(1)
+  })
 
-  // it('should not accept pushes from unknown brokers', () => {
-  //   expect(() => {
-  //     const payload = new PayloadInfo("payload", "piece", [])
-  //     pushPayload(payload, [])
-  //   }).toThrow()
-  // })
+  it('should not accept pushes from unknown brokers', () => {
+    expect(() => {
+      const payload = new PayloadInfo("payload", "piece", [])
+      pushPayload(payload, [])
+    }).toThrow()
+  })
 
   it('should list payloads and support offset/length', () => {
     const deal = new DealInfo("deal", "miner", u128.One)

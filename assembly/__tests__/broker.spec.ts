@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { listBrokers, setBroker, deleteBroker, getBroker } from '../main';
-import { BrokerInfo, brokerMap } from '../model';
+import { brokerMap } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
