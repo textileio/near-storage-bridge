@@ -53,6 +53,21 @@ describe('broker tests', () => {
     );
   })
 
+  it('should fail deleting broker entry with incorrect account', () => {    
+    VMContext.setSigner_account_id("other.test")
+    expect(() => {
+      // If expect.toThrow is used on anything other than a () => void function
+      // type, it will result in a compile time error!
+      const brokerId = "broker.id"
+      deleteBroker(brokerId)
+    }).toThrow()
+
+    expect(Context.accountBalance.toString()).toStrictEqual(
+      ZERO.toString(),
+      'balance should be 0 Near'
+    );
+  })
+
   it('should delete a broker from the map', () => { 
     const brokerId = "broker.id"
     setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
