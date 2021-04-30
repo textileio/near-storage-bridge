@@ -34,10 +34,11 @@ export function deleteBroker(brokerId: string): void {
  * Add or update a registered broker.
  * This method can only be called by the contract account id.
  */
-export function setBroker(brokerId: string, info: BrokerInfo): void {
+export function setBroker(brokerId: string, addrs: string[]): void {
   if (context.sender != context.contractName) {
     throw new Error("invalid sender account id")
   }
+  const info = new BrokerInfo(brokerId, addrs)
   brokerMap.set(brokerId, info)
 }
 

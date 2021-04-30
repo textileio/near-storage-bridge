@@ -24,22 +24,22 @@ export class DataInfo {
 export const payloadMap = new PersistentUnorderedMap<string, PayloadInfo>(PAYLOAD_PREFIX)
 export const dataMap = new PersistentMap<string, string>(DATA_PREFIX)
 
-/**
- * Push a new payload record and optionally update cid mappings.
- * @param payload The payload information.
- * @param dataCids A set of cids to map to the given payload.
- */
-export function pushPayload(payload: PayloadInfo, dataCids: string[] = []): void {
-    // If the provided broker is unknown to the contract, this is an error.
-  if (!brokerMap.contains(context.sender)) {
-    throw new Error("pushPayload: invalid broker id");
-  }
-  payloadMap.set(payload.payloadCid, payload)
-  for (let i = 0; i < dataCids.length; i++) {
-    // TODO: Do we _want_ to overwrite this?
-    dataMap.set(dataCids[i], payload.payloadCid)
-  }
-}
+// /**
+//  * Push a new payload record and optionally update cid mappings.
+//  * @param payload The payload information.
+//  * @param dataCids A set of cids to map to the given payload.
+//  */
+// export function pushPayload(payload: PayloadInfo, dataCids: string[] = []): void {
+//     // If the provided broker is unknown to the contract, this is an error.
+//   if (!brokerMap.contains(context.sender)) {
+//     throw new Error("pushPayload: invalid broker id");
+//   }
+//   payloadMap.set(payload.payloadCid, payload)
+//   for (let i = 0; i < dataCids.length; i++) {
+//     // TODO: Do we _want_ to overwrite this?
+//     dataMap.set(dataCids[i], payload.payloadCid)
+//   }
+// }
 
 /**
  * List payload records.

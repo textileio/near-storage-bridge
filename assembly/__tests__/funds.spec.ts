@@ -11,7 +11,7 @@ describe('locking tests', () => {
     VMContext.setSigner_account_id("user.test")
     VMContext.setAttached_deposit(ZERO);
     VMContext.setAccount_balance(ZERO);
-    setBroker("broker.id", new BrokerInfo("broker.id", ["blah"]))
+    setBroker("broker.id", ["blah"])
   });
 
   afterEach(() => {

@@ -32,7 +32,7 @@ describe('broker tests', () => {
       // If expect.toThrow is used on anything other than a () => void function
       // type, it will result in a compile time error!
       const brokerId = "broker.id"
-      setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
+      setBroker(brokerId, ["https://broker.io/api/v1"])
     }).toThrow()
 
     expect(Context.accountBalance.toString()).toStrictEqual(
@@ -43,7 +43,7 @@ describe('broker tests', () => {
 
   it('should add a new broker when called from correct account', () => { 
     const brokerId = "broker.id"
-    setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
+    setBroker(brokerId, ["https://broker.io/api/v1"])
 
     expect(listBrokers()).toHaveLength(1)
 
@@ -70,7 +70,7 @@ describe('broker tests', () => {
 
   it('should delete a broker from the map', () => { 
     const brokerId = "broker.id"
-    setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
+    setBroker(brokerId, ["https://broker.io/api/v1"])
 
     expect(listBrokers()).toHaveLength(1)
 
@@ -86,7 +86,7 @@ describe('broker tests', () => {
 
   it('should get a specific broker from the map', () => { 
     const brokerId = "broker.id"
-    setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
+    setBroker(brokerId, ["https://broker.io/api/v1"])
 
     expect(listBrokers()).toHaveLength(1)
 
@@ -102,14 +102,13 @@ describe('broker tests', () => {
 
   it('should update an existing broker', () => { 
     const brokerId = "broker.id"
-    setBroker(brokerId, new BrokerInfo(brokerId, ["https://broker.io/api/v1"]))
+    setBroker(brokerId, ["https://broker.io/api/v1"])
 
     expect(listBrokers()).toHaveLength(1)
 
     let broker = getBroker(brokerId)
-    const newBroker = new BrokerInfo(broker!.brokerId, [])
 
-    setBroker(brokerId, newBroker)
+    setBroker(brokerId, [])
     
     expect(listBrokers()).toHaveLength(1)
 
