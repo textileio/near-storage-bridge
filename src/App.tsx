@@ -31,10 +31,14 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
       } else {
         // Just grab a random broker
         lockBox.getBroker().then(brokerInfo => {
+          if (brokerInfo === undefined) {
+            alert("unable to determine broker information")
+            return
+          }
           // Open a new storage instance scoped to this broker
           const store = openStore(wallet, { brokerInfo })
           setStorage(store)
-          setActiveBroker(brokerInfo?.brokerId)
+          setActiveBroker(brokerInfo.brokerId)
         })
       }
     }
