@@ -19,7 +19,7 @@ import {
  * @param accountId The account id for which funds have been locked.
  * @param brokerId The account id of the broker for which funds are locked.
  */
-export function hasLocked(brokerId: string, accountId: string): bool {
+export function hasLocked(brokerId: string, accountId: string = context.sender): bool {
   // We want to scope any queries for a given account to the given broker
   const key = `${brokerId}/${accountId}`
   const ok = lockMap.get(key)
