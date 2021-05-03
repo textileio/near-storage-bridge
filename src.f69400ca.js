@@ -3256,7 +3256,7 @@ try {
   Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],"components/Form.tsx":[function(require,module,exports) {
+},{}],"components/LockForm.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3271,24 +3271,21 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
-function Form({
-  onSubmit,
-  hasLocked
+function LockForm({
+  onSubmit
 }) {
-  return react_1.default.createElement("form", null, react_1.default.createElement("fieldset", {
-    id: "fieldset"
-  }, react_1.default.createElement("button", {
+  return react_1.default.createElement("form", null, react_1.default.createElement("button", {
     type: "button",
     name: "lock",
     onClick: e => {
       e.preventDefault();
-      onSubmit(hasLocked ? "unlock" : "lock");
+      onSubmit();
     }
-  }, hasLocked ? "Unlock" : "Lock")));
+  }, "Lock"));
 }
 
-exports.default = Form;
-},{"react":"../node_modules/react/index.js"}],"components/SignIn.tsx":[function(require,module,exports) {
+exports.default = LockForm;
+},{"react":"../node_modules/react/index.js"}],"components/Welcome.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -3303,12 +3300,12 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importDefault(require("react"));
 
-function SignIn() {
+function Welcome() {
   return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement("p", null, "This app demonstrates a key element of NEAR\u2019s UX: once an app has permission to make calls on behalf of a user (that is, once a user signs in), the app can make calls to the blockhain for them without prompting extra confirmation."), react_1.default.createElement("p", null, "But since we're dealing with token locking, NEAR will double-check that you\u2019re ok with sending funds to this app."), react_1.default.createElement("p", null, "Go ahead and sign in to try it out!"));
 }
 
-exports.default = SignIn;
-},{"react":"../node_modules/react/index.js"}],"components/Upload.tsx":[function(require,module,exports) {
+exports.default = Welcome;
+},{"react":"../node_modules/react/index.js"}],"components/UploadForm.tsx":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -3349,7 +3346,7 @@ Object.defineProperty(exports, "__esModule", {
 
 const react_1 = __importStar(require("react"));
 
-function Upload({
+function UploadForm({
   onSubmit
 }) {
   const [file, setFile] = react_1.useState();
@@ -3372,7 +3369,7 @@ function Upload({
   }, "Upload")));
 }
 
-exports.default = Upload;
+exports.default = UploadForm;
 },{"react":"../node_modules/react/index.js"}],"../node_modules/near-api-js/lib/key_stores/keystore.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25487,11 +25484,17 @@ var RequestStatus;
     RequestStatus[RequestStatus["DealMaking"] = 4] = "DealMaking";
     RequestStatus[RequestStatus["Success"] = 5] = "Success";
 })(RequestStatus = exports.RequestStatus || (exports.RequestStatus = {}));
-function openStore(connection, options = { remoteUrl: REMOTE_URL }) {
+function openStore(connection, options = {
+    remoteUrl: REMOTE_URL,
+}) {
     const account = connection.account();
     const { accountId } = account;
     const { signer, networkId } = account.connection;
-    const { remoteUrl } = options;
+    const { remoteUrl, brokerInfo } = options;
+    // Default to first entry in broker info addresses for now
+    const url = remoteUrl !== null && remoteUrl !== void 0 ? remoteUrl : brokerInfo === null || brokerInfo === void 0 ? void 0 : brokerInfo.addresses[0];
+    if (!url)
+        throw new Error("Must provide one of remoteUrl or brokerInfo");
     return {
         store: function store(data, options = {}) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -25505,7 +25508,7 @@ function openStore(connection, options = { remoteUrl: REMOTE_URL }) {
                     networkId,
                     aud: remoteUrl,
                 });
-                const res = yield fetch(`${remoteUrl}upload`, {
+                const res = yield fetch(`${url}upload`, {
                     method: "POST",
                     body: formData,
                     headers: {
@@ -25523,7 +25526,7 @@ function openStore(connection, options = { remoteUrl: REMOTE_URL }) {
                     networkId,
                     aud: REMOTE_URL,
                 });
-                const res = yield fetch(`${remoteUrl}storagerequest/${id}`, {
+                const res = yield fetch(`${url}storagerequest/${id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -25544,43 +25547,60 @@ function openLockBox(connection) {
     const contractName = `${exports.CONTRACT_NAME}.${networkId}`;
     const contract = new near_api_js_1.Contract(account, contractName, {
         // View methods are read-only – they don't modify the state, but usually return some value
-        viewMethods: ["hasLocked"],
+        viewMethods: ["hasLocked", "listBrokers", "getBroker"],
         // Change methods can modify the state, but you don't receive the returned value when called
         changeMethods: ["lockFunds", "unlockFunds"],
     });
     // Keep local cache
     let locked = null;
-    const checkLocked = () => __awaiter(this, void 0, void 0, function* () {
+    const checkLocked = (brokerId) => __awaiter(this, void 0, void 0, function* () {
         if (!accountId)
             throw new Error("invalid accountId, ensure account is logged in");
         if (locked == null) {
-            locked = yield contract.hasLocked({ accountId });
+            locked = yield contract.hasLocked({ brokerId, accountId });
         }
         return locked;
     });
-    return {
-        lockFunds: () => __awaiter(this, void 0, void 0, function* () {
-            if (!(yield checkLocked())) {
-                return contract.lockFunds({ accountId }, undefined, ONE);
+    const res = {
+        listBrokers: () => __awaiter(this, void 0, void 0, function* () {
+            return contract.listBrokers();
+        }),
+        getBroker: (brokerId) => __awaiter(this, void 0, void 0, function* () {
+            if (brokerId !== undefined) {
+                return contract.getBroker(brokerId);
             }
+            const brokers = yield contract.listBrokers();
+            const idx = Math.floor(Math.random() * brokers.length);
+            return brokers[idx];
+        }),
+        lockFunds: (brokerId) => __awaiter(this, void 0, void 0, function* () {
+            console.log(brokerId)
+            if (brokerId === undefined) {
+                const brokerInfo = yield contract.getBroker();
+                if (brokerInfo === undefined)
+                    throw new Error("unable to get broker info");
+                brokerId = brokerInfo.brokerId;
+            }
+            if (!(yield checkLocked(brokerId))) {
+                console.log("calling contract.lockFunds")
+                contract.lockFunds({ brokerId, accountId }, undefined, ONE);
+            }
+            console.log("locked = true")
             locked = true;
             return;
         }),
         unlockFunds: () => __awaiter(this, void 0, void 0, function* () {
-            if (yield checkLocked()) {
-                return contract.unlockFunds({ accountId });
-            }
-            locked = false;
-            return;
+            return contract.unlockFunds();
         }),
-        hasLocked: () => {
+        hasLocked: (brokerId) => __awaiter(this, void 0, void 0, function* () {
             // Reset locked variable
             locked = null;
-            return checkLocked();
-        },
-        requestSignIn: (title, successUrl, failureUrl) => connection.requestSignIn(contractName, title, successUrl, failureUrl),
+            return checkLocked(brokerId);
+        }),
+        requestSignIn: (title, successUrl, failureUrl) => __awaiter(this, void 0, void 0, function* () { return connection.requestSignIn(contractName, title, successUrl, failureUrl); }),
         signOut: () => connection.signOut(),
     };
+    return res;
 }
 exports.openLockBox = openLockBox;
 
@@ -25633,34 +25653,46 @@ require("regenerator-runtime/runtime");
 
 const react_1 = __importStar(require("react"));
 
-const Form_1 = __importDefault(require("./components/Form"));
+const LockForm_1 = __importDefault(require("./components/LockForm"));
 
-const SignIn_1 = __importDefault(require("./components/SignIn"));
+const Welcome_1 = __importDefault(require("./components/Welcome"));
 
-const Upload_1 = __importDefault(require("./components/Upload"));
+const UploadForm_1 = __importDefault(require("./components/UploadForm"));
 
 const near_storage_1 = require("@textile/near-storage");
 
-;
-
 const App = ({
-  store,
-  lockBox,
+  wallet,
   currentUser
 }) => {
+  const [storage, setStorage] = react_1.useState();
   const [locked, setLocked] = react_1.useState(false);
   const [lastId, setLastId] = react_1.useState();
+  const [activeBroker, setActiveBroker] = react_1.useState();
+  const lockBox = near_storage_1.openLockBox(wallet);
   const accountId = currentUser && currentUser.accountId;
   react_1.useEffect(() => {
-    // Don't just fetch once; subscribe!
+    // Subscribe to changes to current user
     if (currentUser) {
-      lockBox.hasLocked().then(setLocked);
+      if (activeBroker) {
+        lockBox.hasLocked(activeBroker).then(setLocked);
+      } else {
+        // Just grab a random broker
+        lockBox.getBroker().then(brokerInfo => {
+          // Open a new storage instance scoped to this broker
+          const store = near_storage_1.openStore(wallet, {
+            brokerInfo
+          });
+          setStorage(store);
+          setActiveBroker(brokerInfo === null || brokerInfo === void 0 ? void 0 : brokerInfo.brokerId);
+        });
+      }
     }
-  }, []);
+  }, [activeBroker]);
 
   const onUpload = file => {
-    if (locked) {
-      store.store(file).then(({
+    if (locked && storage) {
+      storage.store(file).then(({
         id,
         cid
       }) => {
@@ -25671,28 +25703,17 @@ const App = ({
   };
 
   const onStatus = () => {
-    if (lastId) {
-      store.status(lastId).then(res => {
+    if (lastId && storage) {
+      storage.status(lastId).then(res => {
         alert(`Your file status is currently: "${near_storage_1.RequestStatus[res.status_code]}"!`);
       });
     } else {
-      console.log("no 'active' file, upload a file first");
+      console.warn("no 'active' file, upload a file first");
     }
   };
 
-  const onSubmit = actionType => {
-    switch (actionType) {
-      case "lock":
-        lockBox.lockFunds().catch(err => alert(err.message));
-        break;
-
-      case "unlock":
-        lockBox.unlockFunds().then(() => {
-          setLocked(false);
-          alert("funds unlocked!");
-        }).catch(err => alert(err.message));
-        break;
-    }
+  const onSubmit = () => {
+    lockBox.lockFunds(activeBroker).catch(err => alert(err.message));
   };
 
   const signIn = () => {
@@ -25708,10 +25729,9 @@ const App = ({
     onClick: signOut
   }, "Log out") : react_1.default.createElement("button", {
     onClick: signIn
-  }, "Log in")), react_1.default.createElement("p", null, locked ? "You got Ⓝ in here!" : `Lock some funds, ${accountId}!`), accountId ? react_1.default.createElement("div", null, react_1.default.createElement(Form_1.default, {
-    onSubmit: onSubmit,
-    hasLocked: locked
-  }), locked ? react_1.default.createElement(Upload_1.default, {
+  }, "Log in")), react_1.default.createElement("p", null, locked ? "You got Ⓝ in here!" : `Lock some funds, ${accountId}!`), accountId ? react_1.default.createElement("div", null, react_1.default.createElement(LockForm_1.default, {
+    onSubmit: onSubmit
+  }), locked ? react_1.default.createElement(UploadForm_1.default, {
     onSubmit: onUpload
   }) : null, react_1.default.createElement("button", {
     type: "button",
@@ -25720,11 +25740,22 @@ const App = ({
       e.preventDefault();
       if (lastId) onStatus();
     }
-  }, "Status")) : react_1.default.createElement(SignIn_1.default, null));
+  }, "Status"), react_1.default.createElement("button", {
+    type: "button",
+    name: "unlock",
+    onClick: e => {
+      e.preventDefault();
+      lockBox.unlockFunds().then(() => {
+        alert("check your wallet in case of released funds"); // Auto-refresh the page
+
+        location.reload();
+      }).catch(err => alert(err.message));
+    }
+  }, "Unlock")) : react_1.default.createElement(Welcome_1.default, null));
 };
 
 exports.default = App;
-},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","react":"../node_modules/react/index.js","./components/Form":"components/Form.tsx","./components/SignIn":"components/SignIn.tsx","./components/Upload":"components/Upload.tsx","@textile/near-storage":"../node_modules/@textile/near-storage/dist/index.js"}],"../node_modules/scheduler/cjs/scheduler.development.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"../node_modules/regenerator-runtime/runtime.js","react":"../node_modules/react/index.js","./components/LockForm":"components/LockForm.tsx","./components/Welcome":"components/Welcome.tsx","./components/UploadForm":"components/UploadForm.tsx","@textile/near-storage":"../node_modules/@textile/near-storage/dist/index.js"}],"../node_modules/scheduler/cjs/scheduler.development.js":[function(require,module,exports) {
 /** @license React v0.20.2
  * scheduler.development.js
  *
@@ -52916,9 +52947,7 @@ const react_dom_1 = __importDefault(require("react-dom")); // @ts-expect-error m
 
 const config_js_1 = __importDefault(require("./config.js"));
 
-const near_api_js_1 = require("near-api-js");
-
-const near_storage_1 = require("@textile/near-storage"); // Seems like a strange hack
+const near_api_js_1 = require("near-api-js"); // Seems like a strange hack
 
 
 const ENV = process.env; // Initializing contract
@@ -52944,28 +52973,23 @@ function initConnection() {
       };
     }
 
-    const lockBox = near_storage_1.openLockBox(walletConnection);
-    const store = near_storage_1.openStore(walletConnection);
     return {
       currentUser,
-      lockBox,
-      store
+      walletConnection
     };
   });
 }
 
 window.nearInitPromise = initConnection().then(({
-  lockBox,
-  store,
+  walletConnection,
   currentUser
 }) => {
   react_dom_1.default.render(react_1.default.createElement(App_1.default, {
-    lockBox: lockBox,
-    store: store,
+    wallet: walletConnection,
     currentUser: currentUser
   }), document.getElementById('root'));
 });
-},{"react":"../node_modules/react/index.js","./App":"App.tsx","react-dom":"../node_modules/react-dom/index.js","./config.js":"config.js","near-api-js":"../node_modules/near-api-js/lib/browser-index.js","@textile/near-storage":"../node_modules/@textile/near-storage/dist/index.js","process":"../node_modules/process/browser.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./App":"App.tsx","react-dom":"../node_modules/react-dom/index.js","./config.js":"config.js","near-api-js":"../node_modules/near-api-js/lib/browser-index.js","process":"../node_modules/process/browser.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -52993,7 +53017,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57215" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62801" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
