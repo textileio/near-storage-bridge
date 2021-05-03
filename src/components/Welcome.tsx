@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement} from 'react';
 
-export default function SignIn() {
+export default function Welcome(): ReactElement {
   return (
     <>
       <p>
