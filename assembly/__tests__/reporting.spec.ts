@@ -118,20 +118,4 @@ describe('reporting tests', () => {
     payload = getByPayload("cid3")
     expect(payload).toBeNull()
   })
-
-  it('does not accept deposit on queries', () => {
-    VMContext.setAttached_deposit(u128.One);
-
-    expect(() => {
-      listPayloads()
-    }).toThrow("should not accept deposit")
-
-    expect(() => {
-      getByCid("cid")
-    }).toThrow("should not accept deposit")
-
-    expect(() => {
-      getByCid("payload")
-    }).toThrow("should not accept deposit")
-  });
 })

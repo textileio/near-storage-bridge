@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { listBrokers, setBroker, deleteBroker, getBroker } from '../main';
-import { brokerMap } from '../model';
+import { brokerMap, DepositInfo, LockInfo, lockMap } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
@@ -44,6 +44,28 @@ describe('broker tests', () => {
   it('should add a new broker when called from correct account', () => { 
     const brokerId = "broker.id"
     setBroker(brokerId, ["https://broker.io/api/v1"])
+
+    expect(listBrokers()).toHaveLength(1)
+
+    expect(Context.accountBalance.toString()).toStrictEqual(
+      ZERO.toString(),
+      'balance should be 0 Near'
+    );
+  })
+
+  it('should fail to delete a broker with locked funds', () => {    
+    const brokerId = "broker.id"
+    const fakeUser = "fake.id"
+    setBroker(brokerId, ["https://broker.io/api/v1"])
+    const info = new LockInfo(fakeUser, brokerId, new DepositInfo())
+    lockMap.set(`${brokerId}/${fakeUser}`, info)
+
+    expect(() => {
+      // If expect.toThrow is used on anything other than a () => void function
+      // type, it will result in a compile time error!
+      const brokerId = "broker.id"
+      deleteBroker(brokerId)
+    }).toThrow()
 
     expect(listBrokers()).toHaveLength(1)
 

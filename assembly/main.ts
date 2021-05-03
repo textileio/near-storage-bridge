@@ -113,6 +113,14 @@ export function deleteBroker(brokerId: string): void {
   if (context.sender != context.contractName) {
     throw new Error("invalid sender account id")
   }
+  const keys = lockMap.keys()
+  // Since AS doesn't support closures yet, we can't use keys.some here
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    if (key.includes(brokerId)) {
+      throw new Error("cannot delete broker with locked funds")
+    }
+  }
   brokerMap.delete(brokerId)
 }
 
