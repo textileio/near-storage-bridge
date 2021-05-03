@@ -2,7 +2,7 @@ import { u128, PersistentUnorderedMap, context, PersistentMap } from "near-sdk-a
 
 // LOCK-BOX
 
-export const LOCKBOX_PREFIX = "u"
+export const LOCKBOX_PREFIX = "a"
 // Minimum funds (in Ⓝ) required to lock.
 export const LOCK_AMOUNT = u128.from('1000000000000000000000000')
 // Expected block time is around 1s and expected time to finality is around 2s.
@@ -85,7 +85,7 @@ export const brokerMap = new PersistentUnorderedMap<string, BrokerInfo>(BROKER_P
 
 export const REPORTING_PREFIX = "r"
 export const PAYLOAD_PREFIX = `${REPORTING_PREFIX}/p`
-export const DATA_PREFIX = `${REPORTING_PREFIX}/D`
+export const DATA_PREFIX = `${REPORTING_PREFIX}/d`
 
 @nearBindgen
 export class DealInfo { 
