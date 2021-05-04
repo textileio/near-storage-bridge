@@ -4,14 +4,12 @@ export default function Welcome(): ReactElement {
   return (
     <>
       <p>
-          This app demonstrates a key element of NEAR’s UX: once an app has
-          permission to make calls on behalf of a user (that is, once a user
-          signs in), the app can make calls to the blockhain for them without
-          prompting extra confirmation.
+          This app demonstrates the client-size usage of Textile's Locking
+          mechanism for storing Filecoin data from the Near Blockchain.
       </p>
       <p>
-          But since we're dealing with token locking, NEAR will double-check
-          that you’re ok with sending funds to this app.
+          This is version 0 of the demo app. You can lock funds, unlock funds,
+          query for the status of a "file" or deal, and more.
       </p>
       <p>
           Go ahead and sign in to try it out!
