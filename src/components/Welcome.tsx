@@ -1,8 +1,8 @@
-import React, { ReactElement} from 'react';
+import React, { ReactElement } from 'react';
 
 export default function Welcome(): ReactElement {
   return (
-    <>
+    <div>
       <p>
           This app demonstrates the client-size usage of Textile's Locking
           mechanism for storing Filecoin data from the Near Blockchain.
@@ -14,6 +14,6 @@ export default function Welcome(): ReactElement {
       <p>
           Go ahead and sign in to try it out!
       </p>
-    </>
+    </div>
   );
 }

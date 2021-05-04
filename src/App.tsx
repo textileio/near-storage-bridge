@@ -13,10 +13,15 @@ interface Props {
   }
 }
 
+interface Upload {
+  id: string
+  cid: string
+}
+
 const App = ({ wallet, currentUser }: Props): ReactElement => {
   const [storage, setStorage] = useState<Storage>();
   const [locked, setLocked] = useState<boolean>(false);
-  const [lastId, setLastId] = useState<string>();
+  const [uploads, setUploads] = useState<Array<Upload>>([]);
   const [activeBroker, setActiveBroker] = useState<string>();
 
   const lockBox = openLockBox(wallet)
@@ -48,16 +53,20 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
     if (locked && storage) {
       storage.store(file)
       .then(({ id, cid }) => {
-        setLastId(id)
-        alert(`Your file is already on IPFS:\n${cid["/"]}`)
+        const u: Upload = {
+          id: id,
+          cid: cid["/"]
+        }
+        setUploads([...uploads, u])
+        alert(`Your file is already on IPFS:\n${u.cid}`)
       })
       .catch((err: Error) => alert(err.message));
     }
   }
 
-  const onStatus = () => {
-    if (lastId && storage) {
-      storage.status(lastId)
+  const onStatus = (id: string) => {
+    if (id && storage) {
+      storage.status(id)
       .then((res) => {
         alert(`Your file status is currently: "${RequestStatus[res.status_code]}"!`)
       })
@@ -96,12 +105,6 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
         ? (<div>
           <Form onSubmit={onSubmit} />
           {locked ? <Upload onSubmit={onUpload} /> : null}
-          <button type="button" name="status" onClick={(e) => {
-            e.preventDefault();
-            if (lastId) onStatus();
-          }}>
-            Status
-          </button>
           <button type="button" name="unlock" onClick={(e) => {
             e.preventDefault();
             lockBox.unlockFunds()
@@ -113,6 +116,27 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
               .catch((err: Error) => alert(err.message));
           }}>Unlock
           </button>
+          <br/>
+          {uploads && <h2>Your uploads</h2>}
+          {uploads.map((u: Upload) => {
+            return <p>
+              {u.cid}
+              <br/>
+              <button type="button" name="copy" onClick={(e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(u.cid)
+              }}>
+                Copy CID
+              </button>
+              <button type="button" name="status" onClick={(e) => {
+                e.preventDefault();
+                onStatus(u.id);
+              }}>
+                Status
+              </button>
+              <br/>
+            </p>
+          })}
         </div>
         ) : <Welcome/>
       }
