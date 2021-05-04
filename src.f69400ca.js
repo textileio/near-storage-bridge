@@ -25450,6 +25450,7 @@ function jws(signer, opts = {}) {
         const { signature } = yield signer.signMessage(message, accountId, networkId);
         const encodedSignature = base64_1.encodeURLSafe(signature);
         const jws = `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
+        console.log(jws)
         return jws;
     });
 }
@@ -25474,7 +25475,7 @@ const jws_1 = require("./jws");
 Object.defineProperty(exports, "jws", { enumerable: true, get: function () { return jws_1.jws; } });
 const ONE = (_a = near_api_js_1.utils.format.parseNearAmount("1")) !== null && _a !== void 0 ? _a : undefined;
 exports.CONTRACT_NAME = "lock-box";
-const REMOTE_URL = "https://broker.staging.textile.io/";
+const REMOTE_URL = "https://broker.staging.textile.io";
 var RequestStatus;
 (function (RequestStatus) {
     RequestStatus[RequestStatus["Unknown"] = 0] = "Unknown";
@@ -25484,17 +25485,17 @@ var RequestStatus;
     RequestStatus[RequestStatus["DealMaking"] = 4] = "DealMaking";
     RequestStatus[RequestStatus["Success"] = 5] = "Success";
 })(RequestStatus = exports.RequestStatus || (exports.RequestStatus = {}));
-function openStore(connection, options = {
-    remoteUrl: REMOTE_URL,
-}) {
+function openStore(connection, options) {
+    var _a;
     const account = connection.account();
     const { accountId } = account;
     const { signer, networkId } = account.connection;
-    const { remoteUrl, brokerInfo } = options;
+    const { brokerInfo } = options;
+    if (!brokerInfo)
+        throw new Error("Must provide broker information");
     // Default to first entry in broker info addresses for now
-    const url = remoteUrl !== null && remoteUrl !== void 0 ? remoteUrl : brokerInfo === null || brokerInfo === void 0 ? void 0 : brokerInfo.addresses[0];
-    if (!url)
-        throw new Error("Must provide one of remoteUrl or brokerInfo");
+    // TODO: Leaving default remote url here for now, should be removed
+    const url = (_a = brokerInfo.addresses[0]) !== null && _a !== void 0 ? _a : REMOTE_URL;
     return {
         store: function store(data, options = {}) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -25506,15 +25507,16 @@ function openStore(connection, options = {
                 const token = yield jws_1.jws(signer, {
                     accountId,
                     networkId,
-                    aud: remoteUrl,
+                    aud: brokerInfo.brokerId,
                 });
-                const res = yield fetch(`${url}upload`, {
+                const res = yield fetch(`${url}/upload`, {
                     method: "POST",
                     body: formData,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                console.log(res)
                 const json = yield res.json();
                 return json;
             });
@@ -25526,7 +25528,7 @@ function openStore(connection, options = {
                     networkId,
                     aud: REMOTE_URL,
                 });
-                const res = yield fetch(`${url}storagerequest/${id}`, {
+                const res = yield fetch(`${url}/storagerequest/${id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -25574,7 +25576,6 @@ function openLockBox(connection) {
             return brokers[idx];
         }),
         lockFunds: (brokerId) => __awaiter(this, void 0, void 0, function* () {
-            console.log(brokerId)
             if (brokerId === undefined) {
                 const brokerInfo = yield contract.getBroker();
                 if (brokerInfo === undefined)
@@ -25582,10 +25583,8 @@ function openLockBox(connection) {
                 brokerId = brokerInfo.brokerId;
             }
             if (!(yield checkLocked(brokerId))) {
-                console.log("calling contract.lockFunds")
-                contract.lockFunds({ brokerId, accountId }, undefined, ONE);
+                return contract.lockFunds({ brokerId, accountId }, undefined, ONE);
             }
-            console.log("locked = true")
             locked = true;
             return;
         }),
@@ -25679,12 +25678,17 @@ const App = ({
       } else {
         // Just grab a random broker
         lockBox.getBroker().then(brokerInfo => {
-          // Open a new storage instance scoped to this broker
+          if (brokerInfo === undefined) {
+            alert("unable to determine broker information");
+            return;
+          } // Open a new storage instance scoped to this broker
+
+
           const store = near_storage_1.openStore(wallet, {
             brokerInfo
           });
           setStorage(store);
-          setActiveBroker(brokerInfo === null || brokerInfo === void 0 ? void 0 : brokerInfo.brokerId);
+          setActiveBroker(brokerInfo.brokerId);
         });
       }
     }
@@ -53017,7 +53021,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62801" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52591" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
