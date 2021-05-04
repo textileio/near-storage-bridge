@@ -1,33 +1,52 @@
 import 'regenerator-runtime/runtime';
-import React, { useState, useEffect } from 'react';
-import Form from './components/Form';
-import SignIn from './components/SignIn';
-import Upload from "./components/Upload";
-import type { Storage, LockBox } from "@textile/near-storage"
-import { RequestStatus } from "@textile/near-storage"
+import React, { useState, ReactElement, useEffect } from 'react';
+import Form from './components/LockForm';
+import Welcome from './components/Welcome';
+import Upload from "./components/UploadForm";
+import { openLockBox, openStore, Storage, RequestStatus } from "@textile/near-storage"
+import type { WalletConnection } from 'near-api-js';
 
 interface Props {
-  store: Storage
-  lockBox: LockBox
-  currentUser?: any
-};
+  wallet: WalletConnection
+  currentUser?: {
+    accountId: string
+  }
+}
 
-const App = ({ store, lockBox, currentUser }: Props) => {
+const App = ({ wallet, currentUser }: Props): ReactElement => {
+  const [storage, setStorage] = useState<Storage>();
   const [locked, setLocked] = useState<boolean>(false);
   const [lastId, setLastId] = useState<string>();
+  const [activeBroker, setActiveBroker] = useState<string>();
+
+  const lockBox = openLockBox(wallet)
 
   const accountId = currentUser && currentUser.accountId
 
   useEffect(() => {
-    // Don't just fetch once; subscribe!
+    // Subscribe to changes to current user
     if (currentUser) {
-      lockBox.hasLocked().then(setLocked);
+      if (activeBroker) {
+        lockBox.hasLocked(activeBroker).then(setLocked)
+      } else {
+        // Just grab a random broker
+        lockBox.getBroker().then(brokerInfo => {
+          if (brokerInfo === undefined) {
+            alert("unable to determine broker information")
+            return
+          }
+          // Open a new storage instance scoped to this broker
+          const store = openStore(wallet, { brokerInfo })
+          setStorage(store)
+          setActiveBroker(brokerInfo.brokerId)
+        })
+      }
     }
-  }, []);
+  }, [activeBroker]);
 
   const onUpload = (file: File) => {
-    if (locked) {
-      store.store(file)
+    if (locked && storage) {
+      storage.store(file)
       .then(({ id, cid }) => {
         setLastId(id)
         alert(`Your file is already on IPFS:\n${cid["/"]}`)
@@ -37,31 +56,19 @@ const App = ({ store, lockBox, currentUser }: Props) => {
   }
 
   const onStatus = () => {
-    if (lastId) {
-      store.status(lastId)
+    if (lastId && storage) {
+      storage.status(lastId)
       .then((res) => {
         alert(`Your file status is currently: "${RequestStatus[res.status_code]}"!`)
       })
     } else {
-      console.log("no 'active' file, upload a file first")
+      console.warn("no 'active' file, upload a file first")
     }
   }
 
-  const onSubmit = (actionType: "lock" | "unlock" | 'upload') => {
-    switch(actionType) {
-      case "lock":
-        lockBox.lockFunds()
-          .catch((err: Error) => alert(err.message));
-      break
-      case "unlock":
-        lockBox.unlockFunds()
-          .then(() => {
-            setLocked(false)
-            alert("funds unlocked!")
-          })
-          .catch((err: Error) => alert(err.message));
-      break
-    }
+  const onSubmit = () => {
+    lockBox.lockFunds(activeBroker)
+      .catch((err: Error) => alert(err.message));
   };
 
   const signIn = () => {
@@ -87,7 +94,7 @@ const App = ({ store, lockBox, currentUser }: Props) => {
       </p>
       { accountId
         ? (<div>
-          <Form onSubmit={onSubmit} hasLocked={locked} />
+          <Form onSubmit={onSubmit} />
           {locked ? <Upload onSubmit={onUpload} /> : null}
           <button type="button" name="status" onClick={(e) => {
             e.preventDefault();
@@ -95,8 +102,19 @@ const App = ({ store, lockBox, currentUser }: Props) => {
           }}>
             Status
           </button>
+          <button type="button" name="unlock" onClick={(e) => {
+            e.preventDefault();
+            lockBox.unlockFunds()
+              .then(() => {
+                alert("check your wallet in case of released funds")
+                // Auto-refresh the page
+                location.reload();
+              })
+              .catch((err: Error) => alert(err.message));
+          }}>Unlock
+          </button>
         </div>
-        ) : <SignIn/>
+        ) : <Welcome/>
       }
     </main>
   );

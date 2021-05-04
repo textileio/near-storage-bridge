@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@stablelib/base64": "^1.0.0",
-    "@textile/near-storage": "^1.0.1",
+    "@textile/near-storage": "^2.0.3",
     "@types/big.js": "^6.0.2",
     "@types/bs58": "^4.0.1",
     "@types/prop-types": "^15.7.3",

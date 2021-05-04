@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 // @ts-expect-error missing types
 import getConfig from './config.js';
 import { connect, keyStores, WalletConnection } from 'near-api-js';
-import { openLockBox, openStore } from "@textile/near-storage"
 
 // Seems like a strange hack
 const ENV = process.env as unknown as Record<string, string>
@@ -41,17 +40,14 @@ async function initConnection() {
     };
   }
 
-  const lockBox = openLockBox(walletConnection);
-  const store = openStore(walletConnection);
-  return { currentUser, lockBox, store }
+  return { currentUser, walletConnection }
 }
 
 window.nearInitPromise = initConnection()
-  .then(({ lockBox, store, currentUser }) => {
+  .then(({ walletConnection, currentUser }) => {
     ReactDOM.render(
       <App
-        lockBox={lockBox}
-        store={store}
+        wallet={walletConnection}
         currentUser={currentUser}
       />,
       document.getElementById('root')

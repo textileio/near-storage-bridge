@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, ReactElement } from 'react';
 
 interface Props {
   onSubmit: (file: File) => void;
 }
 
-export default function Upload({ onSubmit }: Props) {
+export default function UploadForm({ onSubmit }: Props): ReactElement {
   const [file, setFile] = useState<File>();
   return (
     <form>
