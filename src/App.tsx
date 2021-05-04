@@ -122,9 +122,8 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
             return <p>
               {u.cid}
               <br/>
-              <button type="button" name="status" onClick={(e) => {
+              <button type="button" name="copy" onClick={(e) => {
                 e.preventDefault();
-                onStatus(u.id);
                 navigator.clipboard.writeText(u.cid)
               }}>
                 Copy CID
@@ -132,7 +131,6 @@ const App = ({ wallet, currentUser }: Props): ReactElement => {
               <button type="button" name="status" onClick={(e) => {
                 e.preventDefault();
                 onStatus(u.id);
-                navigator.clipboard.writeText(u.cid)
               }}>
                 Status
               </button>
