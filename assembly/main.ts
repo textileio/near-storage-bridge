@@ -19,7 +19,7 @@ import {
  * @param accountId The account id for which funds have been locked.
  * @param brokerId The account id of the broker for which funds are locked.
  */
-export function hasLocked(brokerId: string, accountId: string = context.sender): bool {
+export function hasLocked(brokerId: string, accountId: string): bool {
   // We want to scope any queries for a given account to the given broker
   const key = `${brokerId}/${accountId}`
   const ok = lockMap.get(key)
@@ -72,10 +72,10 @@ export function lockFunds(brokerId: string, accountId: string = context.sender):
  * Release all expired lock sessions.
  */
 export function unlockFunds(): void {
-  let amount = LOCK_AMOUNT
   const entries = lockMap.entries()
   // AS doesn't support for ... of syntax
   for (let i = 0; i < entries.length; i++) {
+    let amount = LOCK_AMOUNT
     const entry = entries[i]
     const key = entry.key
     const value = entry.value
