@@ -28,7 +28,7 @@ export class DepositInfo {
    */
   addDeposit(amount: u128 = LOCK_AMOUNT): void {
     this.amount = u128.add(this.amount, amount)
-    this.expiration += context.blockIndex + BLOCK_OFFSET
+    this.expiration = context.blockIndex + BLOCK_OFFSET
   }
 }
 
