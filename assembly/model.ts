@@ -28,19 +28,7 @@ export class DepositInfo {
    */
   addDeposit(amount: u128 = LOCK_AMOUNT): void {
     this.amount = u128.add(this.amount, amount)
-    this.expiration += BLOCK_OFFSET
-  }
-  /**
-   * Remove funds from the existing deposit.
-   * @param amount The additional funds to add.
-   */
-  removeDeposit(amount: u128 = LOCK_AMOUNT): void {
-    const newDeposit = u128.sub(this.amount, amount)
-    if (newDeposit < u128.Zero) {
-      throw new Error("insufficient deposit remaining")
-    }
-    this.amount = newDeposit
-    this.expiration -= BLOCK_OFFSET
+    this.expiration = context.blockIndex + BLOCK_OFFSET
   }
 }
 
