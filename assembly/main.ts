@@ -189,16 +189,40 @@ export function getByCid(dataCid: string): PayloadInfo | null {
 }
 
 /**
- * Push a new payload record and optionally update cid mappings.
- * @param payload The payload information.
- * @param dataCids A set of cids to map to the given payload.
+ * Specify directly the mapping between a data cid and its payload cid.
+ * @param dataCid The data cid.
+ * @param payloadCid The payload cid.
+ */
+export function setByCid(dataCid: string, payloadCid: string): void {
+  if (!brokerMap.contains(context.sender)) {
+    throw new Error("setByCid: invalid broker id");
+  }
+  dataMap.set(dataCid, payloadCid)
+}
+
+/**
+ * Create or update a payload record and optionally update its cid mappings.
+ * @param payload The payload information. Can contain partial deal information
+ * if this is an update push, however, `pieceCid` must match.
+ * @param dataCids A set of cids to map to the given payload. Can be empty.
  */
 export function pushPayload(payload: PayloadInfo, dataCids: string[] = []): void {
     // If the provided broker is unknown to the contract, this is an error.
   if (!brokerMap.contains(context.sender)) {
     throw new Error("pushPayload: invalid broker id");
   }
-  payloadMap.set(payload.payloadCid, payload)
+  const ok = payloadMap.get(payload.payloadCid)
+  if (ok != null) {
+    if (payload.pieceCid != ok.pieceCid) {
+      throw new Error("pushPayload: pieceCid mismatch")
+    }
+    for (let i = 0; i < payload.deals.length; i++) {
+      ok.deals.push(payload.deals[i])
+    }
+    payloadMap.set(payload.payloadCid, ok)
+  } else {
+    payloadMap.set(payload.payloadCid, payload)
+  }
   for (let i = 0; i < dataCids.length; i++) {
     // TODO: Do we _want_ to overwrite this?
     dataMap.set(dataCids[i], payload.payloadCid)
