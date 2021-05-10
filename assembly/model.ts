@@ -85,11 +85,5 @@ export class PayloadInfo {
   constructor(public payloadCid: string, public pieceCid: string, public deals: DealInfo[]) {}
 }
 
-@nearBindgen
-export class DataInfo { 
-  // TODO: This can simply be reduced to a string => string mapping!
-  constructor(public dataCid: string, public payloadCid: string) {}
-}
-
 export const payloadMap = new PersistentUnorderedMap<string, PayloadInfo>(PAYLOAD_PREFIX)
 export const dataMap = new PersistentMap<string, string>(DATA_PREFIX)
