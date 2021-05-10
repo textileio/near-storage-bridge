@@ -118,4 +118,55 @@ describe('reporting tests', () => {
     payload = getByPayload("cid3")
     expect(payload).toBeNull()
   })
+
+  it('should support updating by partial payloads', () => {
+    brokerMap.set("user.test", new BrokerInfo("user.test", []))
+
+    const one = new DealInfo("dealOne", "miner", u128.One)
+    const two = new DealInfo("dealTwo", "miner", u128.One)
+    const init = new PayloadInfo("payload", "piece", [one])
+    payloadMap.set("payload", init)
+
+    dataMap.set("cid1", "payload")
+    dataMap.set("cid2", "payload")
+
+    let payload = getByCid("cid1")
+    expect(payload!.deals).toHaveLength(1)
+
+    const update1 = new PayloadInfo("payload", "piece", [two])
+    pushPayload(update1) // Leave dataCids and overwrite as defaults
+
+    payload = getByCid("cid1")
+    expect(payload!.deals).toHaveLength(2)
+
+    // Should also be able to just update the dataCids
+    const update2 = new PayloadInfo("payload", "piece", [])
+    pushPayload(update2, ["cid3"]) // Leave overwrite as false
+
+    payload = getByCid("cid3")
+    expect(payload!.deals).toHaveLength(2)
+
+  })
+
+  it('should support overwriting existing payloads', () => {
+    brokerMap.set("user.test", new BrokerInfo("user.test", []))
+
+    const one = new DealInfo("dealOne", "miner", u128.One)
+    const two = new DealInfo("dealTwo", "miner", u128.One)
+    const init = new PayloadInfo("payload", "piece", [one, two])
+    payloadMap.set("payload", init)
+
+    dataMap.set("cid1", "payload")
+    dataMap.set("cid2", "payload")
+
+    let payload = getByCid("cid1")
+    expect(payload!.deals).toHaveLength(2)
+
+    const update1 = new PayloadInfo("payload", "piece", [one])
+    // Should not affect dataCids
+    pushPayload(update1, [], true) // Leave dataCids as defaults but overwrite
+
+    payload = getByCid("cid1")
+    expect(payload!.deals).toHaveLength(1)
+  })
 })

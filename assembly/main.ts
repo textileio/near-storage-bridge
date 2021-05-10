@@ -206,13 +206,13 @@ export function setByCid(dataCid: string, payloadCid: string): void {
  * if this is an update push, however, `pieceCid` must match.
  * @param dataCids A set of cids to map to the given payload. Can be empty.
  */
-export function pushPayload(payload: PayloadInfo, dataCids: string[] = []): void {
+export function pushPayload(payload: PayloadInfo, dataCids: string[] = [], overwrite: bool = false): void {
     // If the provided broker is unknown to the contract, this is an error.
   if (!brokerMap.contains(context.sender)) {
     throw new Error("pushPayload: invalid broker id");
   }
   const ok = payloadMap.get(payload.payloadCid)
-  if (ok != null) {
+  if (ok != null && !overwrite) {
     if (payload.pieceCid != ok.pieceCid) {
       throw new Error("pushPayload: pieceCid mismatch")
     }
