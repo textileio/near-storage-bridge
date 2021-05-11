@@ -1,6 +1,6 @@
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { pushPayload, listPayloads, getByPayload, getByCid } from '../main';
-import { payloadMap, dataMap, BrokerInfo, brokerMap, PayloadInfo, DealInfo } from "../model"
+import { updatePayload, listPayloads, getByPayload, getByCid } from '../main';
+import { payloadMap, dataMap, BrokerInfo, brokerMap, PayloadInfo, DealInfo, PayloadOptions } from "../model"
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
@@ -15,7 +15,7 @@ describe('reporting tests', () => {
 
   afterEach(() => {
     payloadMap.clear()
-    dataMap.delete("cid")
+    dataMap.clear()
   });
 
   it('should start with empty maps', () => {
@@ -33,17 +33,15 @@ describe('reporting tests', () => {
     brokerMap.set("user.test", new BrokerInfo("user.test", []))
     
     expect(payloadMap).toHaveLength(0)
-    const deal = new DealInfo("deal", "miner", u128.One)
-    const payload = new PayloadInfo("payload", "piece", [deal])
-    pushPayload(payload, [])
+    const opts = new PayloadOptions("piece")
+    updatePayload("payload", opts)
 
     expect(payloadMap).toHaveLength(1)
   })
 
   it('should not accept pushes from unknown brokers', () => {
     expect(() => {
-      const payload = new PayloadInfo("payload", "piece", [])
-      pushPayload(payload, [])
+      updatePayload("payload", new PayloadOptions("piece"))
     }).toThrow()
   })
 
@@ -99,24 +97,24 @@ describe('reporting tests', () => {
     payloadMap.set("payload1", payload1)
     payloadMap.set("payload3", payload3)
 
-    dataMap.set("cid1", "payload1")
-    dataMap.set("cid2", "payload1")
-    dataMap.set("cid3", "payload3")
+    dataMap.set("cid1", ["payload1"])
+    dataMap.set("cid2", ["payload1"])
+    dataMap.set("cid3", ["payload3"])
 
     let payload = getByCid("cid1")
-    expect(payload!.pieceCid).toStrictEqual("piece1")
-    expect(getByCid("cid2")!.pieceCid).toStrictEqual("piece1")
+    expect(payload[0].pieceCid).toStrictEqual("piece1")
+    expect(getByCid("cid2")[0].pieceCid).toStrictEqual("piece1")
 
     payload = getByCid("cid3")
-    expect(payload!.pieceCid).toStrictEqual("piece3")
+    expect(payload[0].pieceCid).toStrictEqual("piece3")
 
     payload = getByCid("missing")
-    expect(payload).toBeNull()
+    expect(payload).toHaveLength(0)
 
     payloadMap.delete("payload3")
 
-    payload = getByPayload("cid3")
-    expect(payload).toBeNull()
+    const info = getByPayload("cid3")
+    expect(info).toBeNull()
   })
 
   it('should support updating by partial payloads', () => {
@@ -127,46 +125,23 @@ describe('reporting tests', () => {
     const init = new PayloadInfo("payload", "piece", [one])
     payloadMap.set("payload", init)
 
-    dataMap.set("cid1", "payload")
-    dataMap.set("cid2", "payload")
+    dataMap.set("cid1", ["payload"])
+    dataMap.set("cid2", ["payload"])
 
     let payload = getByCid("cid1")
-    expect(payload!.deals).toHaveLength(1)
+    expect(payload[0].deals).toHaveLength(1)
 
-    const update1 = new PayloadInfo("payload", "piece", [two])
-    pushPayload(update1) // Leave dataCids and overwrite as defaults
+    const update1 = new PayloadOptions("piece", [two], [])
+    updatePayload("payload", update1)
 
     payload = getByCid("cid1")
-    expect(payload!.deals).toHaveLength(2)
+    expect(payload[0].deals).toHaveLength(2)
 
     // Should also be able to just update the dataCids
-    const update2 = new PayloadInfo("payload", "piece", [])
-    pushPayload(update2, ["cid3"]) // Leave overwrite as false
+    const update2 = new PayloadOptions("", [], ["cid3"])
+    updatePayload("payload", update2)
 
     payload = getByCid("cid3")
-    expect(payload!.deals).toHaveLength(2)
-
-  })
-
-  it('should support overwriting existing payloads', () => {
-    brokerMap.set("user.test", new BrokerInfo("user.test", []))
-
-    const one = new DealInfo("dealOne", "miner", u128.One)
-    const two = new DealInfo("dealTwo", "miner", u128.One)
-    const init = new PayloadInfo("payload", "piece", [one, two])
-    payloadMap.set("payload", init)
-
-    dataMap.set("cid1", "payload")
-    dataMap.set("cid2", "payload")
-
-    let payload = getByCid("cid1")
-    expect(payload!.deals).toHaveLength(2)
-
-    const update1 = new PayloadInfo("payload", "piece", [one])
-    // Should not affect dataCids
-    pushPayload(update1, [], true) // Leave dataCids as defaults but overwrite
-
-    payload = getByCid("cid1")
-    expect(payload!.deals).toHaveLength(1)
+    expect(payload[0].deals).toHaveLength(2)
   })
 })
