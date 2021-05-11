@@ -1,4 +1,4 @@
-import { u128, PersistentUnorderedMap, context, PersistentMap } from "near-sdk-as";
+import { u128, PersistentUnorderedMap, context } from "near-sdk-as";
 
 // LOCK-BOX
 
@@ -51,7 +51,7 @@ export const lockMap = new PersistentUnorderedMap<string, LockInfo>(LOCKBOX_PREF
 // BROKER
 
 // Broker cut multiplier.
-// TODO: This is purposefully simplistic to test assumptions.
+// This is purposefully simplistic to test assumptions.
 export const BROKER_MULTIPLIER = u128.Zero
 
 export const BROKER_PREFIX = "b"
@@ -76,6 +76,11 @@ export const PAYLOAD_PREFIX = `${REPORTING_PREFIX}/p`
 export const DATA_PREFIX = `${REPORTING_PREFIX}/d`
 
 @nearBindgen
+export class PayloadOptions {
+  constructor(public pieceCid: string = "", public deals: DealInfo[] = [], public dataCids: string[] = []) {}
+}
+
+@nearBindgen
 export class DealInfo { 
   constructor(public dealId: string, public minerId: string, public expiration: u128) {}
 }
@@ -86,4 +91,4 @@ export class PayloadInfo {
 }
 
 export const payloadMap = new PersistentUnorderedMap<string, PayloadInfo>(PAYLOAD_PREFIX)
-export const dataMap = new PersistentMap<string, string>(DATA_PREFIX)
+export const dataMap = new PersistentUnorderedMap<string, string[]>(DATA_PREFIX)
