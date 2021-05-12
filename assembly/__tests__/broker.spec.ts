@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { listBrokers, setBroker, deleteBroker, getBroker } from '../main';
-import { brokerMap, DepositInfo, LockInfo, lockMap } from '../model';
+import { brokerMap, DepositInfo, DebitInfo, depositMap } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
@@ -53,12 +53,12 @@ describe('broker tests', () => {
     );
   })
 
-  it('should fail to delete a broker with locked funds', () => {    
+  it('should fail to delete a broker with deposited funds', () => {    
     const brokerId = "broker.id"
     const fakeUser = "fake.id"
     setBroker(brokerId, ["https://broker.io/api/v1"])
-    const info = new LockInfo(fakeUser, brokerId, new DepositInfo())
-    lockMap.set(`${brokerId}/${fakeUser}`, info)
+    const info = new DepositInfo(fakeUser, brokerId, new DebitInfo())
+    depositMap.set(`${brokerId}/${fakeUser}`, info)
 
     expect(() => {
       // If expect.toThrow is used on anything other than a () => void function
