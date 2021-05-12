@@ -5,7 +5,7 @@ import {
   BROKER_MULTIPLIER,
   DepositInfo,
   DEPOSIT_AMOUNT,
-  DebitInfo,
+  Deposit,
   BrokerInfo,
   dataMap,
   payloadMap,
@@ -61,7 +61,7 @@ export function addDeposit(brokerId: string, accountId: string = context.sender)
     info.deposit.addDeposit(context.attachedDeposit)
   } else {
     // All required information is automatically extracted from context
-    const deposit = new DebitInfo()
+    const deposit = new Deposit()
     // Create a new info object with the given deposit
     info = new DepositInfo(accountId, brokerId, deposit)
   }

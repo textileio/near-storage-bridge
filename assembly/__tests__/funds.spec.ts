@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { addDeposit, hasDeposit, setBroker, releaseDeposits } from '../main';
-import { DepositInfo, depositMap, DEPOSIT_AMOUNT, DebitInfo, BrokerInfo, brokerMap } from '../model';
+import { DepositInfo, depositMap, DEPOSIT_AMOUNT, Deposit, BrokerInfo, brokerMap } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
@@ -79,7 +79,7 @@ describe('releasing funds tests', () => {
       'should have sender as "user.test"'
     );
     expect(depositMap.getSome("broker.id/user.test")).toStrictEqual(
-      new DepositInfo("user.test", "broker.id", new DebitInfo()),
+      new DepositInfo("user.test", "broker.id", new Deposit()),
       'deposited funds should be for "user.test"'
     );
   });
@@ -141,7 +141,7 @@ describe('releasing funds tests', () => {
 
   it('should not release funds from an ongoing session', () => {
     // Use the name account id for everything here
-    depositMap.set("user.test/user.test", new DepositInfo("user.test", "user.test", new DebitInfo()))
+    depositMap.set("user.test/user.test", new DepositInfo("user.test", "user.test", new Deposit()))
     brokerMap.set("user.test", new BrokerInfo("user.test", []))
     const initialStorage = Context.storageUsage
 
@@ -158,7 +158,7 @@ describe('releasing funds tests', () => {
 
   it('should release funds from an expired session', () => {
     // Use the name account id for everything here
-    depositMap.set("user.test/user.test", new DepositInfo("user.test", "user.test", new DebitInfo()))
+    depositMap.set("user.test/user.test", new DepositInfo("user.test", "user.test", new Deposit()))
     brokerMap.set("user.test", new BrokerInfo("user.test", []))
     const initialStorage = Context.storageUsage
 
@@ -177,7 +177,7 @@ describe('releasing funds tests', () => {
     // We already have funds one broker, let's add another
     brokerMap.set("user.test", new BrokerInfo("user.test", []))
     // Our default broker will have funds deposited, but NOT our new one
-    const deposit = new DebitInfo(DEPOSIT_AMOUNT)
+    const deposit = new Deposit(DEPOSIT_AMOUNT)
     depositMap.set("broker.id/user.test", new DepositInfo("user.test", "broker.id", deposit))
     
     const initialStorage = Context.storageUsage
