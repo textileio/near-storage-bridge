@@ -9,7 +9,7 @@ export const DEPOSIT_AMOUNT = u128.from('1000000000000000000000000')
 export const BLOCK_OFFSET: u64 = 60 * 60 // ~1hr
 
 @nearBindgen
-export class DebitInfo {
+export class Deposit {
   // The sender account id. i.e., the account depositing the funds.
   sender: string
   // The block index at which funds should expire.
@@ -43,7 +43,7 @@ export class DepositInfo {
   constructor(
     public accountId: string,
     public brokerId: string,
-    public deposit: DebitInfo) {}
+    public deposit: Deposit) {}
 }
 
 export const depositMap = new PersistentUnorderedMap<string, DepositInfo>(DEPOSIT_PREFIX)

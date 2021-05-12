@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { listBrokers, setBroker, deleteBroker, getBroker } from '../main';
-import { brokerMap, DepositInfo, DebitInfo, depositMap } from '../model';
+import { brokerMap, DepositInfo, Deposit, depositMap } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 const ZERO = u128.Zero
@@ -57,7 +57,7 @@ describe('broker tests', () => {
     const brokerId = "broker.id"
     const fakeUser = "fake.id"
     setBroker(brokerId, ["https://broker.io/api/v1"])
-    const info = new DepositInfo(fakeUser, brokerId, new DebitInfo())
+    const info = new DepositInfo(fakeUser, brokerId, new Deposit())
     depositMap.set(`${brokerId}/${fakeUser}`, info)
 
     expect(() => {
