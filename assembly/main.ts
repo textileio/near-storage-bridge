@@ -191,7 +191,6 @@ export function getByCid(dataCid: string): PayloadInfo[] {
       if (ok) {
         payloads.push(ok)
       }
-      
     }
     return payloads
   }
@@ -225,12 +224,9 @@ export function updatePayload(payloadCid: string, options: PayloadOptions): void
     }
     payloadMap.set(payloadCid, ok)
   } else {
-    // If a brand new payload, we must have a piece cid to start with
-    if (!options.pieceCid) {
-      throw new Error("pushPayload: pieceCid is required for new payloads")
-    }
+    // If this is a new payload, just take it "as is"
     const payload = new PayloadInfo(payloadCid, options.pieceCid, options.deals || [])
-    payloadMap.set(payload.payloadCid, payload)
+    payloadMap.set(payloadCid, payload)
   }
   // If we have specified data cids, map them to this payload
   if (options.dataCids) {
