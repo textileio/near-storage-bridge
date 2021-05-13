@@ -4,14 +4,14 @@ interface Props {
   onSubmit: () => void,
 }
 
-export default function LockForm({ onSubmit }: Props): ReactElement {
+export default function DepositForm({ onSubmit }: Props): ReactElement {
   return (
     <form>
-      <button type="button" name="lock" onClick={(e) => {
+      <button type="button" name="deposit" onClick={(e) => {
         e.preventDefault();
         onSubmit();
       }}>
-        Lock
+        Deposit
       </button>
     </form>
   );

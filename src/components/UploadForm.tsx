@@ -13,7 +13,7 @@ export default function UploadForm({ onSubmit }: Props): ReactElement {
           if (event.target.files)
             setFile(event.target.files[0]);
         }}></input>
-        <button type="button" name="lock" onClick={(e) => {
+        <button type="button" name="upload" onClick={(e) => {
           e.preventDefault();
           if (file) onSubmit(file);
           setFile(undefined);
