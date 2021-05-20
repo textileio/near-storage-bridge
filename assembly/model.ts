@@ -82,7 +82,7 @@ export class PayloadOptions {
 
 @nearBindgen
 export class DealInfo { 
-  constructor(public dealId: string, public minerId: string, public expiration: u128) {}
+  constructor(public dealId: u64, public minerId: string, public expiration: u128) {}
 }
 
 @nearBindgen
