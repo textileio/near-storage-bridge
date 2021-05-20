@@ -13,7 +13,7 @@ import {
   PayloadOptions,
 } from "./model"
 
-// LOCK-BOX
+// DEPOSITS
 
 /**
  * Return whether the given account has funds deposited for a given broker.
