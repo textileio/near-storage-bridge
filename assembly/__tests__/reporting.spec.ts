@@ -46,7 +46,7 @@ describe('reporting tests', () => {
   })
 
   it('should list payloads and support offset/length', () => {
-    const deal = new DealInfo("deal", "miner", u128.One)
+    const deal = new DealInfo(1, "miner", u128.One)
     const payload1 = new PayloadInfo("payload1", "piece1", [deal])
     const payload2 = new PayloadInfo("payload2", "piece2", [deal])
     payloadMap.set("payload1", payload1)
@@ -69,7 +69,7 @@ describe('reporting tests', () => {
   })
 
   it('should get payloads by payload id', () => {
-    const deal = new DealInfo("deal", "miner", u128.One)
+    const deal = new DealInfo(1, "miner", u128.One)
     const payload1 = new PayloadInfo("payload1", "piece1", [deal])
     const payload2 = new PayloadInfo("payload2", "piece2", [deal])
     payloadMap.set("payload1", payload1)
@@ -91,7 +91,7 @@ describe('reporting tests', () => {
   })
 
   it('should get payloads by data cid', () => {
-    const deal = new DealInfo("deal", "miner", u128.One)
+    const deal = new DealInfo(1, "miner", u128.One)
     const payload1 = new PayloadInfo("payload1", "piece1", [deal])
     const payload3 = new PayloadInfo("payload3", "piece3", [deal])
     payloadMap.set("payload1", payload1)
@@ -120,8 +120,8 @@ describe('reporting tests', () => {
   it('should support updating by partial payloads', () => {
     brokerMap.set("user.test", new BrokerInfo("user.test", []))
 
-    const one = new DealInfo("dealOne", "miner", u128.One)
-    const two = new DealInfo("dealTwo", "miner", u128.One)
+    const one = new DealInfo(1, "miner", u128.One)
+    const two = new DealInfo(2, "miner", u128.One)
     const init = new PayloadInfo("payload", "piece", [one])
     payloadMap.set("payload", init)
 
