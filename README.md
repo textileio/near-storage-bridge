@@ -35,7 +35,7 @@ Both contract and client-side code will auto-reload as you change source files.
 # Deploy
 
 Every smart contract in NEAR has its [own associated account][near accounts].
-Ours is deployed to `init.testnet`.
+Ours is deployed to `lock-box.testnet`.
 
 One command:
 
