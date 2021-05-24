@@ -6,7 +6,7 @@ export const DEPOSIT_PREFIX = "a"
 // Minimum funds (in Ⓝ) required for a deposit.
 export const DEPOSIT_AMOUNT = u128.from('1000000000000000000000000')
 // Expected block time is around 1s and expected time to finality is around 2s.
-export const BLOCK_OFFSET: u64 = 60 * 60 // ~1hr
+export const BLOCK_OFFSET: u64 = 60 * 10 // ~10 minutes
 
 @nearBindgen
 export class Deposit {
