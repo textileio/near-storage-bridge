@@ -76,17 +76,13 @@ export function releaseDeposits(): void {
   const entries = depositMap.entries()
   // AS doesn't support for ... of syntax
   for (let i = 0; i < entries.length; i++) {
-    let amount = DEPOSIT_AMOUNT
     const entry = entries[i]
     const key = entry.key
     const value = entry.value
     if (value.deposit.expiration > context.blockIndex) {
       continue
     }
-    // Return the min of DEPOSIT_AMOUNT/original amount
-    if (value.deposit.amount < amount) {
-      amount = value.deposit.amount
-    }
+    let amount = value.deposit.amount
     const brokerCut = u128.mul(amount, BROKER_MULTIPLIER)
     if (brokerCut > u128.Zero) {
       // This should never happen
@@ -96,7 +92,7 @@ export function releaseDeposits(): void {
         amount = u128.sub(amount, brokerCut)
       }
       // Send the broker their cut
-      ContractPromiseBatch.create(value.brokerId).transfer(brokerCut)  
+      ContractPromiseBatch.create(value.brokerId).transfer(brokerCut)
     }
     // The rest goes back to the original sender
     ContractPromiseBatch.create(value.deposit.sender).transfer(amount)
