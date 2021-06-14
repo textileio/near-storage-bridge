@@ -68,27 +68,3 @@ export class BrokerInfo {
 }
 
 export const brokerMap = new PersistentUnorderedMap<string, BrokerInfo>(BROKER_PREFIX)
-
-// REPORTING
-
-export const REPORTING_PREFIX = "r"
-export const PAYLOAD_PREFIX = `${REPORTING_PREFIX}/p`
-export const DATA_PREFIX = `${REPORTING_PREFIX}/d`
-
-@nearBindgen
-export class PayloadOptions {
-  constructor(public pieceCid: string = "", public deals: DealInfo[] = [], public dataCids: string[] = []) {}
-}
-
-@nearBindgen
-export class DealInfo { 
-  constructor(public dealId: u64, public minerId: string, public expiration: u128) {}
-}
-
-@nearBindgen
-export class PayloadInfo { 
-  constructor(public payloadCid: string, public pieceCid: string, public deals: DealInfo[]) {}
-}
-
-export const payloadMap = new PersistentUnorderedMap<string, PayloadInfo>(PAYLOAD_PREFIX)
-export const dataMap = new PersistentUnorderedMap<string, string[]>(DATA_PREFIX)

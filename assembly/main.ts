@@ -7,10 +7,6 @@ import {
   DEPOSIT_AMOUNT,
   Deposit,
   BrokerInfo,
-  dataMap,
-  payloadMap,
-  PayloadInfo,
-  PayloadOptions,
 } from "./model"
 
 // DEPOSITS
@@ -147,92 +143,4 @@ export function getBroker(brokerId: string): BrokerInfo | null {
  */
 export function listBrokers(): BrokerInfo[] {
   return brokerMap.values();
-}
-
-// REPORTING
-
-/**
- * List payload records.
- * @param offset Offset from the most recent record. Defaults to 0.
- * @param maxLength The max number of records to return. Defaults to 100.
- * @returns A list of payload records, ordered from most recent to oldest.
- */
-export function listPayloads(offset: i32 = 0, maxLength: i32 = 100): PayloadInfo[] {
-  const start: i32 = max(payloadMap.length - (offset + maxLength), 0)
-  const end: i32 = payloadMap.length - offset
-  return payloadMap.values(start, end).reverse()
-}
-
-/**
- * Get a payload record by payload cid.
- * @param payloadCid The payload cid.
- * @returns A payload record.
- */
-export function getByPayload(payloadCid: string): PayloadInfo | null {
-  return payloadMap.get(payloadCid)
-}
-
-/**
- * Get all payload records by data cid.
- * @param dataCid The data cid.
- * @returns A (possibly empty) array of payload records.
- */
-export function getByCid(dataCid: string): PayloadInfo[] {
-  const info = dataMap.get(dataCid)
-  if (info && info.length > 0) {
-    const payloads: PayloadInfo[] = []
-    for (let i = 0; i < info.length; i++) {
-      const ok = payloadMap.get(info[i])
-      // We only return valid payloads here, this could be out of sync!
-      if (ok) {
-        payloads.push(ok)
-      }
-    }
-    return payloads
-  }
-  return []
-}
-
-/**
- * Create or update a payload record and optionally update its cid mappings.
- * @param payloadCid The payload cid.
- * @param opts The payload information. Can contain partial deal information
- * if this is an update push. `pieceCid` is required on initial update.
- * `dataCids` is set of cids to map to the given payload. Can be empty.
- */
-export function updatePayload(payloadCid: string, options: PayloadOptions): void {
-    // If the provided broker is unknown to the contract, this is an error.
-  if (!brokerMap.contains(context.sender)) {
-    throw new Error("pushPayload: invalid broker id");
-  }
-  // If we already have a payload with the given cid, we update it
-  const ok = payloadMap.get(payloadCid)
-  if (ok != null) {
-    // It is possible to update the piece cid, but probably uncommon
-    if (options.pieceCid) {
-      ok.pieceCid = options.pieceCid
-    }
-    // It is more common to update the deals
-    if (options.deals) {
-      for (let i = 0; i < options.deals.length; i++) {
-       ok.deals.push(options.deals[i])
-      }
-    }
-    payloadMap.set(payloadCid, ok)
-  } else {
-    // If this is a new payload, just take it "as is"
-    const payload = new PayloadInfo(payloadCid, options.pieceCid, options.deals || [])
-    payloadMap.set(payloadCid, payload)
-  }
-  // If we have specified data cids, map them to this payload
-  if (options.dataCids) {
-    for (let i = 0; i < options.dataCids.length; i++) {
-      const cid = options.dataCids[i]
-      const existing = dataMap.get(cid, [])
-      if (existing) { // This should always be true...
-        existing.push(payloadCid)
-        dataMap.set(cid, existing)
-      }
-    }
-  }
 }

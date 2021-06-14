@@ -35,7 +35,7 @@ Both contract and client-side code will auto-reload as you change source files.
 # Deploy
 
 Every smart contract in NEAR has its [own associated account][near accounts].
-Ours is deployed to `lock-box.testnet`.
+Ours is deployed to `filecoin-bridge.testnet`.
 
 One command:
 
@@ -46,7 +46,7 @@ As you can see in `package.json`, this does two things:
 1. builds & deploys smart contracts to NEAR TestNet
 2. builds & deploys frontend code to GitHub using [gh-pages].
 
-For now, you can view the "demo app" at: https://textileio.github.io/lock-box/
+For now, you can view the "demo app" at: https://textileio.github.io/filecoin-bridge/
 
 [near]: https://nearprotocol.com/
 [assemblyscript]: https://docs.assemblyscript.org/
