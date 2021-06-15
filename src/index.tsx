@@ -12,9 +12,9 @@ import { init } from "@textile/near-storage"
 const ENV = process.env as unknown as Record<string, string>
 
 declare global {
-    interface Window { 
-      nearInitPromise: Promise<void>
-     }
+  interface Window {
+    nearInitPromise: Promise<void>
+  }
 }
 
 // Initializing contract
@@ -36,7 +36,7 @@ async function initConnection() {
 
   // Load in account data
   let currentUser;
-  if(walletConnection.getAccountId()) {
+  if (walletConnection.getAccountId()) {
     currentUser = {
       accountId: walletConnection.getAccountId(),
       balance: (await walletConnection.account().state()).amount

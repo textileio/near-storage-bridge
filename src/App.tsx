@@ -31,23 +31,23 @@ const App = ({ api, currentUser }: Props): ReactElement => {
 
   const onUpload = (file: File) => {
     api.store(file)
-    .then(({ id, cid }) => {
-      const u: Upload = {
-        id: id,
-        cid: cid["/"]
-      }
-      setUploads([...uploads, u])
-      alert(`Your file is already on IPFS:\n${u.cid}`)
-    })
-    .catch((err: Error) => alert(err.message));
+      .then(({ id, cid }) => {
+        const u: Upload = {
+          id: id,
+          cid: cid["/"]
+        }
+        setUploads([...uploads, u])
+        alert(`Your file is already on IPFS:\n${u.cid}`)
+      })
+      .catch((err: Error) => alert(err.message));
   }
 
   const onStatus = (id: string) => {
     if (id) {
       api.status(id)
-      .then((res) => {
-        alert(`Your file status is currently: "${RequestStatus[res.status_code]}"!`)
-      })
+        .then((res) => {
+          alert(`Your file status is currently: "${RequestStatus[res.status_code]}"!`)
+        })
     } else {
       console.warn("no 'active' file, upload a file first")
     }
@@ -72,7 +72,7 @@ const App = ({ api, currentUser }: Props): ReactElement => {
     <main>
       <header>
         <h1>Textile Near Storage Demo</h1>
-        { accountId
+        {accountId
           ? <button onClick={signOut}>Log out</button>
           : <button onClick={signIn}>Log in</button>
         }
@@ -80,7 +80,7 @@ const App = ({ api, currentUser }: Props): ReactElement => {
       <p>
         {deposit ? "You got Ⓝ in here!" : `Deposit some funds, ${accountId}!`}
       </p>
-      { accountId
+      {accountId
         ? (<div>
           <Form onSubmit={onSubmit} />
           {deposit ? <Upload onSubmit={onUpload} /> : null}
@@ -95,12 +95,12 @@ const App = ({ api, currentUser }: Props): ReactElement => {
               .catch((err: Error) => alert(err.message));
           }}>Release
           </button>
-          <br/>
+          <br />
           {uploads && <h2>Your uploads</h2>}
           {uploads.map((u: Upload) => {
             return <p>
               {u.cid}
-              <br/>
+              <br />
               <button type="button" name="copy" onClick={(e) => {
                 e.preventDefault();
                 navigator.clipboard.writeText(u.cid)
@@ -113,11 +113,11 @@ const App = ({ api, currentUser }: Props): ReactElement => {
               }}>
                 Status
               </button>
-              <br/>
+              <br />
             </p>
           })}
         </div>
-        ) : <Welcome/>
+        ) : <Welcome />
       }
     </main>
   );
