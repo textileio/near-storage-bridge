@@ -3,87 +3,21 @@
   "version": "0.1.0",
   "license": "(MIT AND Apache-2.0)",
   "scripts": {
-    "build": "npm run build:contract && npm run build:web",
-    "build:contract": "asb",
-    "build:contract:debug": "asb --target debug",
-    "build:web": "parcel build src/index.html --public-url ./",
-    "deploy": "npm run build && near deploy && gh-pages -d dist/",
-    "dev": "npm run build:contract:debug && near dev-deploy && nodemon --watch assembly -e ts --exec npm run dev:start",
-    "lint": "eslint \"./**/*.js\" \"./**/*.jsx\"",
-    "start": "npm run deploy && parcel src/index.html",
-    "dev:start": "env-cmd -f ./neardev/dev-account.env parcel src/index.html",
-    "test": "npm run build:contract:debug && asp"
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "deploy": "npm run build && npm run deploy:testnet && npm run deploy:edge",
+    "deploy:testnet": "near deploy --networkId testnet --contractName filecoin-bridge.testnet",
+    "deploy:edge": "near deploy --networkId testnet --contractName filecoin-bridge-edge.testnet",
+    "test": "npm run build:debug && asp"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/preset-react": "^7.13.13",
-    "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
-    "babel-jest": "^26.6.3",
     "eslint": "^7.23.0",
     "eslint-plugin-jest-dom": "^3.7.0",
-    "gh-pages": "^3.1.0",
-    "jest": "^26.6.3",
-    "jest-environment-node": "^26.6.2",
     "near-cli": "^1.6.0",
     "near-sdk-as": "^3.1.0",
     "nodemon": "^2.0.7",
-    "parcel-bundler": "^1.12.5",
-    "react-test-renderer": "^17.0.2",
-    "sass": "^1.32.8",
     "typescript": "^4.2.4"
-  },
-  "dependencies": {
-    "@stablelib/base64": "^1.0.0",
-    "@textile/near-storage": "^4.2.0",
-    "@types/big.js": "^6.0.2",
-    "@types/bs58": "^4.0.1",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
-    "big.js": "^6.0.3",
-    "bs58": "^4.0.1",
-    "env-cmd": "^10.1.0",
-    "near-api-js": "^0.39.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "regenerator-runtime": "^0.13.7"
-  },
-  "resolutions": {
-    "@babel/preset-env": "7.13.8"
-  },
-  "jest": {
-    "projects": [
-      {
-        "displayName": "User interface tests",
-        "testEnvironment": "jsdom",
-        "testMatch": [
-          "<rootDir>/src/tests/ui/*.js"
-        ]
-      },
-      {
-        "displayName": "Integration tests",
-        "testEnvironment": "near-cli/test_environment",
-        "testMatch": [
-          "<rootDir>/src/tests/integration/*.js"
-        ]
-      }
-    ],
-    "testPathIgnorePatterns": [
-      "assembly/*"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

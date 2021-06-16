@@ -1,62 +1,63 @@
-# Init Near
+# as-near-bridge
 
-Sign in with [NEAR] and start storing data on Filecoin!
-This contract and app were built with an [AssemblyScript] backend and a [React] frontend.
+[![GitHub license](https://img.shields.io/github/license/textileio/as-near-bridge.svg)](./LICENSE)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/textileio/as-near-bridge.svg)](./package.json)
+[![Release](https://img.shields.io/github/release/textileio/as-near-bridge.svg)](https://github.com/textileio/as-near-bridge/releases/latest)
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg)](https://github.com/RichardLitt/standard-readme)
 
-# Quick Start
+![Tests](https://github.com/textileio/as-near-bridge/workflows/Test/badge.svg)
 
-To run this project locally:
+> Reference NEAR ↔ Filecoin Bridge Smart Contract (Assembly Script)
 
-1. Prerequisites: Make sure you have Node.js ≥ 12 installed (https://nodejs.org).
+# Table of Contents
+
+- [Background](#background)
+- [Setup](#setup)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+# Background
+
+Sign in with [NEAR](https://nearprotocol.com/) and start storing data on Filecoin!
+
+This NEAR smart contract is built with [Assembly Script](https://docs.assemblyscript.org/). The
+core code lives in the `/assembly` folder. This code gets deployed to the NEAR blockchain when
+you run `npm run deploy:contract`. This sort of code-that-runs-on-a-blockchain is called a
+"smart contract" – [learn more about NEAR smart contracts](https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript).
+The assembly script code gets tested with the [asp](https://www.npmjs.com/package/@as-pect/cli) tool/command.
+Every smart contract in NEAR has its [own associated account](https://docs.nearprotocol.com/docs/concepts/account).
+This contract is currently deployed to: `lock-box.testnet`.
+
+# Setup
+
+1. Prerequisite: Node.js ≥ 12 installed (https://nodejs.org).
 2. Install dependencies: `npm install` (or just `npm i`)
-3. Run the local development server: `npm run dev` (see `package.json` for a
-   full list of `scripts` you can run with `npm`)
+3. Run tests: `npm run test`
+4. Deploy contract: `npm run deploy` (builds & deploys smart contract to NEAR TestNet)
 
-Now you'll have a local development environment backed by the NEAR TestNet!
-Running `npm run dev` will tell you the URL you can visit in your browser to see the app.
+# Usage
 
-# Exploring The Code
+For a basic [React](https://reactjs.org)-based demo app that utilizes this contract, see TODO.
 
-1. The backend code lives in the `/assembly` folder. This code gets deployed to
-   the NEAR blockchain when you run `npm run deploy:contract`. This sort of
-   code-that-runs-on-a-blockchain is called a "smart contract" – [learn more
-   about NEAR smart contracts][smart contract docs].
-2. The frontend code lives in the `/src` folder.
-   [/src/index.html](/src/index.html) is a great place to start exploring. Note
-   that it loads in `/src/index.js`, where you can learn how the frontend
-   connects to the NEAR blockchain.
-3. Tests: there are different kinds of tests for the frontend and backend. The
-   backend code gets tested with the [asp] command for running the backend
-   AssemblyScript tests, and [jest] for running frontend tests. You can run
-   both of these at once with `npm test`.
+# API
 
-Both contract and client-side code will auto-reload as you change source files.
+TODO
 
-# Deploy
+# Maintainers
 
-Every smart contract in NEAR has its [own associated account][near accounts].
-Ours is deployed to `filecoin-bridge.testnet`.
+[@carsonfarmer](https://github.com/carsonfarmer)
+[@asutula](https://github.com/asutula)
 
-One command:
+# Contributing
 
-    npm run deploy
+PRs accepted.
 
-As you can see in `package.json`, this does two things:
+Small note: If editing the README, please conform to the
+[standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
-1. builds & deploys smart contracts to NEAR TestNet
-2. builds & deploys frontend code to GitHub using [gh-pages].
+# License
 
-For now, you can view the "demo app" at: https://textileio.github.io/as-near-bridge/
-
-[near]: https://nearprotocol.com/
-[assemblyscript]: https://docs.assemblyscript.org/
-[react]: https://reactjs.org
-[smart contract docs]: https://docs.nearprotocol.com/docs/roles/developer/contracts/assemblyscript
-[asp]: https://www.npmjs.com/package/@as-pect/cli
-[jest]: https://jestjs.io/
-[near accounts]: https://docs.nearprotocol.com/docs/concepts/account
-[near wallet]: https://wallet.nearprotocol.com
-[near-cli]: https://github.com/nearprotocol/near-cli
-[cli]: https://www.w3schools.com/whatis/whatis_cli.asp
-[create-near-app]: https://github.com/nearprotocol/create-near-app
-[gh-pages]: https://github.com/tschaub/gh-pages
+MIT AND Apache-2.0, © 2021 Textile.io
