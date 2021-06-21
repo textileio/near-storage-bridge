@@ -40,7 +40,7 @@ This contract is currently deployed to: `lock-box.testnet`.
 
 # Usage
 
-For a basic [React](https://reactjs.org)-based demo app that utilizes this contract, see TODO.
+For a basic [React](https://reactjs.org)-based demo app that utilizes this contract, see https://github.com/textileio/near-storage-basic-demo/.
 
 # API
 
