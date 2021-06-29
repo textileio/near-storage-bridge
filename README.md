@@ -1,11 +1,11 @@
-# as-near-bridge
+# near-storage-bridge
 
-[![GitHub license](https://img.shields.io/github/license/textileio/as-near-bridge.svg)](./LICENSE)
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/textileio/as-near-bridge.svg)](./package.json)
-[![Release](https://img.shields.io/github/release/textileio/as-near-bridge.svg)](https://github.com/textileio/as-near-bridge/releases/latest)
+[![GitHub license](https://img.shields.io/github/license/textileio/near-storage-bridge.svg)](./LICENSE)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/textileio/near-storage-bridge.svg)](./package.json)
+[![Release](https://img.shields.io/github/release/textileio/near-storage-bridge.svg)](https://github.com/textileio/near-storage-bridge/releases/latest)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg)](https://github.com/RichardLitt/standard-readme)
 
-![Tests](https://github.com/textileio/as-near-bridge/workflows/Test/badge.svg)
+![Tests](https://github.com/textileio/near-storage-bridge/workflows/Test/badge.svg)
 
 > Reference NEAR ↔ Filecoin Bridge Smart Contract (Assembly Script)
 
