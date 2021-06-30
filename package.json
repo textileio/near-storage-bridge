@@ -1,6 +1,6 @@
 {
-  "name": "filecoin-bridge",
-  "version": "0.1.0",
+  "name": "near-storage-bridge",
+  "version": "1.0.0",
   "license": "(MIT AND Apache-2.0)",
   "scripts": {
     "build": "asb",

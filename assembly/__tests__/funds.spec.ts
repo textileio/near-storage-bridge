@@ -38,7 +38,7 @@ describe('releasing funds tests', () => {
 
     expect(Context.accountBalance.toString()).toStrictEqual(
       DEPOSIT_AMOUNT.toString(),
-      'balance should be 1 Near'
+      'balance should be default deposit amount'
     );
   });
 

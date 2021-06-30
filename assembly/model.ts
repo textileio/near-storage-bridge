@@ -4,7 +4,7 @@ import { u128, PersistentUnorderedMap, context } from "near-sdk-as";
 
 export const DEPOSIT_PREFIX = "a"
 // Minimum funds (in Ⓝ) required for a deposit.
-export const DEPOSIT_AMOUNT = u128.from('1000000000000000000000000')
+export const DEPOSIT_AMOUNT = u128.from('250000000000000000000000') // 2.5e23 or 1/4 Near
 // Expected block time is around 1s and expected time to finality is around 2s.
 export const BLOCK_OFFSET: u64 = 60 * 10 // ~10 minutes
 
