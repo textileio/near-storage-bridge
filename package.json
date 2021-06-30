@@ -6,8 +6,8 @@
     "build": "asb",
     "build:debug": "asb --target debug",
     "deploy": "npm run build && npm run deploy:testnet && npm run deploy:edge",
-    "deploy:testnet": "near deploy --networkId testnet --contractName filecoin-bridge.testnet",
-    "deploy:edge": "near deploy --networkId testnet --contractName filecoin-bridge-edge.testnet",
+    "deploy:testnet": "near deploy filecoin-bridge.testnet",
+    "deploy:edge": "near deploy filecoin-bridge-edge.testnet",
     "test": "npm run build:debug && asp"
   },
   "devDependencies": {
