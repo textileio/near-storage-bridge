@@ -34,7 +34,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest-dom": "^3.7.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "near-cli": "^1.6.0",
+    "near-cli": "^2.1.1",
     "near-sdk-as": "^3.1.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.3.2",
