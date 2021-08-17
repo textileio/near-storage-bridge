@@ -1,23 +1,43 @@
 {
-  "name": "near-storage-bridge",
+  "name": "@textile/near-storage-bridge",
   "version": "1.0.0",
   "license": "(MIT AND Apache-2.0)",
+  "private": true,
   "scripts": {
-    "build": "asb",
-    "build:debug": "asb --target debug",
-    "deploy": "npm run build && npm run deploy:testnet && npm run deploy:edge",
-    "deploy:testnet": "near deploy filecoin-bridge.testnet",
-    "deploy:edge": "near deploy filecoin-bridge-edge.testnet",
-    "test": "npm run build:debug && asp"
+    "build": "npm run build --workspaces",
+    "build:debug": "npm run build:debug --workspaces",
+    "deploy": "npm run deploy --workspaces",
+    "deploy:testnet": "npm run deploy:testnet --workspaces",
+    "test": "npm run test --workspaces"
   },
+  "workspaces": [
+    "contracts/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/textileio/near-storage-bridge.git"
+  },
+  "keywords": [
+    "Filecoin",
+    "NEAR",
+    "dapp"
+  ],
+  "author": "Carson Farmer <carson@textile.io>",
+  "bugs": {
+    "url": "https://github.com/textileio/near-storage-bridge/issues"
+  },
+  "homepage": "https://github.com/textileio/near-storage-bridge#readme",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
     "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest-dom": "^3.7.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "near-cli": "^1.6.0",
     "near-sdk-as": "^3.1.0",
     "nodemon": "^2.0.7",
+    "prettier": "^2.3.2",
     "typescript": "^4.2.4"
   }
 }

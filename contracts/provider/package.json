@@ -1,0 +1,11 @@
+{
+  "name": "@textile/near-provider",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "deploy": "npm run build && npm run deploy:testnet",
+    "deploy:testnet": "near deploy bridge-provider.testnet --networkId testnet --initFunction initialize --initArgs '{\"apiEndpoint\":\"https: //broker.staging.textile.dev\",\"sessionDivisor\":\"416000000000\",\"providerProportion\":0.0}'",
+    "test": "npm run build:debug && asp --verbose"
+  }
+}
