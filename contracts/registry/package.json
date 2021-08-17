@@ -1,0 +1,11 @@
+{
+  "name": "@textile/near-registry",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "deploy": "npm run build && npm run deploy:testnet",
+    "deploy:testnet": "near deploy bridge-registry.testnet --networkId testnet ",
+    "test": "npm run build:debug && asp --verbose"
+  }
+}

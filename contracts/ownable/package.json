@@ -1,0 +1,10 @@
+{
+  "name": "@textile/near-ownable",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "test": "npm run build:debug && asp --verbose"
+  }
+}
