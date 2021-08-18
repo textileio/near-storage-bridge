@@ -5,9 +5,6 @@ function logs(): string[] {
   return VM.outcome().logs;
 }
 
-// VMContext.setCurrent_account_id = Context.contractName
-// VMContext.setSigner_account_id = Context.sender
-
 describe("Ownable", function () {
   beforeEach(() => {
     VMContext.setCurrent_account_id("alice");
@@ -21,7 +18,9 @@ describe("Ownable", function () {
   it("...should be able to transfer ownership", () => {
     VMContext.setSigner_account_id("alice");
     transferOwnership("bob");
-    expect(logs()).toContainEqual(`OwnershipTransfered("bob")`);
+    expect(logs()).toContainEqual(
+      `{"event":"OwnershipTransferred","info":{"account":"bob"}}`
+    );
     expect(owner()).toStrictEqual("bob");
   });
 

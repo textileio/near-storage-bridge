@@ -8,11 +8,15 @@ export {
 
 // Events
 function ProviderAdded(provider: string): void {
-  logging.log(`ProviderAdded("${provider}")`);
+  const event = "ProviderAdded";
+  const info = `{"provider":"${provider}"}`;
+  logging.log(`{"event":"${event}","info":${info}}`);
 }
 
 function ProviderRemoved(provider: string): void {
-  logging.log(`ProviderRemoved("${provider}")`);
+  const event = "ProviderRemoved";
+  const info = `{"provider":"${provider}"}`;
+  logging.log(`{"event":"${event}","info":${info}}`);
 }
 
 // State

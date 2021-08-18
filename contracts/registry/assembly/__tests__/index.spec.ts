@@ -37,7 +37,9 @@ describe("Bridge Registry", function () {
     addProvider("provider");
 
     expect(listProviders()).toContainEqual("provider");
-    expect(logs()).toContainEqual(`ProviderAdded("provider")`);
+    expect(logs()).toContainEqual(
+      `{"event":"ProviderAdded","info":{"provider":"provider"}}`
+    );
   });
 
   throws("...when deleting provider entry from incorrect account", () => {
@@ -55,7 +57,9 @@ describe("Bridge Registry", function () {
     removeProvider("provider");
 
     expect(listProviders()).toHaveLength(0);
-    expect(logs()).toContainEqual(`ProviderRemoved("provider")`);
+    expect(logs()).toContainEqual(
+      `{"event":"ProviderRemoved","info":{"provider":"provider"}}`
+    );
   });
 
   it("...should update an existing provider in the registry", () => {
@@ -119,7 +123,9 @@ describe("Bridge Registry", function () {
   it("...should be ownable", () => {
     VMContext.setSigner_account_id("alice");
     transferOwnership("bob");
-    expect(logs()).toContainEqual(`OwnershipTransfered("bob")`);
+    expect(logs()).toContainEqual(
+      `{"event":"OwnershipTransferred","info":{"account":"bob"}}`
+    );
     expect(owner()).toStrictEqual("bob");
   });
 });

@@ -33,13 +33,6 @@ describe("Bridge Provider", function () {
     deposits.clear();
   });
 
-  // it("should just work", () => {
-  //   VMContext.setCurrent_account_id("alice");
-  //   VMContext.setAccount_balance(u128.from(2));
-  //   _transfer("bob", u128.from(1));
-  //   expect(Context.accountBalance).toStrictEqual(u128.from(1));
-  // });
-
   it("...should start with empty/null parameters", () => {
     expect(apiEndpoint()).toStrictEqual("");
     expect(providerProportion()).toStrictEqual(0); // 0 gwei
@@ -90,9 +83,14 @@ describe("Bridge Provider", function () {
 
     addDeposit("account");
 
-    expect(logs()).toContainEqual(`DepositReleased("account", "bob", "1")`);
+    const l = logs();
+    for (let i = 0; i < l.length; i++) {
+      log(l[i]);
+    }
 
-    expect(logs()).toContainEqual(`DepositAdded("account", "bob", "1")`);
+    const info = `{"depositee":"account","depositor":"bob","amount":"1"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
+    expect(logs()).toContainEqual(`{"event":"DepositAdded","info":${info}}`);
   });
 
   it("...should check if an depositee has a deposit", () => {
@@ -104,21 +102,18 @@ describe("Bridge Provider", function () {
     VMContext.setAttached_deposit(u128.One);
 
     addDeposit("account");
-
     VMContext.setAttached_deposit(u128.Zero);
 
     expect(hasDeposit("account")).toBeTruthy();
 
     // Add 5 seconds
     VMContext.setBlock_timestamp(15);
-
     expect(hasDeposit("account")).toBeFalsy();
 
     // Has deposit should (still) return false after release
     releaseDeposits();
-
-    expect(logs()).toContainEqual(`DepositReleased("account", "bob", "1")`);
-
+    const info = `{"depositee":"account","depositor":"bob","amount":"1"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
     expect(hasDeposit("account")).toBeFalsy();
   });
 
@@ -137,12 +132,14 @@ describe("Bridge Provider", function () {
 
     releaseDeposit("account");
 
-    expect(logs()).toContainEqual(`DepositReleased("account", "bob", "1")`);
+    let info = `{"depositee":"account","depositor":"bob","amount":"1"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
 
     // Should still be one left
     releaseDeposits();
 
-    expect(logs()).toContainEqual(`DepositReleased("other", "bob", "1")`);
+    info = `{"depositee":"other","depositor":"bob","amount":"1"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
 
     expect(hasDeposit("account")).toBeFalsy();
   });
@@ -159,15 +156,10 @@ describe("Bridge Provider", function () {
     addDeposit("account");
 
     VMContext.setAttached_deposit(u128.Zero);
-
     expect(hasDeposit("account")).toBeTruthy();
-
     VMContext.setBlock_timestamp(601e9); // 601 nano-seconds or ~10 minutes
-
     expect(hasDeposit("account")).toBeFalsy();
-
     VMContext.setBlock_timestamp(599e9); // Just shy of 10 minutes
-
     expect(hasDeposit("account")).toBeTruthy();
   });
 
@@ -182,13 +174,14 @@ describe("Bridge Provider", function () {
     // Should be two in the bucket
     // Add 5 seconds
     VMContext.setBlock_timestamp(15);
-
     VMContext.setAttached_deposit(u128.Zero);
     releaseDeposits();
 
     const l = logs();
-    expect(l).toContainEqual(`DepositReleased("account", "bob", "1")`);
-    expect(l).toContainEqual(`DepositReleased("other", "bob", "1")`);
+    let info = `{"depositee":"account","depositor":"bob","amount":"1"}`;
+    expect(l).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
+    info = `{"depositee":"other","depositor":"bob","amount":"1"}`;
+    expect(l).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
   });
 
   it("...should emit logging events for adding deposit", () => {
@@ -196,9 +189,8 @@ describe("Bridge Provider", function () {
     VMContext.setAttached_deposit(u128.from("8160000000000000000000"));
 
     addDeposit("account");
-    expect(logs()).toContainEqual(
-      `DepositAdded("account", "bob", "8160000000000000000000")`
-    );
+    const info = `{"depositee":"account","depositor":"bob","amount":"8160000000000000000000"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositAdded","info":${info}}`);
   });
 
   it("...should return funds to the depositor (funds leave contract)", () => {
@@ -257,15 +249,16 @@ describe("Bridge Provider", function () {
 
     releaseDeposits();
 
-    expect(logs()).toContainEqual(
-      `DepositReleased("account", "bob", "${deposit.toString()}")`
-    );
+    const info = `{"depositee":"account","depositor":"bob","amount":"${deposit.toString()}"}`;
+    expect(logs()).toContainEqual(`{"event":"DepositReleased","info":${info}}`);
   });
 
   it("...should be ownable", () => {
     VMContext.setSigner_account_id("alice");
     transferOwnership("bob");
-    expect(logs()).toContainEqual(`OwnershipTransfered("bob")`);
+    expect(logs()).toContainEqual(
+      `{"event":"OwnershipTransferred","info":{"account":"bob"}}`
+    );
     expect(owner()).toStrictEqual("bob");
   });
 

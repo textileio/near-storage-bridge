@@ -4,7 +4,9 @@ import { context, logging, storage } from "near-sdk-as";
  * Logging event fired when ownership has been transferred.
  */
 function OwnershipTransfered(account: string): void {
-  logging.log(`OwnershipTransfered("${account}")`);
+  const event = "OwnershipTransferred";
+  const info = `{"account":"${account}"}`;
+  logging.log(`{"event":"${event}","info":${info}}`);
 }
 
 /**
