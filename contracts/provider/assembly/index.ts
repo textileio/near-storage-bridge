@@ -90,9 +90,9 @@ function DepositAdded(
   depositor: string,
   amount: u128
 ): void {
-  logging.log(
-    `DepositAdded("${depositee}", "${depositor}", "${amount.toString()}")`
-  );
+  const event = "DepositAdded";
+  const info = `{"depositee":"${depositee}","depositor":"${depositor}","amount":"${amount.toString()}"}`;
+  logging.log(`{"event":"${event}","info":${info}}`);
 }
 
 /**
@@ -103,9 +103,9 @@ function DepositReleased(
   depositor: string,
   amount: u128
 ): void {
-  logging.log(
-    `DepositReleased("${depositee}", "${depositor}", "${amount.toString()}")`
-  );
+  const event = "DepositReleased";
+  const info = `{"depositee":"${depositee}","depositor":"${depositor}","amount":"${amount.toString()}"}`;
+  logging.log(`{"event":"${event}","info":${info}}`);
 }
 
 const KEY_INITIATED = "initiated";
