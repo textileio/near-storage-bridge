@@ -7,7 +7,7 @@
     "build": "npm run build --workspaces",
     "build:debug": "npm run build:debug --workspaces",
     "deploy:testnet": "npm run deploy:testnet --workspace=./contracts/provider --workspace=./contracts/registry",
-    "deploy:mainnet": "NEAR_ENV=mainnet npm run deploy:mainnet --workspace=provider --workspace=registry",
+    "deploy:mainnet": "NEAR_ENV=mainnet npm run deploy:mainnet --workspace=./contracts/provider --workspace=./contracts/registry",
     "test": "npm run test --workspaces"
   },
   "workspaces": [

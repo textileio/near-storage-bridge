@@ -5,7 +5,7 @@
     "build": "asb",
     "build:debug": "asb --target debug",
     "deploy": "npm run build && npm run deploy:testnet",
-    "deploy:testnet": "near deploy bridge-registry.testnet --networkId testnet ",
+    "deploy:testnet": "near deploy storage-bridge-registry.testnet",
     "deploy:mainnet": "near deploy storage-bridge-registry.near",
     "test": "npm run build:debug && asp --verbose"
   }

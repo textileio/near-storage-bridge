@@ -5,7 +5,7 @@
     "build": "asb",
     "build:debug": "asb --target debug",
     "deploy": "npm run build && npm run deploy:testnet",
-    "deploy:testnet": "near deploy bridge-provider.testnet --networkId testnet --initFunction initialize --initArgs '{\"apiEndpoint\":\"https://broker.staging.textile.dev\",\"sessionDivisor\":\"416000000000\",\"providerProportion\":0.0}'",
+    "deploy:testnet": "near deploy storage-bridge-validator.testnet --initFunction initialize --initArgs '{\"apiEndpoint\":\"https://broker.staging.textile.dev\",\"sessionDivisor\":\"416000000000\",\"providerProportion\":0.0}'",
     "deploy:mainnet": "near deploy storage-bridge-validator.near --initFunction initialize --initArgs '{\"apiEndpoint\":\"https://broker.staging.textile.dev\",\"sessionDivisor\":\"416000000000\",\"providerProportion\":0.0}'",
     "test": "npm run build:debug && asp --verbose"
   }
